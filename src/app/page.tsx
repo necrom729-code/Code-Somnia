@@ -393,6 +393,7 @@ function SecurityFeatures() {
 function WatchdogsAnimation() {
   const [variantIndex, setVariantIndex] = useState(0);
   const [trickOffset, setTrickOffset] = useState({ x: 0, y: 0 });
+  const [scanPhase, setScanPhase] = useState<"scanning" | "safe" | "intruder">("scanning");
   
   const variants: Array<"black" | "red" | "blue" | "purple"> = ["black", "red", "blue", "purple"];
   const variant = variants[variantIndex];
@@ -412,11 +413,49 @@ function WatchdogsAnimation() {
       });
     }, 150);
     
+    // Simulate scan result after 4 seconds - randomly determine if intruder detected
+    const scanTimeout = setTimeout(() => {
+      // 70% chance of no intruder, 30% chance of intruder detected
+      const hasIntruder = Math.random() > 0.7;
+      setScanPhase(hasIntruder ? "intruder" : "safe");
+    }, 4000);
+    
     return () => {
       clearInterval(variantInterval);
       clearInterval(trickInterval);
+      clearTimeout(scanTimeout);
     };
   }, []);
+
+  // Determine expression based on scan phase
+  const getExpression = (): "trick" | "happy" | "sad" => {
+    if (scanPhase === "safe") return "happy";
+    if (scanPhase === "intruder") return "sad";
+    return "trick";
+  };
+
+  // Determine message based on scan phase
+  const getMessage = () => {
+    if (scanPhase === "safe") {
+      return {
+        title: "ALL CLEAR",
+        subtitle: "There are no intruders, your data is safe.",
+      };
+    }
+    if (scanPhase === "intruder") {
+      return {
+        title: "THREAT DETECTED",
+        subtitle: "Don't worry, your data was protected by NECROM. Please wait a while.",
+      };
+    }
+    return {
+      title: "WATCHDOGS ACTIVE",
+      subtitle: "SCANNING FOR INTRUDERS...",
+    };
+  };
+
+  const message = getMessage();
+  const expression = getExpression();
 
   return (
     <div 
@@ -454,28 +493,39 @@ function WatchdogsAnimation() {
             animation: "pulse-glow 0.8s ease-in-out infinite alternate",
           }}
         />
-        <HoodedSkullIcon size={180} variant={variant} />
+        <HoodedSkullIcon size={180} variant={variant} expression={expression} />
       </div>
 
-      {/* Warning text */}
+      {/* Status text */}
       <div className="absolute bottom-20 text-center">
         <div 
           className="text-2xl font-bold tracking-[0.5em] animate-pulse"
           style={{ 
-            color: variant === "black" ? "#c0392b" : 
+            color: scanPhase === "intruder" ? "#ff4444" : 
+                   scanPhase === "safe" ? "#44ff44" :
+                   variant === "black" ? "#c0392b" : 
                    variant === "red" ? "#ff3a3a" : 
                    variant === "blue" ? "#00d4ff" : 
                    "#9b59b6",
-            textShadow: variant === "black" ? "0 0 20px rgba(192,57,43,0.8)" :
+            textShadow: scanPhase === "intruder" ? "0 0 20px rgba(255,68,68,0.8)" :
+                        scanPhase === "safe" ? "0 0 20px rgba(68,255,68,0.8)" :
+                        variant === "black" ? "0 0 20px rgba(192,57,43,0.8)" :
                         variant === "red" ? "0 0 20px rgba(255,58,58,0.8)" :
                         variant === "blue" ? "0 0 20px rgba(0,212,255,0.8)" :
                         "0 0 20px rgba(155,89,182,0.8)"
           }}
         >
-          WATCHDOGS ACTIVE
+          {message.title}
         </div>
-        <div className="text-xs mt-2 tracking-[0.3em] animate-pulse" style={{ color: "#3a6080" }}>
-          SCANNING FOR INTRUDERS...
+        <div 
+          className="text-sm mt-3 tracking-[0.2em] animate-pulse" 
+          style={{ 
+            color: scanPhase === "intruder" ? "#ff6666" : 
+                   scanPhase === "safe" ? "#66ff66" : 
+                   "#3a6080"
+          }}
+        >
+          {message.subtitle}
         </div>
       </div>
     </div>
