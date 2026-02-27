@@ -21,6 +21,10 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Sticky nav bar with status indicators and operator badge
 - [x] Hero section with terminal widget and stats
 - [x] File preview/viewer modal — video player, audio player, image viewer, document/code viewer, archive contents
+- [x] Auth system — sign in, sign up, sign out (client-side, localStorage)
+- [x] Settings page — theme/appearance (5 themes: cyberpunk, matrix, blood, ghost, neon)
+- [x] ThemeApplier component — applies CSS variables dynamically from auth context
+- [x] Nav bar updated — removed OPERATOR badge, shows username + avatar when signed in, sign in/register links when signed out
 
 ## Current Structure
 

@@ -1,56 +1,15 @@
+"use client";
+
 import SkullIcon from "@/components/SkullIcon";
 import FileManager from "@/components/FileManager";
+import { useAuth } from "@/lib/auth";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
-      {/* Top nav bar */}
-      <nav
-        className="border-b px-6 py-3 flex items-center justify-between sticky top-0 z-40"
-        style={{
-          background: "rgba(5,10,15,0.95)",
-          borderColor: "var(--necrom-border)",
-          backdropFilter: "blur(8px)",
-        }}
-      >
-        {/* Logo */}
-        <div className="flex items-center gap-3">
-          <SkullIcon size={32} />
-          <div>
-            <div
-              className="text-lg font-bold tracking-[0.3em] glitch-text"
-              style={{ color: "#c0392b", fontFamily: "var(--font-geist-mono)" }}
-            >
-              NECROM
-            </div>
-            <div className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
-              CLOUD SERVER v2.7.7
-            </div>
-          </div>
-        </div>
-
-        {/* Status indicators */}
-        <div className="hidden md:flex items-center gap-6">
-          <StatusDot label="SERVER" active />
-          <StatusDot label="ENCRYPT" active />
-          <StatusDot label="SYNC" active />
-          <StatusDot label="FIREWALL" active />
-        </div>
-
-        {/* User */}
-        <div className="flex items-center gap-3">
-          <div className="text-right hidden sm:block">
-            <div className="text-xs tracking-widest" style={{ color: "#a0c8e0" }}>OPERATOR</div>
-            <div className="text-xs" style={{ color: "#3a6080" }}>AIDEN_P</div>
-          </div>
-          <div
-            className="w-8 h-8 border flex items-center justify-center text-xs font-bold"
-            style={{ borderColor: "#c0392b", color: "#c0392b", background: "rgba(192,57,43,0.1)" }}
-          >
-            AP
-          </div>
-        </div>
-      </nav>
+      <NavBar />
 
       {/* Hero / Header */}
       <header
@@ -161,6 +120,90 @@ export default function Home() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function NavBar() {
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  function handleSignOut() {
+    signOut();
+    router.push("/signin");
+  }
+
+  return (
+    <nav
+      className="border-b px-6 py-3 flex items-center justify-between sticky top-0 z-40"
+      style={{
+        background: "rgba(5,10,15,0.95)",
+        borderColor: "var(--necrom-border)",
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      {/* Logo */}
+      <div className="flex items-center gap-3">
+        <SkullIcon size={32} />
+        <div>
+          <div
+            className="text-lg font-bold tracking-[0.3em] glitch-text"
+            style={{ color: "#c0392b", fontFamily: "var(--font-geist-mono)" }}
+          >
+            NECROM
+          </div>
+          <div className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
+            CLOUD SERVER v2.7.7
+          </div>
+        </div>
+      </div>
+
+      {/* Status indicators */}
+      <div className="hidden md:flex items-center gap-6">
+        <StatusDot label="SERVER" active />
+        <StatusDot label="ENCRYPT" active />
+        <StatusDot label="SYNC" active />
+        <StatusDot label="FIREWALL" active />
+      </div>
+
+      {/* Right side — auth */}
+      <div className="flex items-center gap-3">
+        {user ? (
+          <>
+            <Link
+              href="/settings"
+              className="text-xs tracking-widest transition-colors hidden sm:block"
+              style={{ color: "#3a6080" }}
+            >
+              SETTINGS
+            </Link>
+            <div className="text-xs tracking-widest hidden sm:block" style={{ color: "#a0c8e0" }}>
+              {user.username}
+            </div>
+            <div
+              className="w-8 h-8 border flex items-center justify-center text-xs font-bold cursor-pointer"
+              style={{ borderColor: "#c0392b", color: "#c0392b", background: "rgba(192,57,43,0.1)" }}
+              title="Sign out"
+              onClick={handleSignOut}
+            >
+              {user.avatarInitials}
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Link href="/signin" className="necrom-btn text-xs py-1 px-3">
+              SIGN IN
+            </Link>
+            <Link
+              href="/signup"
+              className="text-xs tracking-widest hidden sm:block transition-colors"
+              style={{ color: "#3a6080" }}
+            >
+              REGISTER
+            </Link>
+          </div>
+        )}
+      </div>
+    </nav>
   );
 }
 
