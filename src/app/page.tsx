@@ -1,6 +1,7 @@
 "use client";
 
 import SkullIcon from "@/components/SkullIcon";
+import HoodedSkullIcon from "@/components/HoodedSkullIcon";
 import FileManager from "@/components/FileManager";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
@@ -390,64 +391,90 @@ function SecurityFeatures() {
 }
 
 function WatchdogsAnimation() {
-  const [visibleEmojis, setVisibleEmojis] = useState<{id: number, emoji: string, x: number, y: number}[]>([]);
+  const [variantIndex, setVariantIndex] = useState(0);
+  const [trickOffset, setTrickOffset] = useState({ x: 0, y: 0 });
+  
+  const variants: Array<"black" | "red" | "blue" | "purple"> = ["black", "red", "blue", "purple"];
+  const variant = variants[variantIndex];
 
   useEffect(() => {
-    const emojis = ["👁️", "🧑‍💻", "💀", "🔍", "⚠️", "🛡️", "🔥", "👾"];
-    const interval = setInterval(() => {
-      const newEmoji = {
-        id: Date.now(),
-        emoji: emojis[Math.floor(Math.random() * emojis.length)],
-        x: 30 + Math.random() * 40,
-        y: 20 + Math.random() * 60,
-      };
-      setVisibleEmojis(prev => [...prev.slice(-5), newEmoji]);
-    }, 400);
-    return () => clearInterval(interval);
+    const v = ["black", "red", "blue", "purple"] as const;
+    // Cycle through variants every 800ms
+    const variantInterval = setInterval(() => {
+      setVariantIndex(prev => (prev + 1) % v.length);
+    }, 800);
+    
+    // Create trick/moving animation effect
+    const trickInterval = setInterval(() => {
+      setTrickOffset({
+        x: (Math.random() - 0.5) * 20,
+        y: (Math.random() - 0.5) * 15,
+      });
+    }, 150);
+    
+    return () => {
+      clearInterval(variantInterval);
+      clearInterval(trickInterval);
+    };
   }, []);
 
   return (
     <div 
       className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center"
-      style={{ background: "rgba(5,10,15,0.9)" }}
+      style={{ background: "rgba(5,10,15,0.92)" }}
     >
-      {/* Skull in center with glow */}
-      <div className="relative">
+      {/* Animated background glow based on variant */}
+      <div 
+        className="absolute inset-0 animate-pulse"
+        style={{ 
+          background: variant === "black" ? "radial-gradient(circle, rgba(192,57,43,0.3) 0%, transparent 70%)" :
+                     variant === "red" ? "radial-gradient(circle, rgba(255,58,58,0.3) 0%, transparent 70%)" :
+                     variant === "blue" ? "radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%)" :
+                     "radial-gradient(circle, rgba(155,89,182,0.3) 0%, transparent 70%)",
+          animationDuration: "0.8s"
+        }}
+      />
+      
+      {/* Hooded skull with trick animation */}
+      <div 
+        className="relative"
+        style={{
+          transform: `translate(${trickOffset.x}px, ${trickOffset.y}px)`,
+          transition: "transform 0.15s ease-out",
+        }}
+      >
+        {/* Pulsing glow behind skull */}
         <div 
-          className="absolute inset-0 animate-ping"
+          className="absolute inset-0"
           style={{ 
-            background: "radial-gradient(circle, rgba(192,57,43,0.4) 0%, transparent 70%)",
-            animationDuration: "1s"
+            background: variant === "black" ? "radial-gradient(circle, rgba(192,57,43,0.5) 0%, transparent 60%)" :
+                       variant === "red" ? "radial-gradient(circle, rgba(255,58,58,0.5) 0%, transparent 60%)" :
+                       variant === "blue" ? "radial-gradient(circle, rgba(0,212,255,0.5) 0%, transparent 60%)" :
+                       "radial-gradient(circle, rgba(155,89,182,0.5) 0%, transparent 60%)",
+            animation: "pulse-glow 0.8s ease-in-out infinite alternate",
           }}
         />
-        <SkullIcon size={150} />
-        
-        {/* Floating emojis around skull */}
-        {visibleEmojis.map((item) => (
-          <div
-            key={item.id}
-            className="absolute text-4xl animate-bounce"
-            style={{
-              left: `${item.x}%`,
-              top: `${item.y}%`,
-              transform: "translate(-50%, -50%)",
-              animation: "float 1s ease-out forwards",
-            }}
-          >
-            {item.emoji}
-          </div>
-        ))}
+        <HoodedSkullIcon size={180} variant={variant} />
       </div>
 
       {/* Warning text */}
       <div className="absolute bottom-20 text-center">
         <div 
           className="text-2xl font-bold tracking-[0.5em] animate-pulse"
-          style={{ color: "#c0392b", textShadow: "0 0 20px rgba(192,57,43,0.8)" }}
+          style={{ 
+            color: variant === "black" ? "#c0392b" : 
+                   variant === "red" ? "#ff3a3a" : 
+                   variant === "blue" ? "#00d4ff" : 
+                   "#9b59b6",
+            textShadow: variant === "black" ? "0 0 20px rgba(192,57,43,0.8)" :
+                        variant === "red" ? "0 0 20px rgba(255,58,58,0.8)" :
+                        variant === "blue" ? "0 0 20px rgba(0,212,255,0.8)" :
+                        "0 0 20px rgba(155,89,182,0.8)"
+          }}
         >
           WATCHDOGS ACTIVE
         </div>
-        <div className="text-xs mt-2 tracking-[0.3em]" style={{ color: "#3a6080" }}>
+        <div className="text-xs mt-2 tracking-[0.3em] animate-pulse" style={{ color: "#3a6080" }}>
           SCANNING FOR INTRUDERS...
         </div>
       </div>

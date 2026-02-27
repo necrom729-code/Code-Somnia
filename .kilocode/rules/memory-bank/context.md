@@ -29,6 +29,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Storage usage display — shows GB/MB used and free, progress bar, NVMe SSD status
 - [x] Removed necrom terminal widget from hero section
 - [x] Skull digital watchdogs animation — 5 second overlay with hacker emojis on page load
+- [x] Updated watchdogs animation — removed emojis, added moving trick expression with hoodie skull
 
 ## Current Structure
 
