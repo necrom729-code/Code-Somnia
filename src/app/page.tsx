@@ -12,15 +12,71 @@ export default function Home() {
   const [showWatchdogs, setShowWatchdogs] = useState(false);
   const [securityEnabled, setSecurityEnabled] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const playerRef = useRef<any>(null);
+  const ytReady = useRef(false);
+
+  // YouTube player API
+  useEffect(() => {
+    // Load YouTube IFrame API
+    if (!window.YT) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+      (window as any).onYouTubeIframeAPIReady = () => {
+        playerRef.current = new (window.YT as any).Player("yt-player", {
+          videoId: "Z-VfaG9ZN_U",
+          playerVars: {
+            autoplay: 0,
+            loop: 1,
+            controls: 0,
+            modestbranding: 1,
+            showinfo: 0,
+            iv_load_policy: 3,
+            playlist: "Z-VfaG9ZN_U",
+          },
+          events: {
+            onReady: () => {
+              ytReady.current = true;
+            },
+            onStateChange: (event: any) => {
+              if (event.data === (window.YT as any).PlayerState.ENDED) {
+                playerRef.current?.seekTo(0);
+                playerRef.current?.playVideo();
+              }
+            },
+          },
+        });
+      };
+    } else if ((window.YT as any).Player) {
+      playerRef.current = new (window.YT as any).Player("yt-player", {
+        videoId: "Z-VfaG9ZN_U",
+        playerVars: {
+          autoplay: 0,
+          loop: 1,
+          controls: 0,
+          modestbranding: 1,
+          showinfo: 0,
+          iv_load_policy: 3,
+          playlist: "Z-VfaG9ZN_U",
+        },
+        events: {
+          onReady: () => {
+            ytReady.current = true;
+          },
+        },
+      });
+    }
+  }, []);
 
   // Toggle background music
   const toggleMusic = () => {
-    if (audioRef.current) {
+    if (playerRef.current && ytReady.current) {
       if (isPlaying) {
-        audioRef.current.pause();
+        playerRef.current.pauseVideo();
       } else {
-        audioRef.current.play().catch(() => {});
+        playerRef.current.playVideo();
       }
       setIsPlaying(!isPlaying);
     }
@@ -51,10 +107,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
-      {/* Hidden Audio Element - TRON Legacy The Game Has Changed */}
-      <audio ref={audioRef} loop>
-        <source src="/tron-the-game-has-changed.mp3" type="audio/mpeg" />
-      </audio>
+      {/* Hidden YouTube Player - TRON Legacy The Game Has Changed */}
+      <div id="yt-player" style={{ display: "none" }}></div>
 
       {/* Music Control Button */}
       <button
