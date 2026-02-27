@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import RiotProfile from "./RiotProfile";
 
 // Game types available
 const GAMES = [
@@ -97,10 +98,11 @@ const LEVELS = [
 
 export default function GameCenter() {
   const [selectedGame, setSelectedGame] = useState("lol");
-  const [activeTab, setActiveTab] = useState<"matches" | "stats" | "ranking">("matches");
+  const [activeTab, setActiveTab] = useState<"profile" | "matches" | "stats" | "ranking">("profile");
   const [userXP, setUserXP] = useState(1250);
   const [userLevel, setUserLevel] = useState(6);
   const [showDetails, setShowDetails] = useState<number | null>(null);
+  const [riotConnected, setRiotConnected] = useState(false);
 
   // Calculate XP progress to next level
   const currentLevel = LEVELS.find((l) => l.level === userLevel)!;
@@ -128,8 +130,9 @@ export default function GameCenter() {
           <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
         </div>
 
-        {/* XP & Level Display */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        {/* XP & Level Display - Hidden on Profile tab */}
+        {activeTab !== "profile" && (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             {/* Level badge */}
             <div
@@ -182,9 +185,11 @@ export default function GameCenter() {
             <StatBox label="WIN RATE" value={`${winRate}%`} color="#f39c12" />
           </div>
         </div>
+        )}
 
-        {/* Game Selector */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        {/* Game Selector - Hidden on Profile tab */}
+        {activeTab !== "profile" && (
+          <div className="flex flex-wrap gap-2 mb-6">
           {GAMES.map((game) => (
             <button
               key={game.id}
@@ -223,9 +228,22 @@ export default function GameCenter() {
             </button>
           ))}
         </div>
+        )}
 
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-4">
+          <button
+            onClick={() => setActiveTab("profile")}
+            className="px-4 py-2 border text-xs tracking-wider uppercase transition-all"
+            style={{
+              background:
+                activeTab === "profile" ? "rgba(201, 162, 39, 0.2)" : "rgba(0,0,0,0.3)",
+              borderColor: activeTab === "profile" ? "#c9a227" : "#1a3a5c",
+              color: activeTab === "profile" ? "#c9a227" : "#3a6080",
+            }}
+          >
+            👤 PROFILE
+          </button>
           {(["matches", "stats", "ranking"] as const).map((tab) => (
             <button
               key={tab}
@@ -245,6 +263,15 @@ export default function GameCenter() {
             </button>
           ))}
         </div>
+
+        {/* Riot Profile Tab */}
+        {activeTab === "profile" && (
+          <RiotProfile
+            isConnected={riotConnected}
+            onConnect={() => setRiotConnected(true)}
+            onDisconnect={() => setRiotConnected(false)}
+          />
+        )}
 
         {/* Match History */}
         {activeTab === "matches" && (
