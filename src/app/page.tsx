@@ -5,11 +5,30 @@ import FileManager from "@/components/FileManager";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useEffect, startTransition } from "react";
 
 export default function Home() {
+  const [showWatchdogs, setShowWatchdogs] = useState(false);
+
+  useEffect(() => {
+    // Trigger watchdogs animation on page load
+    startTransition(() => {
+      setShowWatchdogs(true);
+    });
+    const timer = setTimeout(() => {
+      startTransition(() => {
+        setShowWatchdogs(false);
+      });
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
       <NavBar />
+
+      {/* Watchdogs Animation Overlay */}
+      {showWatchdogs && <WatchdogsAnimation />}
 
       {/* Hero / Header */}
       <header
@@ -35,8 +54,8 @@ export default function Home() {
         />
 
         <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
-          {/* Skull */}
-          <div className="flex-shrink-0">
+          {/* Skull with Watchdogs */}
+          <div className="relative flex-shrink-0">
             <SkullIcon size={120} />
           </div>
 
@@ -69,21 +88,13 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Terminal widget */}
-          <div
-            className="necrom-panel p-4 w-full md:w-72 flex-shrink-0 font-mono text-xs"
-            style={{ borderColor: "#1a3a5c" }}
-          >
-            <div className="flex items-center gap-2 mb-3 pb-2 border-b" style={{ borderColor: "#1a3a5c" }}>
-              <div className="w-2 h-2 rounded-full" style={{ background: "#ff3a3a" }} />
-              <div className="w-2 h-2 rounded-full" style={{ background: "#fdcb6e" }} />
-              <div className="w-2 h-2 rounded-full" style={{ background: "#55efc4" }} />
-              <span className="ml-2" style={{ color: "#3a6080" }}>necrom_terminal</span>
-            </div>
-            <TerminalLines />
-          </div>
+          {/* Storage Usage Display */}
+          <StorageUsage />
         </div>
       </header>
+
+      {/* Security Features Section */}
+      <SecurityFeatures />
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
@@ -231,28 +242,215 @@ function StatItem({ value, label }: { value: string; label: string }) {
   );
 }
 
-function TerminalLines() {
-  const lines = [
-    { prefix: "$", text: "necrom --connect", color: "#a0c8e0" },
-    { prefix: ">", text: "AUTH: VERIFIED ✓", color: "#55efc4" },
-    { prefix: ">", text: "NODE: ctOS-7 ONLINE", color: "#55efc4" },
-    { prefix: ">", text: "ENCRYPT: AES-256 ACTIVE", color: "#55efc4" },
-    { prefix: ">", text: "FIREWALL: ENABLED", color: "#55efc4" },
-    { prefix: "$", text: "ls /necrom/vault", color: "#a0c8e0" },
-    { prefix: ">", text: "6 FILES INDEXED", color: "#00d4ff" },
-    { prefix: "$", text: "status", color: "#a0c8e0" },
-    { prefix: ">", text: "ALL SYSTEMS NOMINAL", color: "#55efc4" },
-    { prefix: "$", text: "_", color: "#00d4ff" },
+function StorageUsage() {
+  // Simulated storage data - in real app this would come from API
+  const totalStorage = 500; // GB
+  const usedStorage = 127.4; // GB
+  const usedMB = Math.round((usedStorage % 1) * 1024);
+  const percentage = (usedStorage / totalStorage) * 100;
+
+  return (
+    <div
+      className="necrom-panel p-4 w-full md:w-72 flex-shrink-0"
+      style={{ borderColor: "#1a3a5c" }}
+    >
+      <div className="flex items-center gap-2 mb-3 pb-2 border-b" style={{ borderColor: "#1a3a5c" }}>
+        <div className="w-2 h-2 rounded-full" style={{ background: "#55efc4" }} />
+        <span className="ml-2" style={{ color: "#3a6080" }}>SSD STORAGE</span>
+      </div>
+      
+      {/* Storage bar */}
+      <div className="mb-3">
+        <div className="flex justify-between text-xs mb-1">
+          <span style={{ color: "#a0c8e0" }}>USED</span>
+          <span style={{ color: "#00d4ff" }}>{percentage.toFixed(1)}%</span>
+        </div>
+        <div 
+          className="h-2 border"
+          style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.3)" }}
+        >
+          <div 
+            className="h-full transition-all duration-500"
+            style={{ 
+              width: `${percentage}%`,
+              background: "linear-gradient(90deg, #00d4ff, #c0392b)",
+              boxShadow: "0 0 10px rgba(0,212,255,0.5)"
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Storage values */}
+      <div className="grid grid-cols-2 gap-2 text-xs">
+        <div className="border p-2" style={{ borderColor: "#1a3a5c" }}>
+          <div style={{ color: "#3a6080" }}>USED</div>
+          <div style={{ color: "#00d4ff", fontSize: "16px", fontWeight: "bold" }}>
+            {Math.floor(usedStorage)}<span className="text-xs">GB</span> {usedMB}<span className="text-xs">MB</span>
+          </div>
+        </div>
+        <div className="border p-2" style={{ borderColor: "#1a3a5c" }}>
+          <div style={{ color: "#3a6080" }}>FREE</div>
+          <div style={{ color: "#55efc4", fontSize: "16px", fontWeight: "bold" }}>
+            {(totalStorage - usedStorage).toFixed(1)}<span className="text-xs">GB</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Drive info */}
+      <div className="mt-3 pt-2 border-t text-xs" style={{ borderColor: "#1a3a5c", color: "#3a6080" }}>
+        <div className="flex justify-between">
+          <span>NVMe SSD</span>
+          <span style={{ color: "#55efc4" }}>● ONLINE</span>
+        </div>
+        <div className="flex justify-between mt-1">
+          <span>Total:</span>
+          <span>{totalStorage} GB</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SecurityFeatures() {
+  const features = [
+    { icon: "🛡️", name: "ANTIVIRUS", status: "ACTIVE", desc: "Real-time threat detection & removal" },
+    { icon: "🔒", name: "PRIVACY VPN", status: "ACTIVE", desc: "Encrypted tunnel for all connections" },
+    { icon: "🔥", name: "FIREWALL", status: "ACTIVE", desc: "Advanced packet filtering & monitoring" },
+    { icon: "🔐", name: "END-TO-END", status: "ACTIVE", desc: "Military-grade AES-256 encryption" },
+    { icon: "👁️", name: "WATCHDOGS", status: "ACTIVE", desc: "24/7 intrusion detection system" },
+    { icon: "📊", name: "AUDIT LOG", status: "ACTIVE", desc: "Complete activity tracking & forensics" },
   ];
 
   return (
-    <div className="space-y-1">
-      {lines.map((line, i) => (
-        <div key={i} className="flex gap-2">
-          <span style={{ color: "#c0392b" }}>{line.prefix}</span>
-          <span style={{ color: line.color }}>{line.text}</span>
+    <section className="border-b" style={{ borderColor: "var(--necrom-border)" }}>
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Section header */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
+          <div
+            className="text-xs tracking-[0.4em] px-4 py-1 border"
+            style={{ color: "#c0392b", borderColor: "#1a3a5c" }}
+          >
+            SECURITY PROTECTION
+          </div>
+          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
         </div>
-      ))}
+
+        {/* Features grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="necrom-panel p-4 text-center hover:scale-105 transition-transform cursor-default"
+              style={{ borderColor: "#1a3a5c" }}
+            >
+              <div className="text-3xl mb-2">{feature.icon}</div>
+              <div 
+                className="text-xs font-bold tracking-wider mb-1" 
+                style={{ color: "#c0392b" }}
+              >
+                {feature.name}
+              </div>
+              <div 
+                className="text-[10px] tracking-[0.2em] mb-1" 
+                style={{ color: "#55efc4" }}
+              >
+                {feature.status}
+              </div>
+              <div className="text-[9px]" style={{ color: "#3a6080" }}>
+                {feature.desc}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Security status bar */}
+        <div 
+          className="mt-6 p-3 border flex items-center justify-between"
+          style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.3)" }}
+        >
+          <div className="flex items-center gap-2">
+            <div 
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ background: "#55efc4", boxShadow: "0 0 8px #55efc4" }}
+            />
+            <span className="text-xs tracking-widest" style={{ color: "#55efc4" }}>
+              ALL SECURITY SYSTEMS OPERATIONAL
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-xs" style={{ color: "#3a6080" }}>
+            <span>THREATS BLOCKED: 0</span>
+            <span>|</span>
+            <span>LAST SCAN: JUST NOW</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WatchdogsAnimation() {
+  const [visibleEmojis, setVisibleEmojis] = useState<{id: number, emoji: string, x: number, y: number}[]>([]);
+
+  useEffect(() => {
+    const emojis = ["👁️", "🧑‍💻", "💀", "🔍", "⚠️", "🛡️", "🔥", "👾"];
+    const interval = setInterval(() => {
+      const newEmoji = {
+        id: Date.now(),
+        emoji: emojis[Math.floor(Math.random() * emojis.length)],
+        x: 30 + Math.random() * 40,
+        y: 20 + Math.random() * 60,
+      };
+      setVisibleEmojis(prev => [...prev.slice(-5), newEmoji]);
+    }, 400);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center"
+      style={{ background: "rgba(5,10,15,0.9)" }}
+    >
+      {/* Skull in center with glow */}
+      <div className="relative">
+        <div 
+          className="absolute inset-0 animate-ping"
+          style={{ 
+            background: "radial-gradient(circle, rgba(192,57,43,0.4) 0%, transparent 70%)",
+            animationDuration: "1s"
+          }}
+        />
+        <SkullIcon size={150} />
+        
+        {/* Floating emojis around skull */}
+        {visibleEmojis.map((item) => (
+          <div
+            key={item.id}
+            className="absolute text-4xl animate-bounce"
+            style={{
+              left: `${item.x}%`,
+              top: `${item.y}%`,
+              transform: "translate(-50%, -50%)",
+              animation: "float 1s ease-out forwards",
+            }}
+          >
+            {item.emoji}
+          </div>
+        ))}
+      </div>
+
+      {/* Warning text */}
+      <div className="absolute bottom-20 text-center">
+        <div 
+          className="text-2xl font-bold tracking-[0.5em] animate-pulse"
+          style={{ color: "#c0392b", textShadow: "0 0 20px rgba(192,57,43,0.8)" }}
+        >
+          WATCHDOGS ACTIVE
+        </div>
+        <div className="text-xs mt-2 tracking-[0.3em]" style={{ color: "#3a6080" }}>
+          SCANNING FOR INTRUDERS...
+        </div>
+      </div>
     </div>
   );
 }
