@@ -6,10 +6,35 @@ import FileManager from "@/components/FileManager";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, startTransition } from "react";
+import { useState, useEffect, startTransition, useRef } from "react";
 
 export default function Home() {
   const [showWatchdogs, setShowWatchdogs] = useState(false);
+  const [securityEnabled, setSecurityEnabled] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Toggle background music
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(() => {});
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Enable all security protections
+  const enableAllSecurity = () => {
+    setSecurityEnabled(true);
+    setShowWatchdogs(true);
+    // Reset after animation
+    setTimeout(() => {
+      setShowWatchdogs(false);
+    }, 5000);
+  };
 
   useEffect(() => {
     // Trigger watchdogs animation on page load
@@ -26,10 +51,31 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
+      {/* Hidden Audio Element - TRON Legacy The Game Has Changed */}
+      <audio ref={audioRef} loop>
+        <source src="/tron-the-game-has-changed.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Music Control Button */}
+      <button
+        onClick={toggleMusic}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full border flex items-center justify-center transition-all hover:scale-110"
+        style={{ 
+          background: isPlaying ? "rgba(0,212,255,0.2)" : "rgba(0,0,0,0.5)",
+          borderColor: isPlaying ? "#00d4ff" : "#1a3a5c",
+          boxShadow: isPlaying ? "0 0 15px rgba(0,212,255,0.5)" : "none"
+        }}
+        title={isPlaying ? "Pause Music" : "Play TRON Music"}
+      >
+        <span style={{ color: isPlaying ? "#00d4ff" : "#3a6080" }}>
+          {isPlaying ? "🔊" : "🔇"}
+        </span>
+      </button>
+
       <NavBar />
 
       {/* Watchdogs Animation Overlay */}
-      {showWatchdogs && <WatchdogsAnimation />}
+      {showWatchdogs && <WatchdogsAnimation securityActivation={securityEnabled} />}
 
       {/* Hero / Header */}
       <header
@@ -94,8 +140,11 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Introduction for New Users */}
+      <IntroductionSection />
+
       {/* Security Features Section */}
-      <SecurityFeatures />
+      <SecurityFeatures onEnableAll={enableAllSecurity} securityEnabled={securityEnabled} />
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
@@ -312,7 +361,7 @@ function StorageUsage() {
   );
 }
 
-function SecurityFeatures() {
+function SecurityFeatures({ onEnableAll, securityEnabled }: { onEnableAll?: () => void; securityEnabled?: boolean }) {
   const features = [
     { icon: "🛡️", name: "ANTIVIRUS", status: "ACTIVE", desc: "Real-time threat detection & removal" },
     { icon: "🔒", name: "PRIVACY VPN", status: "ACTIVE", desc: "Encrypted tunnel for all connections" },
@@ -342,10 +391,11 @@ function SecurityFeatures() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="necrom-panel p-4 text-center hover:scale-105 transition-transform cursor-default"
+              className="necrom-panel p-4 text-center hover:scale-105 transition-transform cursor-pointer group"
               style={{ borderColor: "#1a3a5c" }}
+              onClick={onEnableAll}
             >
-              <div className="text-3xl mb-2">{feature.icon}</div>
+              <div className="text-3xl mb-2 group-hover:animate-spin-slow">{feature.icon}</div>
               <div 
                 className="text-xs font-bold tracking-wider mb-1" 
                 style={{ color: "#c0392b" }}
@@ -354,13 +404,18 @@ function SecurityFeatures() {
               </div>
               <div 
                 className="text-[10px] tracking-[0.2em] mb-1" 
-                style={{ color: "#55efc4" }}
+                style={{ color: securityEnabled ? "#55efc4" : "#ff3a3a" }}
               >
-                {feature.status}
+                {securityEnabled ? "PROTECTED" : feature.status}
               </div>
               <div className="text-[9px]" style={{ color: "#3a6080" }}>
                 {feature.desc}
               </div>
+              {!securityEnabled && (
+                <div className="text-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#00d4ff" }}>
+                  [CLICK TO ENABLE]
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -373,16 +428,16 @@ function SecurityFeatures() {
           <div className="flex items-center gap-2">
             <div 
               className="w-2 h-2 rounded-full animate-pulse"
-              style={{ background: "#55efc4", boxShadow: "0 0 8px #55efc4" }}
+              style={{ background: securityEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 8px ${securityEnabled ? "#55efc4" : "#ff3a3a"}` }}
             />
-            <span className="text-xs tracking-widest" style={{ color: "#55efc4" }}>
-              ALL SECURITY SYSTEMS OPERATIONAL
+            <span className="text-xs tracking-widest" style={{ color: securityEnabled ? "#55efc4" : "#ff3a3a" }}>
+              {securityEnabled ? "ALL SECURITY SYSTEMS OPERATIONAL" : "CLICK ANY PROTECTION TO ACTIVATE"}
             </span>
           </div>
           <div className="flex items-center gap-4 text-xs" style={{ color: "#3a6080" }}>
-            <span>THREATS BLOCKED: 0</span>
+            <span>THREATS BLOCKED: {securityEnabled ? "0" : "--"}</span>
             <span>|</span>
-            <span>LAST SCAN: JUST NOW</span>
+            <span>LAST SCAN: {securityEnabled ? "JUST NOW" : "NEVER"}</span>
           </div>
         </div>
       </div>
@@ -390,7 +445,110 @@ function SecurityFeatures() {
   );
 }
 
-function WatchdogsAnimation() {
+// Introduction Section for New Users
+function IntroductionSection() {
+  const steps = [
+    {
+      step: "01",
+      title: "UPLOAD YOUR FILES",
+      desc: "Drag and drop or click to upload any file type - documents, images, videos, audio, and more.",
+      icon: "📤"
+    },
+    {
+      step: "02", 
+      title: "ENCRYPTION ACTIVE",
+      desc: "Every file is encrypted with AES-256 military-grade encryption before leaving your device.",
+      icon: "🔐"
+    },
+    {
+      step: "03",
+      title: "SECURE STORAGE",
+      desc: "Your encrypted files are stored in our protected cloud with 24/7 watchdog monitoring.",
+      icon: "☁️"
+    },
+    {
+      step: "04",
+      title: "ACCESS ANYWHERE",
+      desc: "Access your files from any device. Your data stays protected with end-to-end security.",
+      icon: "🌐"
+    }
+  ];
+
+  return (
+    <section className="border-b" style={{ borderColor: "var(--necrom-border)" }}>
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        {/* Section header */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
+          <div
+            className="text-xs tracking-[0.4em] px-4 py-1 border"
+            style={{ color: "#00d4ff", borderColor: "#1a3a5c" }}
+          >
+            HOW IT WORKS
+          </div>
+          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
+        </div>
+
+        {/* Steps */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className="relative necrom-panel p-5 hover:border-cyan-500 transition-colors"
+              style={{ borderColor: "#1a3a5c" }}
+            >
+              {/* Step number */}
+              <div 
+                className="absolute -top-3 -left-2 text-4xl font-bold opacity-20"
+                style={{ color: "#00d4ff" }}
+              >
+                {step.step}
+              </div>
+              
+              {/* Icon */}
+              <div className="text-4xl mb-4 mt-2">{step.icon}</div>
+              
+              {/* Title */}
+              <div 
+                className="text-sm font-bold tracking-wider mb-2" 
+                style={{ color: "#00d4ff" }}
+              >
+                {step.title}
+              </div>
+              
+              {/* Description */}
+              <div className="text-xs leading-relaxed" style={{ color: "#3a6080" }}>
+                {step.desc}
+              </div>
+              
+              {/* Connector line */}
+              {index < steps.length - 1 && (
+                <div 
+                  className="hidden lg:block absolute top-1/2 -right-3 w-6 h-px"
+                  style={{ background: "linear-gradient(90deg, #1a3a5c, transparent)" }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-8">
+          <div className="inline-block necrom-panel px-6 py-3" style={{ borderColor: "#1a3a5c" }}>
+            <span className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
+              READY TO GET STARTED? {" "}
+            </span>
+            <span className="text-xs" style={{ color: "#00d4ff" }}>
+              ↓ SCROLL DOWN TO UPLOAD ↓
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WatchdogsAnimation({ securityActivation }: { securityActivation?: boolean }) {
   const [variantIndex, setVariantIndex] = useState(0);
   const [trickOffset, setTrickOffset] = useState({ x: 0, y: 0 });
   const [scanPhase, setScanPhase] = useState<"scanning" | "safe" | "intruder">("scanning");
@@ -413,11 +571,17 @@ function WatchdogsAnimation() {
       });
     }, 150);
     
-    // Simulate scan result after 4 seconds - randomly determine if intruder detected
+    // If activating all security, show activation sequence
+    // Otherwise, simulate normal scan result after 4 seconds
     const scanTimeout = setTimeout(() => {
-      // 70% chance of no intruder, 30% chance of intruder detected
-      const hasIntruder = Math.random() > 0.7;
-      setScanPhase(hasIntruder ? "intruder" : "safe");
+      if (securityActivation) {
+        // Show activation message
+        setScanPhase("safe");
+      } else {
+        // 70% chance of no intruder, 30% chance of intruder detected
+        const hasIntruder = Math.random() > 0.7;
+        setScanPhase(hasIntruder ? "intruder" : "safe");
+      }
     }, 4000);
     
     return () => {
@@ -425,7 +589,7 @@ function WatchdogsAnimation() {
       clearInterval(trickInterval);
       clearTimeout(scanTimeout);
     };
-  }, []);
+  }, [securityActivation]);
 
   // Determine expression based on scan phase
   const getExpression = (): "trick" | "happy" | "sad" => {
@@ -434,8 +598,14 @@ function WatchdogsAnimation() {
     return "trick";
   };
 
-  // Determine message based on scan phase
+  // Determine message based on scan phase and activation
   const getMessage = () => {
+    if (securityActivation) {
+      return {
+        title: "ACTIVATING PROTECTION",
+        subtitle: "Enabling all security systems...",
+      };
+    }
     if (scanPhase === "safe") {
       return {
         title: "ALL CLEAR",
