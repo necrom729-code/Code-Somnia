@@ -3,6 +3,7 @@
 import SkullIcon from "@/components/SkullIcon";
 import HoodedSkullIcon from "@/components/HoodedSkullIcon";
 import FileManager from "@/components/FileManager";
+import GameCenter from "@/components/GameCenter";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -199,6 +200,9 @@ export default function Home() {
 
       {/* Security Features Section */}
       <SecurityFeatures onEnableAll={enableAllSecurity} securityEnabled={securityEnabled} />
+
+      {/* Game Center Section */}
+      <GameCenter />
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
