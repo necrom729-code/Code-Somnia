@@ -25,6 +25,10 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Settings page — theme/appearance (5 themes: cyberpunk, matrix, blood, ghost, neon)
 - [x] ThemeApplier component — applies CSS variables dynamically from auth context
 - [x] Nav bar updated — removed OPERATOR badge, shows username + avatar when signed in, sign in/register links when signed out
+- [x] Security features section — antivirus, privacy VPN, firewall, end-to-end encryption, watchdogs, audit log
+- [x] Storage usage display — shows GB/MB used and free, progress bar, NVMe SSD status
+- [x] Removed necrom terminal widget from hero section
+- [x] Skull digital watchdogs animation — 5 second overlay with hacker emojis on page load
 
 ## Current Structure
 
