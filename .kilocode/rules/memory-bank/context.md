@@ -20,6 +20,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Dark cyberpunk globals.css with scanlines, glitch, pulse animations
 - [x] Sticky nav bar with status indicators and operator badge
 - [x] Hero section with terminal widget and stats
+- [x] File preview/viewer modal — video player, audio player, image viewer, document/code viewer, archive contents
 
 ## Current Structure
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 type FileType = "document" | "video" | "audio" | "image" | "archive" | "code" | "other";
 
@@ -11,6 +11,10 @@ interface NecromFile {
   size: string;
   created: string;
   modified: string;
+  /** For uploaded files, the real object URL */
+  objectUrl?: string;
+  /** For demo files, fake preview content */
+  demoContent?: string;
 }
 
 const FILE_TYPE_CONFIG: Record<FileType, { icon: string; color: string; borderColor: string; bg: string }> = {
@@ -58,13 +62,73 @@ function randomSize(type: FileType): string {
   return formatBytes(Math.floor(Math.random() * (max - min) + min));
 }
 
+const DEMO_CONTENT: Record<string, string> = {
+  "necrom_system_log.txt": `[2026-02-27 00:00:01] NECROM CLOUD SERVER BOOT
+[2026-02-27 00:00:02] Loading kernel modules... OK
+[2026-02-27 00:00:03] Initializing AES-256 encryption layer... OK
+[2026-02-27 00:00:04] Connecting to ctOS-7 node... OK
+[2026-02-27 00:00:05] Firewall rules loaded: 1,337 entries
+[2026-02-27 00:00:06] Vault mounted at /necrom/vault
+[2026-02-27 00:00:07] 6 files indexed
+[2026-02-27 00:00:08] All systems nominal. WATCH_DOGS protocol active.
+[2026-02-27 12:34:56] OPERATOR AIDEN_P authenticated
+[2026-02-27 12:34:57] Session token issued: 8f3a...d9c2
+[2026-02-27 16:44:38] Sync complete — 0 conflicts`,
+  "hack_protocol.ts": `// NECROM HACK PROTOCOL v2.7.7
+// WARNING: Authorized use only — ctOS enforcement active
+
+import { encrypt, obfuscate } from "@necrom/core";
+
+interface HackTarget {
+  nodeId: string;
+  accessLevel: 1 | 2 | 3 | 4 | 5;
+  firewall: boolean;
+}
+
+export async function initiateHack(target: HackTarget): Promise<boolean> {
+  if (target.firewall) {
+    console.log("[NECROM] Bypassing firewall...");
+    await bypassFirewall(target.nodeId);
+  }
+
+  const payload = obfuscate(encrypt({
+    cmd: "INFILTRATE",
+    target: target.nodeId,
+    level: target.accessLevel,
+    timestamp: Date.now(),
+  }));
+
+  const result = await fetch(\`/api/hack/\${target.nodeId}\`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  return result.ok;
+}
+
+async function bypassFirewall(nodeId: string): Promise<void> {
+  // ctOS firewall bypass sequence
+  for (let i = 0; i < 3; i++) {
+    await sleep(300);
+    console.log(\`[NECROM] Probe \${i + 1}/3 sent to \${nodeId}\`);
+  }
+}
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));`,
+};
+
+// Pre-computed waveform heights for the audio demo (avoids Math.random in render)
+const WAVEFORM_HEIGHTS = Array.from({ length: 40 }, (_, i) =>
+  Math.round(20 + Math.sin(i * 0.7) * 15 + (((i * 7919) % 17) / 17) * 10)
+);
+
 const INITIAL_FILES: NecromFile[] = [
-  { id: "1", name: "necrom_system_log.txt", type: "document", size: "48 KB", created: "2026-02-10", modified: "2026-02-27" },
+  { id: "1", name: "necrom_system_log.txt", type: "document", size: "48 KB", created: "2026-02-10", modified: "2026-02-27", demoContent: DEMO_CONTENT["necrom_system_log.txt"] },
   { id: "2", name: "watchdogs_intro.mp4", type: "video", size: "1.2 GB", created: "2026-01-15", modified: "2026-01-15" },
   { id: "3", name: "skull_theme.mp3", type: "audio", size: "8.4 MB", created: "2026-02-01", modified: "2026-02-01" },
   { id: "4", name: "ctOS_blueprint.png", type: "image", size: "3.7 MB", created: "2026-02-20", modified: "2026-02-22" },
   { id: "5", name: "necrom_core.zip", type: "archive", size: "245 MB", created: "2026-02-25", modified: "2026-02-25" },
-  { id: "6", name: "hack_protocol.ts", type: "code", size: "14 KB", created: "2026-02-27", modified: "2026-02-27" },
+  { id: "6", name: "hack_protocol.ts", type: "code", size: "14 KB", created: "2026-02-27", modified: "2026-02-27", demoContent: DEMO_CONTENT["hack_protocol.ts"] },
 ];
 
 function genId(): string {
@@ -74,6 +138,230 @@ function genId(): string {
 function todayStr(): string {
   return new Date().toISOString().split("T")[0];
 }
+
+// ─── File Preview Modal ───────────────────────────────────────────────────────
+
+function FilePreviewModal({ file, onClose }: { file: NecromFile; onClose: () => void }) {
+  const cfg = FILE_TYPE_CONFIG[file.type];
+
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(4px)" }}
+      onClick={onClose}
+    >
+      <div
+        className="necrom-panel w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden"
+        style={{ borderColor: cfg.color }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal header */}
+        <div
+          className="flex items-center justify-between px-4 py-3 border-b flex-shrink-0"
+          style={{ borderColor: cfg.borderColor }}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="text-xl">{cfg.icon}</span>
+            <div className="min-w-0">
+              <div className="text-sm font-mono truncate" style={{ color: "#c0d8e8" }}>{file.name}</div>
+              <div className="text-xs" style={{ color: "#3a6080" }}>
+                {file.type.toUpperCase()} · {file.size} · Modified {file.modified}
+              </div>
+            </div>
+          </div>
+          <button
+            className="text-xs px-3 py-1 border ml-4 flex-shrink-0 transition-all hover:opacity-80"
+            style={{ borderColor: "#5c1a1a", color: "#ff3a3a" }}
+            onClick={onClose}
+          >
+            ✕ CLOSE
+          </button>
+        </div>
+
+        {/* Modal body */}
+        <div className="flex-1 overflow-auto p-4">
+          <PreviewContent file={file} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PreviewContent({ file }: { file: NecromFile }) {
+  const cfg = FILE_TYPE_CONFIG[file.type];
+
+  // Real uploaded file
+  if (file.objectUrl) {
+    if (file.type === "video") {
+      return (
+        <video
+          src={file.objectUrl}
+          controls
+          className="w-full rounded"
+          style={{ maxHeight: "60vh", background: "#000" }}
+        />
+      );
+    }
+    if (file.type === "audio") {
+      return (
+        <div className="flex flex-col items-center gap-6 py-8">
+          <div className="text-6xl">🎵</div>
+          <div className="text-sm font-mono" style={{ color: "#a29bfe" }}>{file.name}</div>
+          <audio src={file.objectUrl} controls className="w-full" style={{ accentColor: "#a29bfe" }} />
+        </div>
+      );
+    }
+    if (file.type === "image") {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={file.objectUrl}
+          alt={file.name}
+          className="max-w-full max-h-[60vh] mx-auto block rounded"
+          style={{ objectFit: "contain" }}
+        />
+      );
+    }
+  }
+
+  // Demo / text content
+  if (file.type === "document" || file.type === "code") {
+    const content = file.demoContent ?? `// No preview available for ${file.name}`;
+    return (
+      <pre
+        className="text-xs leading-relaxed overflow-auto p-4 rounded font-mono whitespace-pre-wrap"
+        style={{
+          background: "rgba(0,0,0,0.4)",
+          color: file.type === "code" ? "#00d4ff" : "#a0c8e0",
+          border: `1px solid ${cfg.borderColor}`,
+          maxHeight: "60vh",
+        }}
+      >
+        {content}
+      </pre>
+    );
+  }
+
+  if (file.type === "video") {
+    return (
+      <div
+        className="flex flex-col items-center justify-center gap-4 py-16 rounded"
+        style={{ background: "rgba(0,0,0,0.4)", border: `1px solid ${cfg.borderColor}` }}
+      >
+        <div className="text-6xl">🎬</div>
+        <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
+        <div className="text-xs text-center max-w-xs" style={{ color: "#3a6080" }}>
+          This is a demo file entry. Upload a real video file to play it here.
+        </div>
+        <div
+          className="text-xs px-3 py-1 border"
+          style={{ borderColor: cfg.borderColor, color: cfg.color }}
+        >
+          {file.size} · {file.type.toUpperCase()}
+        </div>
+      </div>
+    );
+  }
+
+  if (file.type === "audio") {
+    return (
+      <div
+        className="flex flex-col items-center justify-center gap-4 py-16 rounded"
+        style={{ background: "rgba(0,0,0,0.4)", border: `1px solid ${cfg.borderColor}` }}
+      >
+        <div className="text-6xl">🎵</div>
+        <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
+        {/* Fake waveform */}
+        <div className="flex items-end gap-0.5 h-12">
+          {WAVEFORM_HEIGHTS.map((h, i) => (
+            <div
+              key={i}
+              className="w-1 rounded-sm"
+              style={{
+                height: `${h}px`,
+                background: cfg.color,
+                opacity: 0.6,
+              }}
+            />
+          ))}
+        </div>
+        <div className="text-xs text-center max-w-xs" style={{ color: "#3a6080" }}>
+          This is a demo file entry. Upload a real audio file to play it here.
+        </div>
+      </div>
+    );
+  }
+
+  if (file.type === "image") {
+    return (
+      <div
+        className="flex flex-col items-center justify-center gap-4 py-16 rounded"
+        style={{ background: "rgba(0,0,0,0.4)", border: `1px solid ${cfg.borderColor}` }}
+      >
+        <div className="text-6xl">🖼️</div>
+        <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
+        <div className="text-xs text-center max-w-xs" style={{ color: "#3a6080" }}>
+          This is a demo file entry. Upload a real image to view it here.
+        </div>
+      </div>
+    );
+  }
+
+  if (file.type === "archive") {
+    const fakeContents = [
+      "necrom/", "necrom/config.json", "necrom/keys/", "necrom/keys/private.pem",
+      "necrom/keys/public.pem", "necrom/data/", "necrom/data/vault.db",
+      "necrom/scripts/deploy.sh", "necrom/README.md",
+    ];
+    return (
+      <div
+        className="rounded overflow-hidden"
+        style={{ border: `1px solid ${cfg.borderColor}` }}
+      >
+        <div
+          className="px-4 py-2 text-xs uppercase tracking-widest border-b"
+          style={{ color: cfg.color, borderColor: cfg.borderColor, background: "rgba(0,0,0,0.4)" }}
+        >
+          Archive Contents — {file.name}
+        </div>
+        <div className="p-4" style={{ background: "rgba(0,0,0,0.3)" }}>
+          {fakeContents.map((entry) => (
+            <div key={entry} className="flex items-center gap-2 py-1 border-b" style={{ borderColor: "rgba(255,255,255,0.03)" }}>
+              <span>{entry.endsWith("/") ? "📁" : "📄"}</span>
+              <span className="text-xs font-mono" style={{ color: entry.endsWith("/") ? cfg.color : "#a0c8e0" }}>
+                {entry}
+              </span>
+            </div>
+          ))}
+          <div className="text-xs mt-3" style={{ color: "#3a6080" }}>
+            Demo archive — upload a real file to inspect its contents.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback
+  return (
+    <div
+      className="flex flex-col items-center justify-center gap-4 py-16 rounded"
+      style={{ background: "rgba(0,0,0,0.4)", border: `1px solid ${cfg.borderColor}` }}
+    >
+      <div className="text-6xl">{cfg.icon}</div>
+      <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
+      <div className="text-xs" style={{ color: "#3a6080" }}>No preview available for this file type.</div>
+    </div>
+  );
+}
+
+// ─── Main FileManager ─────────────────────────────────────────────────────────
 
 export default function FileManager() {
   const [files, setFiles] = useState<NecromFile[]>(INITIAL_FILES);
@@ -86,7 +374,16 @@ export default function FileManager() {
   const [sortBy, setSortBy] = useState<"name" | "type" | "modified">("modified");
   const [view, setView] = useState<"grid" | "list">("list");
   const [notification, setNotification] = useState<string | null>(null);
+  const [previewFile, setPreviewFile] = useState<NecromFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Revoke object URLs on unmount to avoid memory leaks
+  useEffect(() => {
+    return () => {
+      files.forEach((f) => { if (f.objectUrl) URL.revokeObjectURL(f.objectUrl); });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function showNotif(msg: string) {
     setNotification(msg);
@@ -130,6 +427,7 @@ export default function FileManager() {
       size: formatBytes(f.size),
       created: today,
       modified: today,
+      objectUrl: URL.createObjectURL(f),
     }));
     setFiles((prev) => [...newFiles, ...prev]);
     showNotif(`${newFiles.length} FILE(S) UPLOADED`);
@@ -138,7 +436,11 @@ export default function FileManager() {
 
   function deleteSelected() {
     if (selected.size === 0) return;
-    setFiles((prev) => prev.filter((f) => !selected.has(f.id)));
+    setFiles((prev) => {
+      const toDelete = prev.filter((f) => selected.has(f.id));
+      toDelete.forEach((f) => { if (f.objectUrl) URL.revokeObjectURL(f.objectUrl); });
+      return prev.filter((f) => !selected.has(f.id));
+    });
     showNotif(`${selected.size} FILE(S) DELETED`);
     setSelected(new Set());
   }
@@ -174,6 +476,11 @@ export default function FileManager() {
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Preview Modal */}
+      {previewFile && (
+        <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />
+      )}
+
       {/* Notification */}
       {notification && (
         <div
@@ -338,7 +645,7 @@ export default function FileManager() {
           <div
             className="grid text-xs uppercase tracking-widest px-4 py-2 border-b"
             style={{
-              gridTemplateColumns: "32px 1fr 100px 80px 100px 80px",
+              gridTemplateColumns: "32px 1fr 100px 80px 100px 100px",
               color: "#3a6080",
               borderColor: "#1a3a5c",
             }}
@@ -358,7 +665,7 @@ export default function FileManager() {
                 key={file.id}
                 className="grid items-center px-4 py-3 border-b transition-all cursor-pointer"
                 style={{
-                  gridTemplateColumns: "32px 1fr 100px 80px 100px 80px",
+                  gridTemplateColumns: "32px 1fr 100px 80px 100px 100px",
                   borderColor: "#0d2035",
                   background: isSelected ? "rgba(0,212,255,0.05)" : "transparent",
                 }}
@@ -396,7 +703,15 @@ export default function FileManager() {
                 {/* Actions */}
                 <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                   <button
-                    className="text-xs px-2 py-1 border transition-all"
+                    className="text-xs px-2 py-1 border transition-all hover:opacity-80"
+                    style={{ borderColor: cfg.borderColor, color: cfg.color }}
+                    title="Open / Preview"
+                    onClick={() => setPreviewFile(file)}
+                  >
+                    ▶
+                  </button>
+                  <button
+                    className="text-xs px-2 py-1 border transition-all hover:opacity-80"
                     style={{ borderColor: "#1a3a5c", color: "#3a6080" }}
                     title="Download"
                     onClick={() => showNotif(`DOWNLOADING: ${file.name}`)}
@@ -404,10 +719,11 @@ export default function FileManager() {
                     ↓
                   </button>
                   <button
-                    className="text-xs px-2 py-1 border transition-all"
+                    className="text-xs px-2 py-1 border transition-all hover:opacity-80"
                     style={{ borderColor: "#5c1a1a", color: "#ff3a3a" }}
                     title="Delete"
                     onClick={() => {
+                      if (file.objectUrl) URL.revokeObjectURL(file.objectUrl);
                       setFiles((prev) => prev.filter((f) => f.id !== file.id));
                       showNotif(`DELETED: ${file.name}`);
                     }}
@@ -444,14 +760,21 @@ export default function FileManager() {
                 </div>
                 <div className="flex gap-1 justify-end" onClick={(e) => e.stopPropagation()}>
                   <button
-                    className="text-xs px-2 py-1 border"
+                    className="text-xs px-2 py-1 border hover:opacity-80"
+                    style={{ borderColor: cfg.borderColor, color: cfg.color }}
+                    title="Open / Preview"
+                    onClick={() => setPreviewFile(file)}
+                  >▶</button>
+                  <button
+                    className="text-xs px-2 py-1 border hover:opacity-80"
                     style={{ borderColor: "#1a3a5c", color: "#3a6080" }}
                     onClick={() => showNotif(`DOWNLOADING: ${file.name}`)}
                   >↓</button>
                   <button
-                    className="text-xs px-2 py-1 border"
+                    className="text-xs px-2 py-1 border hover:opacity-80"
                     style={{ borderColor: "#5c1a1a", color: "#ff3a3a" }}
                     onClick={() => {
+                      if (file.objectUrl) URL.revokeObjectURL(file.objectUrl);
                       setFiles((prev) => prev.filter((f) => f.id !== file.id));
                       showNotif(`DELETED: ${file.name}`);
                     }}
