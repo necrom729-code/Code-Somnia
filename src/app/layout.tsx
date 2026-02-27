@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "NECROM // Cloud Server",
+  description: "Necrom — Secure digital cloud infrastructure. Files, media, and data storage.",
 };
 
 export default function RootLayout({

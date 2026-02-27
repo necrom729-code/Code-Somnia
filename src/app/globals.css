@@ -1,1 +1,204 @@
 @import "tailwindcss";
+
+:root {
+  --necrom-bg: #050a0f;
+  --necrom-surface: #0a1520;
+  --necrom-border: #1a3a5c;
+  --necrom-accent: #00d4ff;
+  --necrom-accent2: #ff3a3a;
+  --necrom-skull: #c0392b;
+  --necrom-text: #a0c8e0;
+  --necrom-dim: #3a6080;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--necrom-bg);
+  color: var(--necrom-text);
+  font-family: var(--font-geist-mono), monospace;
+}
+
+/* Scanline overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.015) 2px,
+    rgba(0, 212, 255, 0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Glitch animation */
+@keyframes glitch {
+  0% { text-shadow: 2px 0 #ff3a3a, -2px 0 #00d4ff; }
+  20% { text-shadow: -2px 0 #ff3a3a, 2px 0 #00d4ff; }
+  40% { text-shadow: 2px 2px #ff3a3a, -2px -2px #00d4ff; }
+  60% { text-shadow: -2px 2px #ff3a3a, 2px -2px #00d4ff; }
+  80% { text-shadow: 2px -2px #ff3a3a, -2px 2px #00d4ff; }
+  100% { text-shadow: 2px 0 #ff3a3a, -2px 0 #00d4ff; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3), 0 0 10px rgba(0, 212, 255, 0.1); }
+  50% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.6), 0 0 30px rgba(0, 212, 255, 0.2); }
+}
+
+@keyframes skull-pulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(192, 57, 43, 0.6)); }
+  50% { filter: drop-shadow(0 0 18px rgba(192, 57, 43, 1)); }
+}
+
+@keyframes data-flow {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes border-trace {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.glitch-text {
+  animation: glitch 3s infinite;
+}
+
+.skull-glow {
+  animation: skull-pulse 2s ease-in-out infinite;
+}
+
+.pulse-border {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.cursor-blink::after {
+  content: "_";
+  animation: blink 1s step-end infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--necrom-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--necrom-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--necrom-accent);
+}
+
+/* Necrom button */
+.necrom-btn {
+  background: transparent;
+  border: 1px solid var(--necrom-accent);
+  color: var(--necrom-accent);
+  padding: 6px 14px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.necrom-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.15), transparent);
+  transition: left 0.3s;
+}
+
+.necrom-btn:hover::before {
+  left: 100%;
+}
+
+.necrom-btn:hover {
+  background: rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+}
+
+.necrom-btn-danger {
+  border-color: var(--necrom-accent2);
+  color: var(--necrom-accent2);
+}
+
+.necrom-btn-danger:hover {
+  background: rgba(255, 58, 58, 0.1);
+  box-shadow: 0 0 10px rgba(255, 58, 58, 0.4);
+}
+
+/* Panel */
+.necrom-panel {
+  background: var(--necrom-surface);
+  border: 1px solid var(--necrom-border);
+  position: relative;
+}
+
+.necrom-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--necrom-accent), transparent);
+}
+
+/* Input */
+.necrom-input {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--necrom-border);
+  color: var(--necrom-text);
+  padding: 8px 12px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.necrom-input:focus {
+  border-color: var(--necrom-accent);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
+}
+
+/* Tag */
+.file-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid;
+}
