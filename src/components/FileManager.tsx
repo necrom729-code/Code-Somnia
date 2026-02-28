@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 type FileType = "document" | "video" | "audio" | "image" | "archive" | "code" | "other";
 
@@ -144,12 +144,18 @@ function todayStr(): string {
 function FilePreviewModal({ file, onClose }: { file: NecromFile; onClose: () => void }) {
   const cfg = FILE_TYPE_CONFIG[file.type];
 
-  // Close on Escape
+  // Close on Escape (but not when video is fullscreen)
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !document.fullscreenElement) {
+        onClose();
+      }
+    };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
+
+  const isVideo = file.type === "video" && file.objectUrl;
 
   return (
     <div
@@ -158,7 +164,7 @@ function FilePreviewModal({ file, onClose }: { file: NecromFile; onClose: () => 
       onClick={onClose}
     >
       <div
-        className="necrom-panel w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden"
+        className={`necrom-panel w-full flex flex-col overflow-hidden ${isVideo ? "max-w-5xl max-h-[95vh]" : "max-w-3xl max-h-[90vh]"}`}
         style={{ borderColor: cfg.color }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -194,20 +200,380 @@ function FilePreviewModal({ file, onClose }: { file: NecromFile; onClose: () => 
   );
 }
 
+// ─── Video Player Component ───────────────────────────────────────────────────
+
+function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Format time display (MM:SS or HH:MM:SS)
+  const formatTime = (seconds: number): string => {
+    if (isNaN(seconds)) return "0:00";
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    if (hrs > 0) {
+      return `${hrs}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    }
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  // Update time display
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const updateTime = () => setCurrentTime(video.currentTime);
+    const updateDuration = () => setDuration(video.duration);
+    const handleEnded = () => setIsPlaying(false);
+
+    video.addEventListener("timeupdate", updateTime);
+    video.addEventListener("loadedmetadata", updateDuration);
+    video.addEventListener("ended", handleEnded);
+
+    return () => {
+      video.removeEventListener("timeupdate", updateTime);
+      video.removeEventListener("loadedmetadata", updateDuration);
+      video.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
+  // Auto-hide controls
+  const resetControlsTimeout = useCallback(() => {
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    setShowControls(true);
+    if (isPlaying) {
+      controlsTimeoutRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
+    }
+  }, [isPlaying]);
+
+  const togglePlay = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+      setIsPlaying(true);
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
+    resetControlsTimeout();
+  }, [resetControlsTimeout]);
+
+  const skip = useCallback((seconds: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = Math.max(0, Math.min(video.duration, video.currentTime + seconds));
+    resetControlsTimeout();
+  }, [resetControlsTimeout]);
+
+  const seekTo = useCallback((time: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = time;
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !isMuted;
+    setIsMuted(!isMuted);
+    resetControlsTimeout();
+  }, [isMuted, resetControlsTimeout]);
+
+  const changeVolume = useCallback((delta: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+    const newVolume = Math.max(0, Math.min(1, volume + delta));
+    video.volume = newVolume;
+    setVolume(newVolume);
+    setIsMuted(newVolume === 0);
+    resetControlsTimeout();
+  }, [volume, resetControlsTimeout]);
+
+  const toggleFullscreen = useCallback(async () => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    try {
+      if (!document.fullscreenElement) {
+        await container.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (err) {
+      console.error("Fullscreen error:", err);
+    }
+    resetControlsTimeout();
+  }, [resetControlsTimeout]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      switch (e.key.toLowerCase()) {
+        case " ":
+        case "k":
+          e.preventDefault();
+          togglePlay();
+          break;
+        case "arrowleft":
+        case "j":
+          e.preventDefault();
+          skip(-10);
+          break;
+        case "arrowright":
+        case "l":
+          e.preventDefault();
+          skip(10);
+          break;
+        case "f":
+          e.preventDefault();
+          toggleFullscreen();
+          break;
+        case "m":
+          e.preventDefault();
+          toggleMute();
+          break;
+        case "arrowup":
+          e.preventDefault();
+          changeVolume(0.1);
+          break;
+        case "arrowdown":
+          e.preventDefault();
+          changeVolume(-0.1);
+          break;
+        case "0":
+        case "home":
+          e.preventDefault();
+          seekTo(0);
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [togglePlay, skip, toggleFullscreen, toggleMute, changeVolume, seekTo]);
+
+  const handleProgressClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!progressRef.current || !videoRef.current) return;
+    const rect = progressRef.current.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    seekTo(percent * duration);
+    resetControlsTimeout();
+  }, [duration, seekTo, resetControlsTimeout]);
+
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  // Cleanup
+  useEffect(() => {
+    return () => {
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative bg-black rounded overflow-hidden group"
+      style={{ aspectRatio: "16/9" }}
+      onMouseMove={resetControlsTimeout}
+      onMouseLeave={() => isPlaying && setShowControls(false)}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        className="w-full h-full object-contain cursor-pointer"
+        onClick={togglePlay}
+        onDoubleClick={toggleFullscreen}
+      />
+
+      {/* Center play/pause button (shows when paused or hovering) */}
+      <button
+        onClick={togglePlay}
+        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+          isPlaying && showControls ? "opacity-0 hover:opacity-100" : isPlaying ? "opacity-0" : "opacity-100"
+        }`}
+        style={{ background: "rgba(0,0,0,0.3)" }}
+      >
+        <div
+          className="w-20 h-20 rounded-full flex items-center justify-center border-2 transition-transform hover:scale-110"
+          style={{
+            background: "rgba(0,0,0,0.6)",
+            borderColor: "#00d4ff",
+            boxShadow: "0 0 20px rgba(0,212,255,0.3)",
+          }}
+        >
+          {isPlaying ? (
+            <span className="text-3xl" style={{ color: "#00d4ff" }}>⏸</span>
+          ) : (
+            <span className="text-3xl ml-1" style={{ color: "#00d4ff" }}>▶</span>
+          )}
+        </div>
+      </button>
+
+      {/* Controls overlay */}
+      <div
+        className={`absolute bottom-0 left-0 right-0 px-4 pb-4 pt-12 transition-opacity duration-300 ${
+          showControls ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)" }}
+      >
+        {/* Progress bar */}
+        <div
+          ref={progressRef}
+          className="w-full h-2 bg-gray-700 rounded-full cursor-pointer mb-4 relative group/progress"
+          onClick={handleProgressClick}
+        >
+          {/* Buffered progress (simplified - just show played) */}
+          <div
+            className="absolute h-full rounded-full transition-all duration-100"
+            style={{
+              width: `${progressPercent}%`,
+              background: "linear-gradient(90deg, #00d4ff, #00b4d8)",
+              boxShadow: "0 0 10px rgba(0,212,255,0.5)",
+            }}
+          />
+          {/* Hover handle */}
+          <div
+            className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white opacity-0 group-hover/progress:opacity-100 transition-opacity"
+            style={{ left: `calc(${progressPercent}% - 8px)`, boxShadow: "0 0 10px rgba(0,212,255,0.8)" }}
+          />
+        </div>
+
+        {/* Controls row */}
+        <div className="flex items-center justify-between">
+          {/* Left controls */}
+          <div className="flex items-center gap-3">
+            {/* Play/Pause */}
+            <button
+              onClick={togglePlay}
+              className="w-10 h-10 rounded-full flex items-center justify-center border transition-all hover:scale-105"
+              style={{ borderColor: "rgba(0,212,255,0.5)", background: "rgba(0,0,0,0.5)" }}
+            >
+              <span style={{ color: "#00d4ff" }}>{isPlaying ? "⏸" : "▶"}</span>
+            </button>
+
+            {/* Rewind 10s */}
+            <button
+              onClick={() => skip(-10)}
+              className="w-8 h-8 rounded flex items-center justify-center text-xs font-mono transition-all hover:bg-white/10"
+              style={{ color: "#a0c8e0" }}
+              title="Rewind 10s (←)"
+            >
+              ⏪
+            </button>
+
+            {/* Fast Forward 10s */}
+            <button
+              onClick={() => skip(10)}
+              className="w-8 h-8 rounded flex items-center justify-center text-xs font-mono transition-all hover:bg-white/10"
+              style={{ color: "#a0c8e0" }}
+              title="Forward 10s (→)"
+            >
+              ⏩
+            </button>
+
+            {/* Volume */}
+            <div className="flex items-center gap-2 group/volume">
+              <button
+                onClick={toggleMute}
+                className="w-8 h-8 rounded flex items-center justify-center transition-all hover:bg-white/10"
+                style={{ color: "#a0c8e0" }}
+                title={isMuted ? "Unmute (M)" : "Mute (M)"}
+              >
+                {isMuted || volume === 0 ? "🔇" : volume < 0.5 ? "🔉" : "🔊"}
+              </button>
+              <div className="w-0 overflow-hidden group-hover/volume:w-20 transition-all duration-300">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={isMuted ? 0 : volume}
+                  onChange={(e) => {
+                    const v = parseFloat(e.target.value);
+                    setVolume(v);
+                    if (videoRef.current) videoRef.current.volume = v;
+                    setIsMuted(v === 0);
+                  }}
+                  className="w-16 h-1 rounded-lg cursor-pointer"
+                  style={{ accentColor: "#00d4ff" }}
+                />
+              </div>
+            </div>
+
+            {/* Time display */}
+            <div className="text-xs font-mono ml-2" style={{ color: "#a0c8e0" }}>
+              <span style={{ color: "#00d4ff" }}>{formatTime(currentTime)}</span>
+              <span className="mx-1">/</span>
+              <span style={{ color: "#5a7a8a" }}>{formatTime(duration)}</span>
+            </div>
+          </div>
+
+          {/* Right controls */}
+          <div className="flex items-center gap-2">
+            {/* File name */}
+            <span className="text-xs font-mono mr-2 hidden sm:block" style={{ color: "#5a7a8a" }}>
+              {fileName}
+            </span>
+
+            {/* Fullscreen */}
+            <button
+              onClick={toggleFullscreen}
+              className="w-8 h-8 rounded flex items-center justify-center transition-all hover:bg-white/10"
+              style={{ color: "#a0c8e0" }}
+              title={isFullscreen ? "Exit Fullscreen (F)" : "Fullscreen (F)"}
+            >
+              {isFullscreen ? "⛶" : "⛶"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Keyboard shortcuts hint (shows briefly on load) */}
+      <div className="absolute top-4 left-4 text-xs font-mono" style={{ color: "rgba(160,200,224,0.5)" }}>
+        Space: Play | ← →: Skip 10s | F: Fullscreen | M: Mute
+      </div>
+    </div>
+  );
+}
+
 function PreviewContent({ file }: { file: NecromFile }) {
   const cfg = FILE_TYPE_CONFIG[file.type];
 
   // Real uploaded file
   if (file.objectUrl) {
     if (file.type === "video") {
-      return (
-        <video
-          src={file.objectUrl}
-          controls
-          className="w-full rounded"
-          style={{ maxHeight: "60vh", background: "#000" }}
-        />
-      );
+      return <VideoPlayer src={file.objectUrl} fileName={file.name} />;
     }
     if (file.type === "audio") {
       return (
@@ -375,6 +741,7 @@ export default function FileManager() {
   const [view, setView] = useState<"grid" | "list">("list");
   const [notification, setNotification] = useState<string | null>(null);
   const [previewFile, setPreviewFile] = useState<NecromFile | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Revoke object URLs on unmount to avoid memory leaks
@@ -417,8 +784,8 @@ export default function FileManager() {
     return map[type];
   }
 
-  function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const uploadedFiles = Array.from(e.target.files ?? []);
+  function handleUploadFiles(uploadedFiles: File[]) {
+    if (uploadedFiles.length === 0) return;
     const today = todayStr();
     const newFiles: NecromFile[] = uploadedFiles.map((f) => ({
       id: genId(),
@@ -432,6 +799,33 @@ export default function FileManager() {
     setFiles((prev) => [...newFiles, ...prev]);
     showNotif(`${newFiles.length} FILE(S) UPLOADED`);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const uploadedFiles = Array.from(e.target.files ?? []);
+    handleUploadFiles(uploadedFiles);
+  }
+
+  // Drag and drop handlers
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    handleUploadFiles(droppedFiles);
   }
 
   function deleteSelected() {
@@ -475,7 +869,29 @@ export default function FileManager() {
   const typeCount = Object.keys(FILE_TYPE_CONFIG) as FileType[];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className="flex flex-col gap-4 relative"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {/* Drag overlay */}
+      {isDragging && (
+        <div
+          className="fixed inset-0 z-40 flex items-center justify-center"
+          style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(4px)" }}
+        >
+          <div
+            className="necrom-panel p-12 text-center animate-pulse"
+            style={{ borderColor: "#00d4ff", borderWidth: "2px" }}
+          >
+            <div className="text-6xl mb-4">📁</div>
+            <div className="text-lg font-mono" style={{ color: "#00d4ff" }}>DROP FILES TO UPLOAD</div>
+            <div className="text-xs mt-2" style={{ color: "#5a7a8a" }}>Videos, images, audio, documents...</div>
+          </div>
+        </div>
+      )}
+
       {/* Preview Modal */}
       {previewFile && (
         <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />
