@@ -7,99 +7,11 @@ import BackupManager from "@/components/BackupManager";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, startTransition, useRef } from "react";
+import { useState, useEffect, startTransition } from "react";
 
 export default function Home() {
   const [showWatchdogs, setShowWatchdogs] = useState(false);
   const [securityEnabled, setSecurityEnabled] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const playerRef = useRef<any>(null);
-  const ytReady = useRef(false);
-  const [musicTriggered, setMusicTriggered] = useState(false);
-
-  // YouTube player API
-  useEffect(() => {
-    // Load YouTube IFrame API
-    if (!window.YT) {
-      const tag = document.createElement("script");
-      tag.src = "https://www.youtube.com/iframe_api";
-      const firstScriptTag = document.getElementsByTagName("script")[0];
-      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
-      (window as any).onYouTubeIframeAPIReady = () => {
-        playerRef.current = new (window.YT as any).Player("yt-player", {
-          videoId: "G_CnnmRHNsw",
-          playerVars: {
-            autoplay: 0,
-            loop: 1,
-            controls: 0,
-            modestbranding: 1,
-            showinfo: 0,
-            iv_load_policy: 3,
-            playlist: "hbK3hB8K7cE",
-          },
-          events: {
-            onReady: () => {
-              ytReady.current = true;
-            },
-            onStateChange: (event: any) => {
-              if (event.data === (window.YT as any).PlayerState.ENDED) {
-                playerRef.current?.seekTo(0);
-                playerRef.current?.playVideo();
-              }
-            },
-          },
-        });
-      };
-    } else if ((window.YT as any).Player) {
-      playerRef.current = new (window.YT as any).Player("yt-player", {
-        videoId: "G_CnnmRHNsw",
-        playerVars: {
-          autoplay: 0,
-          loop: 1,
-          controls: 0,
-          modestbranding: 1,
-          showinfo: 0,
-          iv_load_policy: 3,
-          playlist: "G_CnnmRHNsw",
-        },
-        events: {
-          onReady: () => {
-            ytReady.current = true;
-          },
-        },
-      });
-    }
-  }, []);
-
-  // Toggle background music
-  const toggleMusic = () => {
-    if (playerRef.current && ytReady.current) {
-      try {
-        if (isPlaying) {
-          playerRef.current.pauseVideo();
-        } else {
-          playerRef.current.playVideo();
-        }
-        setIsPlaying(!isPlaying);
-      } catch (e) {
-        console.error("Music playback error:", e);
-      }
-    } else {
-      console.log("Player not ready yet");
-    }
-  };
-
-  // Trigger music when backup history is clicked
-  const handleBackupHistoryClick = () => {
-    if (!musicTriggered) {
-      setMusicTriggered(true);
-      if (playerRef.current && ytReady.current) {
-        playerRef.current.playVideo();
-        setIsPlaying(true);
-      }
-    }
-  };
 
   // Enable all security protections
   const enableAllSecurity = () => {
@@ -126,93 +38,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
-      {/* YouTube Player - TRON Legacy Soundtrack - positioned off-screen */}
-      <div 
-        id="yt-player" 
-        style={{ 
-          position: 'fixed', 
-          top: '-10000px', 
-          left: '-10000px',
-          width: '1px', 
-          height: '1px' 
-        }} 
-      />
-
-      {/* Music Mini Player */}
-      <div
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-lg border transition-all duration-300 hover:scale-105"
-        style={{
-          background: isPlaying ? "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.7)",
-          borderColor: isPlaying ? "#00d4ff" : "#1a3a5c",
-          boxShadow: isPlaying ? "0 0 25px rgba(0,212,255,0.4)" : "0 0 15px rgba(0,0,0,0.5)"
-        }}
-      >
-        {/* Album art / visualizer */}
-        <div
-          className="w-10 h-10 rounded flex items-center justify-center relative overflow-hidden"
-          style={{
-            background: isPlaying ? "linear-gradient(135deg, #00d4ff, #0099cc)" : "#1a3a5c"
-          }}
-        >
-          {isPlaying && (
-            <>
-              <div className="absolute bottom-0 left-0 right-0 h-full flex items-end justify-center gap-0.5 pb-1">
-                <div
-                  className="w-1 bg-white/50 rounded-t animate-pulse"
-                  style={{ height: '60%', animationDuration: '0.5s' }}
-                />
-                <div
-                  className="w-1 bg-white/50 rounded-t animate-pulse"
-                  style={{ height: '80%', animationDuration: '0.7s' }}
-                />
-                <div
-                  className="w-1 bg-white/50 rounded-t animate-pulse"
-                  style={{ height: '50%', animationDuration: '0.6s' }}
-                />
-                <div
-                  className="w-1 bg-white/50 rounded-t animate-pulse"
-                  style={{ height: '70%', animationDuration: '0.4s' }}
-                />
-              </div>
-            </>
-          )}
-          <span className="text-lg" style={{ opacity: isPlaying ? 0.3 : 1 }}>
-            🎵
-          </span>
-        </div>
-
-        {/* Track info */}
-        <div className="flex flex-col">
-          <span
-            className="text-xs font-medium tracking-wide"
-            style={{ color: isPlaying ? "#00d4ff" : "#3a6080" }}
-          >
-            {isPlaying ? "NOW PLAYING" : "MUSIC PAUSED"}
-          </span>
-          <span
-            className="text-sm font-semibold"
-            style={{ color: isPlaying ? "#fff" : "#5a7090" }}
-          >
-            TRON Legacy
-          </span>
-        </div>
-
-        {/* Play/Pause button */}
-        <button
-          onClick={toggleMusic}
-          className="w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:scale-110 ml-2"
-          style={{
-            background: isPlaying ? "rgba(0,212,255,0.2)" : "rgba(26,58,92,0.5)",
-            borderColor: isPlaying ? "#00d4ff" : "#3a6080"
-          }}
-          title={isPlaying ? "Pause Music" : "Play TRON Legacy Music"}
-        >
-          <span style={{ color: isPlaying ? "#00d4ff" : "#5a7090" }}>
-            {isPlaying ? "⏸" : "▶"}
-          </span>
-        </button>
-      </div>
-
       <NavBar />
 
       {/* Watchdogs Animation Overlay */}
@@ -302,7 +127,7 @@ export default function Home() {
             <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
           </div>
 
-          <BackupManager onHistoryClick={handleBackupHistoryClick} />
+          <BackupManager />
         </div>
       </section>
 

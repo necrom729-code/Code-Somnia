@@ -30,9 +30,8 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Removed necrom terminal widget from hero section
 - [x] Skull digital watchdogs animation — 5 second overlay with hacker emojis on page load
 - [x] Updated watchdogs animation — removed emojis, added moving trick expression with hoodie skull
-- [x] Added TRON Legacy music player — YouTube embed with play/pause toggle
 - [x] Added backup data cloud server feature — BackupManager component with backup history, restore, delete, create new backups (full/incremental)
-- [x] Enhanced music player UI — mini-player with animated visualizer, track info display, and improved play/pause controls
+- [x] Removed TRON Legacy music player — removed YouTube embed, mini-player UI, and related code
 
 ## Current Structure
 
