@@ -32,6 +32,8 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Updated watchdogs animation — removed emojis, added moving trick expression with hoodie skull
 - [x] Added backup data cloud server feature — BackupManager component with backup history, restore, delete, create new backups (full/incremental)
 - [x] Removed TRON Legacy music player — removed YouTube embed, mini-player UI, and related code
+- [x] Enhanced video player — fullscreen support, custom controls overlay, rewind/fast-forward (10s), volume control, keyboard shortcuts
+- [x] Drag-and-drop file upload — visual overlay when dragging files over the file manager
 
 ## Current Structure
 
