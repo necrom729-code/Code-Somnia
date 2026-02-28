@@ -28,7 +28,7 @@ export default function Home() {
 
       (window as any).onYouTubeIframeAPIReady = () => {
         playerRef.current = new (window.YT as any).Player("yt-player", {
-          videoId: "hbK3hB8K7cE",
+          videoId: "G_CnnmRHNsw",
           playerVars: {
             autoplay: 0,
             loop: 1,
@@ -126,7 +126,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
-      {/* YouTube Player - Watch Dogs Main Theme - positioned off-screen */}
+      {/* YouTube Player - TRON Legacy Soundtrack - positioned off-screen */}
       <div 
         id="yt-player" 
         style={{ 
@@ -147,7 +147,7 @@ export default function Home() {
           borderColor: isPlaying ? "#00d4ff" : "#1a3a5c",
           boxShadow: isPlaying ? "0 0 15px rgba(0,212,255,0.5)" : "none"
         }}
-        title={isPlaying ? "Pause Music" : "Play Watch Dogs Music"}
+        title={isPlaying ? "Pause Music" : "Play TRON Legacy Music"}
       >
         <span style={{ color: isPlaying ? "#00d4ff" : "#3a6080" }}>
           {isPlaying ? "🔊" : "🔇"}
