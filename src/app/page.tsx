@@ -3,6 +3,7 @@
 import SkullIcon from "@/components/SkullIcon";
 import HoodedSkullIcon from "@/components/HoodedSkullIcon";
 import FileManager from "@/components/FileManager";
+import BackupManager from "@/components/BackupManager";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -199,6 +200,25 @@ export default function Home() {
 
       {/* Security Features Section */}
       <SecurityFeatures onEnableAll={enableAllSecurity} securityEnabled={securityEnabled} />
+
+      {/* Backup Data Cloud Server Section */}
+      <section className="border-b" style={{ borderColor: "var(--necrom-border)" }}>
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          {/* Section header */}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
+            <div
+              className="text-xs tracking-[0.4em] px-4 py-1 border"
+              style={{ color: "#55efc4", borderColor: "#1a3a5c" }}
+            >
+              BACKUP SERVER
+            </div>
+            <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
+          </div>
+
+          <BackupManager />
+        </div>
+      </section>
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
