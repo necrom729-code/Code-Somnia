@@ -138,21 +138,80 @@ export default function Home() {
         }} 
       />
 
-      {/* Music Control Button */}
-      <button
-        onClick={toggleMusic}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full border flex items-center justify-center transition-all hover:scale-110"
-        style={{ 
-          background: isPlaying ? "rgba(0,212,255,0.2)" : "rgba(0,0,0,0.5)",
+      {/* Music Mini Player */}
+      <div
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-lg border transition-all duration-300 hover:scale-105"
+        style={{
+          background: isPlaying ? "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.7)",
           borderColor: isPlaying ? "#00d4ff" : "#1a3a5c",
-          boxShadow: isPlaying ? "0 0 15px rgba(0,212,255,0.5)" : "none"
+          boxShadow: isPlaying ? "0 0 25px rgba(0,212,255,0.4)" : "0 0 15px rgba(0,0,0,0.5)"
         }}
-        title={isPlaying ? "Pause Music" : "Play TRON Legacy Music"}
       >
-        <span style={{ color: isPlaying ? "#00d4ff" : "#3a6080" }}>
-          {isPlaying ? "🔊" : "🔇"}
-        </span>
-      </button>
+        {/* Album art / visualizer */}
+        <div
+          className="w-10 h-10 rounded flex items-center justify-center relative overflow-hidden"
+          style={{
+            background: isPlaying ? "linear-gradient(135deg, #00d4ff, #0099cc)" : "#1a3a5c"
+          }}
+        >
+          {isPlaying && (
+            <>
+              <div className="absolute bottom-0 left-0 right-0 h-full flex items-end justify-center gap-0.5 pb-1">
+                <div
+                  className="w-1 bg-white/50 rounded-t animate-pulse"
+                  style={{ height: '60%', animationDuration: '0.5s' }}
+                />
+                <div
+                  className="w-1 bg-white/50 rounded-t animate-pulse"
+                  style={{ height: '80%', animationDuration: '0.7s' }}
+                />
+                <div
+                  className="w-1 bg-white/50 rounded-t animate-pulse"
+                  style={{ height: '50%', animationDuration: '0.6s' }}
+                />
+                <div
+                  className="w-1 bg-white/50 rounded-t animate-pulse"
+                  style={{ height: '70%', animationDuration: '0.4s' }}
+                />
+              </div>
+            </>
+          )}
+          <span className="text-lg" style={{ opacity: isPlaying ? 0.3 : 1 }}>
+            🎵
+          </span>
+        </div>
+
+        {/* Track info */}
+        <div className="flex flex-col">
+          <span
+            className="text-xs font-medium tracking-wide"
+            style={{ color: isPlaying ? "#00d4ff" : "#3a6080" }}
+          >
+            {isPlaying ? "NOW PLAYING" : "MUSIC PAUSED"}
+          </span>
+          <span
+            className="text-sm font-semibold"
+            style={{ color: isPlaying ? "#fff" : "#5a7090" }}
+          >
+            TRON Legacy
+          </span>
+        </div>
+
+        {/* Play/Pause button */}
+        <button
+          onClick={toggleMusic}
+          className="w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:scale-110 ml-2"
+          style={{
+            background: isPlaying ? "rgba(0,212,255,0.2)" : "rgba(26,58,92,0.5)",
+            borderColor: isPlaying ? "#00d4ff" : "#3a6080"
+          }}
+          title={isPlaying ? "Pause Music" : "Play TRON Legacy Music"}
+        >
+          <span style={{ color: isPlaying ? "#00d4ff" : "#5a7090" }}>
+            {isPlaying ? "⏸" : "▶"}
+          </span>
+        </button>
+      </div>
 
       <NavBar />
 
