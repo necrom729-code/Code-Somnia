@@ -13,7 +13,11 @@ interface Backup {
   type: "full" | "incremental";
 }
 
-export default function BackupManager() {
+interface BackupManagerProps {
+  onHistoryClick?: () => void;
+}
+
+export default function BackupManager({ onHistoryClick }: BackupManagerProps) {
   const [backups, setBackups] = useState<Backup[]>([
     {
       id: "bkp_001",
@@ -164,12 +168,13 @@ export default function BackupManager() {
       <div className="necrom-panel" style={{ borderColor: "#1a3a5c" }}>
         {/* Header */}
         <div 
-          className="p-3 border-b flex items-center gap-2"
+          className="p-3 border-b flex items-center gap-2 cursor-pointer hover:bg-white/5 transition-colors"
           style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.3)" }}
+          onClick={onHistoryClick}
         >
           <span style={{ color: "#00d4ff" }}>◈</span>
           <span className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
-            BACKUP HISTORY
+            💀 BACKUP HISTORY 💀
           </span>
         </div>
 

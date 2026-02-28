@@ -15,6 +15,7 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const playerRef = useRef<any>(null);
   const ytReady = useRef(false);
+  const [musicTriggered, setMusicTriggered] = useState(false);
 
   // YouTube player API
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function Home() {
 
       (window as any).onYouTubeIframeAPIReady = () => {
         playerRef.current = new (window.YT as any).Player("yt-player", {
-          videoId: "Z-VfaG9ZN_U",
+          videoId: "G_CnnmRHNsw",
           playerVars: {
             autoplay: 0,
             loop: 1,
@@ -35,7 +36,7 @@ export default function Home() {
             modestbranding: 1,
             showinfo: 0,
             iv_load_policy: 3,
-            playlist: "Z-VfaG9ZN_U",
+            playlist: "G_CnnmRHNsw",
           },
           events: {
             onReady: () => {
@@ -52,7 +53,7 @@ export default function Home() {
       };
     } else if ((window.YT as any).Player) {
       playerRef.current = new (window.YT as any).Player("yt-player", {
-        videoId: "Z-VfaG9ZN_U",
+        videoId: "G_CnnmRHNsw",
         playerVars: {
           autoplay: 0,
           loop: 1,
@@ -60,7 +61,7 @@ export default function Home() {
           modestbranding: 1,
           showinfo: 0,
           iv_load_policy: 3,
-          playlist: "Z-VfaG9ZN_U",
+          playlist: "G_CnnmRHNsw",
         },
         events: {
           onReady: () => {
@@ -80,6 +81,17 @@ export default function Home() {
         playerRef.current.playVideo();
       }
       setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Trigger music when backup history is clicked
+  const handleBackupHistoryClick = () => {
+    if (!musicTriggered) {
+      setMusicTriggered(true);
+      if (playerRef.current && ytReady.current) {
+        playerRef.current.playVideo();
+        setIsPlaying(true);
+      }
     }
   };
 
@@ -216,7 +228,7 @@ export default function Home() {
             <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
           </div>
 
-          <BackupManager />
+          <BackupManager onHistoryClick={handleBackupHistoryClick} />
         </div>
       </section>
 
