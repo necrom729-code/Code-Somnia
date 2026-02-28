@@ -28,7 +28,7 @@ export default function Home() {
 
       (window as any).onYouTubeIframeAPIReady = () => {
         playerRef.current = new (window.YT as any).Player("yt-player", {
-          videoId: "G_CnnmRHNsw",
+          videoId: "hbK3hB8K7cE",
           playerVars: {
             autoplay: 0,
             loop: 1,
@@ -36,7 +36,7 @@ export default function Home() {
             modestbranding: 1,
             showinfo: 0,
             iv_load_policy: 3,
-            playlist: "G_CnnmRHNsw",
+            playlist: "hbK3hB8K7cE",
           },
           events: {
             onReady: () => {
@@ -75,12 +75,18 @@ export default function Home() {
   // Toggle background music
   const toggleMusic = () => {
     if (playerRef.current && ytReady.current) {
-      if (isPlaying) {
-        playerRef.current.pauseVideo();
-      } else {
-        playerRef.current.playVideo();
+      try {
+        if (isPlaying) {
+          playerRef.current.pauseVideo();
+        } else {
+          playerRef.current.playVideo();
+        }
+        setIsPlaying(!isPlaying);
+      } catch (e) {
+        console.error("Music playback error:", e);
       }
-      setIsPlaying(!isPlaying);
+    } else {
+      console.log("Player not ready yet");
     }
   };
 
@@ -120,8 +126,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
-      {/* Hidden YouTube Player - TRON Legacy The Game Has Changed */}
-      <div id="yt-player" style={{ display: "none" }}></div>
+      {/* YouTube Player - Watch Dogs Main Theme - positioned off-screen */}
+      <div 
+        id="yt-player" 
+        style={{ 
+          position: 'fixed', 
+          top: '-10000px', 
+          left: '-10000px',
+          width: '1px', 
+          height: '1px' 
+        }} 
+      />
 
       {/* Music Control Button */}
       <button
@@ -132,7 +147,7 @@ export default function Home() {
           borderColor: isPlaying ? "#00d4ff" : "#1a3a5c",
           boxShadow: isPlaying ? "0 0 15px rgba(0,212,255,0.5)" : "none"
         }}
-        title={isPlaying ? "Pause Music" : "Play TRON Music"}
+        title={isPlaying ? "Pause Music" : "Play Watch Dogs Music"}
       >
         <span style={{ color: isPlaying ? "#00d4ff" : "#3a6080" }}>
           {isPlaying ? "🔊" : "🔇"}
