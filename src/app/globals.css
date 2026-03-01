@@ -218,3 +218,41 @@ body::before {
   letter-spacing: 1px;
   border: 1px solid;
 }
+
+/* Video fullscreen styles */
+video:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+
+video:-webkit-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+
+video:-moz-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+
+video:-ms-fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+
+/* Ensure fullscreen video shows controls properly */
+video::-webkit-media-controls {
+  display: flex !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
