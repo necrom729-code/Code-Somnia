@@ -5,17 +5,19 @@ import HoodedSkullIcon from "@/components/HoodedSkullIcon";
 import FileManager from "@/components/FileManager";
 import BackupManager from "@/components/BackupManager";
 import { useAuth } from "@/lib/auth";
+import { useSecurity } from "@/lib/security";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, startTransition } from "react";
 
 export default function Home() {
   const [showWatchdogs, setShowWatchdogs] = useState(false);
-  const [securityEnabled, setSecurityEnabled] = useState(false);
+  const [showSecurityPanel, setShowSecurityPanel] = useState(false);
+  const { protections, isAllEnabled, enableAll, logs, threatsBlockedTotal, lastFullScan } = useSecurity();
 
   // Enable all security protections
   const enableAllSecurity = () => {
-    setSecurityEnabled(true);
+    enableAll();
     setShowWatchdogs(true);
     // Reset after animation
     setTimeout(() => {
@@ -41,7 +43,12 @@ export default function Home() {
       <NavBar />
 
       {/* Watchdogs Animation Overlay */}
-      {showWatchdogs && <WatchdogsAnimation securityActivation={securityEnabled} />}
+      {showWatchdogs && <WatchdogsAnimation securityActivation={isAllEnabled} />}
+
+      {/* Security Panel Modal */}
+      {showSecurityPanel && (
+        <SecurityPanel onClose={() => setShowSecurityPanel(false)} />
+      )}
 
       {/* Hero / Header */}
       <header
@@ -110,7 +117,13 @@ export default function Home() {
       <IntroductionSection />
 
       {/* Security Features Section */}
-      <SecurityFeatures onEnableAll={enableAllSecurity} securityEnabled={securityEnabled} />
+      <SecurityFeatures 
+        onEnableAll={enableAllSecurity} 
+        securityEnabled={isAllEnabled}
+        onViewDetails={() => setShowSecurityPanel(true)}
+        threatsBlocked={threatsBlockedTotal}
+        lastScan={lastFullScan}
+      />
 
       {/* Backup Data Cloud Server Section */}
       <section className="border-b" style={{ borderColor: "var(--necrom-border)" }}>
@@ -346,15 +359,20 @@ function StorageUsage() {
   );
 }
 
-function SecurityFeatures({ onEnableAll, securityEnabled }: { onEnableAll?: () => void; securityEnabled?: boolean }) {
-  const features = [
-    { icon: "🛡️", name: "ANTIVIRUS", status: "ACTIVE", desc: "Real-time threat detection & removal" },
-    { icon: "🔒", name: "PRIVACY VPN", status: "ACTIVE", desc: "Encrypted tunnel for all connections" },
-    { icon: "🔥", name: "FIREWALL", status: "ACTIVE", desc: "Advanced packet filtering & monitoring" },
-    { icon: "🔐", name: "END-TO-END", status: "ACTIVE", desc: "Military-grade AES-256 encryption" },
-    { icon: "👁️", name: "WATCHDOGS", status: "ACTIVE", desc: "24/7 intrusion detection system" },
-    { icon: "📊", name: "AUDIT LOG", status: "ACTIVE", desc: "Complete activity tracking & forensics" },
-  ];
+function SecurityFeatures({ 
+  onEnableAll, 
+  securityEnabled,
+  onViewDetails,
+  threatsBlocked,
+  lastScan
+}: { 
+  onEnableAll?: () => void; 
+  securityEnabled?: boolean;
+  onViewDetails?: () => void;
+  threatsBlocked?: number;
+  lastScan?: string | null;
+}) {
+  const { protections, toggleProtection } = useSecurity();
 
   return (
     <section className="border-b" style={{ borderColor: "var(--necrom-border)" }}>
@@ -373,56 +391,82 @@ function SecurityFeatures({ onEnableAll, securityEnabled }: { onEnableAll?: () =
 
         {/* Features grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {features.map((feature, index) => (
+          {(Object.values(protections) as typeof protections[keyof typeof protections][]).map((feature) => (
             <div
-              key={index}
+              key={feature.id}
               className="necrom-panel p-4 text-center hover:scale-105 transition-transform cursor-pointer group"
-              style={{ borderColor: "#1a3a5c" }}
-              onClick={onEnableAll}
+              style={{ 
+                borderColor: feature.enabled ? "#55efc4" : "#1a3a5c",
+                background: feature.enabled ? "rgba(85, 239, 196, 0.05)" : undefined
+              }}
+              onClick={() => toggleProtection(feature.id)}
             >
               <div className="text-3xl mb-2 group-hover:animate-spin-slow">{feature.icon}</div>
               <div 
                 className="text-xs font-bold tracking-wider mb-1" 
-                style={{ color: "#c0392b" }}
+                style={{ color: feature.enabled ? "#55efc4" : "#c0392b" }}
               >
                 {feature.name}
               </div>
               <div 
                 className="text-[10px] tracking-[0.2em] mb-1" 
-                style={{ color: securityEnabled ? "#55efc4" : "#ff3a3a" }}
+                style={{ color: feature.enabled ? "#55efc4" : "#ff3a3a" }}
               >
-                {securityEnabled ? "PROTECTED" : feature.status}
+                {feature.enabled ? "ACTIVE" : "OFFLINE"}
               </div>
               <div className="text-[9px]" style={{ color: "#3a6080" }}>
-                {feature.desc}
+                {feature.description}
               </div>
-              {!securityEnabled && (
-                <div className="text-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#00d4ff" }}>
-                  [CLICK TO ENABLE]
+              {feature.enabled && feature.threatsBlocked > 0 && (
+                <div className="text-[8px] mt-1" style={{ color: "#ff3a3a" }}>
+                  BLOCKED: {feature.threatsBlocked}
                 </div>
               )}
+              <div className="text-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#00d4ff" }}>
+                [CLICK TO {feature.enabled ? "DISABLE" : "ENABLE"}]
+              </div>
             </div>
           ))}
         </div>
 
         {/* Security status bar */}
         <div 
-          className="mt-6 p-3 border flex items-center justify-between"
+          className="mt-6 p-3 border flex items-center justify-between flex-wrap gap-4"
           style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.3)" }}
         >
-          <div className="flex items-center gap-2">
-            <div 
-              className="w-2 h-2 rounded-full animate-pulse"
-              style={{ background: securityEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 8px ${securityEnabled ? "#55efc4" : "#ff3a3a"}` }}
-            />
-            <span className="text-xs tracking-widest" style={{ color: securityEnabled ? "#55efc4" : "#ff3a3a" }}>
-              {securityEnabled ? "ALL SECURITY SYSTEMS OPERATIONAL" : "CLICK ANY PROTECTION TO ACTIVATE"}
-            </span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div 
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ background: securityEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 8px ${securityEnabled ? "#55efc4" : "#ff3a3a"}` }}
+              />
+              <span className="text-xs tracking-widest" style={{ color: securityEnabled ? "#55efc4" : "#ff3a3a" }}>
+                {securityEnabled ? "ALL SECURITY SYSTEMS OPERATIONAL" : "SOME SYSTEMS OFFLINE"}
+              </span>
+            </div>
+            <div className="flex items-center gap-4 text-xs" style={{ color: "#3a6080" }}>
+              <span>THREATS BLOCKED: {threatsBlocked || 0}</span>
+              <span>|</span>
+              <span>LAST SCAN: {lastScan || "NEVER"}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-xs" style={{ color: "#3a6080" }}>
-            <span>THREATS BLOCKED: {securityEnabled ? "0" : "--"}</span>
-            <span>|</span>
-            <span>LAST SCAN: {securityEnabled ? "JUST NOW" : "NEVER"}</span>
+          <div className="flex items-center gap-3">
+            {!securityEnabled && (
+              <button
+                onClick={onEnableAll}
+                className="text-xs px-3 py-1 border hover:bg-cyan-900/30 transition-colors"
+                style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
+              >
+                ENABLE ALL
+              </button>
+            )}
+            <button
+              onClick={onViewDetails}
+              className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
+              style={{ color: "#c0392b", borderColor: "#c0392b" }}
+            >
+              VIEW DETAILS
+            </button>
           </div>
         </div>
       </div>
@@ -681,6 +725,262 @@ function WatchdogsAnimation({ securityActivation }: { securityActivation?: boole
           }}
         >
           {message.subtitle}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Security Panel - Detailed security management interface
+function SecurityPanel({ onClose }: { onClose: () => void }) {
+  const { protections, logs, backups, toggleProtection, runScan, createBackup, deleteBackup, restoreBackup, isAllEnabled, enableAll, disableAll, threatsBlockedTotal } = useSecurity();
+  const [activeTab, setActiveTab] = useState<"protections" | "logs" | "backups">("protections");
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.9)" }}>
+      <div className="necrom-panel w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col" style={{ borderColor: "#c0392b" }}>
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: "#1a3a5c" }}>
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: isAllEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 10px ${isAllEnabled ? "#55efc4" : "#ff3a3a"}` }} />
+            <span className="text-lg font-bold tracking-widest" style={{ color: "#c0392b" }}>
+              SECURITY CONTROL CENTER
+            </span>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
+            style={{ color: "#c0392b", borderColor: "#c0392b" }}
+          >
+            CLOSE [X]
+          </button>
+        </div>
+
+        {/* Stats Bar */}
+        <div className="flex items-center justify-between p-3 border-b" style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.5)" }}>
+          <div className="flex items-center gap-6 text-xs">
+            <span style={{ color: "#3a6080" }}>
+              ACTIVE PROTECTIONS: <span style={{ color: isAllEnabled ? "#55efc4" : "#ff3a3a" }}>{Object.values(protections).filter(p => p.enabled).length}/6</span>
+            </span>
+            <span style={{ color: "#3a6080" }}>
+              THREATS BLOCKED: <span style={{ color: "#ff3a3a" }}>{threatsBlockedTotal}</span>
+            </span>
+            <span style={{ color: "#3a6080" }}>
+              BACKUPS: <span style={{ color: "#55efc4" }}>{backups.length}</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            {!isAllEnabled ? (
+              <button
+                onClick={enableAll}
+                className="text-xs px-3 py-1 border hover:bg-green-900/30 transition-colors"
+                style={{ color: "#55efc4", borderColor: "#55efc4" }}
+              >
+                ENABLE ALL SYSTEMS
+              </button>
+            ) : (
+              <button
+                onClick={disableAll}
+                className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
+                style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
+              >
+                DISABLE ALL SYSTEMS
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex border-b" style={{ borderColor: "#1a3a5c" }}>
+          {(["protections", "logs", "backups"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="flex-1 py-2 text-xs tracking-widest transition-colors uppercase"
+              style={{
+                color: activeTab === tab ? "#c0392b" : "#3a6080",
+                background: activeTab === tab ? "rgba(192,57,43,0.1)" : undefined,
+                borderBottom: activeTab === tab ? "2px solid #c0392b" : undefined,
+              }}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-auto p-4">
+          {activeTab === "protections" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {(Object.values(protections) as typeof protections[keyof typeof protections][]).map((protection) => (
+                <div
+                  key={protection.id}
+                  className="p-4 border transition-all"
+                  style={{
+                    borderColor: protection.enabled ? "#55efc4" : "#1a3a5c",
+                    background: protection.enabled ? "rgba(85, 239, 196, 0.05)" : "rgba(0,0,0,0.3)",
+                  }}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{protection.icon}</span>
+                      <div>
+                        <div className="text-sm font-bold" style={{ color: protection.enabled ? "#55efc4" : "#c0392b" }}>
+                          {protection.name}
+                        </div>
+                        <div className="text-[10px]" style={{ color: "#3a6080" }}>
+                          {protection.description}
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => toggleProtection(protection.id)}
+                      className="w-10 h-5 border relative transition-colors"
+                      style={{ borderColor: protection.enabled ? "#55efc4" : "#1a3a5c" }}
+                    >
+                      <div
+                        className="absolute top-0.5 w-3.5 h-3.5 transition-all"
+                        style={{
+                          background: protection.enabled ? "#55efc4" : "#ff3a3a",
+                          left: protection.enabled ? "calc(100% - 1rem)" : "2px",
+                          boxShadow: protection.enabled ? "0 0 6px #55efc4" : "0 0 6px #ff3a3a",
+                        }}
+                      />
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between text-[10px]" style={{ color: "#3a6080" }}>
+                    <span>STATUS: <span style={{ color: protection.enabled ? "#55efc4" : "#ff3a3a" }}>{protection.enabled ? "ACTIVE" : "OFFLINE"}</span></span>
+                    {protection.enabled && (
+                      <button
+                        onClick={() => runScan(protection.id)}
+                        className="text-[10px] px-2 py-0.5 border hover:bg-cyan-900/30 transition-colors"
+                        style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
+                      >
+                        RUN SCAN
+                      </button>
+                    )}
+                  </div>
+                  {protection.enabled && protection.lastScan && (
+                    <div className="mt-2 text-[10px]" style={{ color: "#3a6080" }}>
+                      Last scan: {protection.lastScan}
+                      {protection.threatsBlocked > 0 && (
+                        <span style={{ color: "#ff3a3a" }}> | Blocked: {protection.threatsBlocked}</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "logs" && (
+            <div className="space-y-2">
+              {logs.length === 0 ? (
+                <div className="text-center py-8 text-xs" style={{ color: "#3a6080" }}>
+                  NO SECURITY EVENTS RECORDED
+                </div>
+              ) : (
+                logs.map((log) => (
+                  <div
+                    key={log.id}
+                    className="flex items-center gap-3 p-2 border text-xs"
+                    style={{ 
+                      borderColor: "#1a3a5c",
+                      background: log.type === "threat" ? "rgba(255,58,58,0.1)" : 
+                                  log.type === "warning" ? "rgba(255,165,0,0.1)" : 
+                                  log.type === "success" ? "rgba(85,239,196,0.1)" : undefined
+                    }}
+                  >
+                    <span style={{ color: "#3a6080" }}>[{log.timestamp}]</span>
+                    <span
+                      style={{
+                        color: log.type === "threat" ? "#ff3a3a" :
+                               log.type === "warning" ? "#ffa500" :
+                               log.type === "success" ? "#55efc4" : "#00d4ff",
+                      }}
+                    >
+                      {log.type.toUpperCase()}
+                    </span>
+                    <span style={{ color: "#a0c8e0" }}>{log.source}</span>
+                    <span style={{ color: "#fff" }}>{log.message}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
+          {activeTab === "backups" && (
+            <div className="space-y-4">
+              {/* Create Backup */}
+              <div className="flex gap-2 mb-4">
+                <button
+                  onClick={() => createBackup(`Full Backup ${new Date().toLocaleDateString()}`, "full")}
+                  className="flex-1 py-2 border text-xs hover:bg-green-900/30 transition-colors"
+                  style={{ color: "#55efc4", borderColor: "#55efc4" }}
+                >
+                  CREATE FULL BACKUP
+                </button>
+                <button
+                  onClick={() => createBackup(`Incremental ${new Date().toLocaleTimeString()}`, "incremental")}
+                  className="flex-1 py-2 border text-xs hover:bg-cyan-900/30 transition-colors"
+                  style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
+                >
+                  CREATE INCREMENTAL
+                </button>
+              </div>
+
+              {/* Backup List */}
+              <div className="space-y-2">
+                {backups.map((backup) => (
+                  <div
+                    key={backup.id}
+                    className="flex items-center justify-between p-3 border"
+                    style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.3)" }}
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm" style={{ color: "#a0c8e0" }}>{backup.name}</span>
+                        <span
+                          className="text-[8px] px-1.5 py-0.5"
+                          style={{
+                            color: backup.type === "full" ? "#55efc4" : "#00d4ff",
+                            border: `1px solid ${backup.type === "full" ? "#55efc4" : "#00d4ff"}`,
+                          }}
+                        >
+                          {backup.type.toUpperCase()}
+                        </span>
+                        {backup.status === "in_progress" && (
+                          <span className="text-[8px] animate-pulse" style={{ color: "#ffa500" }}>
+                            IN PROGRESS...
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[10px] mt-1" style={{ color: "#3a6080" }}>
+                        {backup.size} • {backup.date}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => restoreBackup(backup.id)}
+                        disabled={backup.status !== "complete"}
+                        className="text-[10px] px-2 py-1 border hover:bg-cyan-900/30 transition-colors disabled:opacity-50"
+                        style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
+                      >
+                        RESTORE
+                      </button>
+                      <button
+                        onClick={() => deleteBackup(backup.id)}
+                        className="text-[10px] px-2 py-1 border hover:bg-red-900/30 transition-colors"
+                        style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
+                      >
+                        DELETE
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
