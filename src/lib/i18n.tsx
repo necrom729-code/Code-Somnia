@@ -148,6 +148,57 @@ const translations: Translations = {
     "common.off": "OFF",
     "common.enabled": "ENABLED",
     "common.disabled": "DISABLED",
+    
+    // Introduction
+    "intro.title": "HOW IT WORKS",
+    "intro.step1.title": "UPLOAD YOUR FILES",
+    "intro.step1.desc": "Drag and drop or click to upload any file type - documents, images, videos, audio, and more.",
+    "intro.step2.title": "ENCRYPTION ACTIVE",
+    "intro.step2.desc": "Every file is encrypted with AES-256 military-grade encryption before leaving your device.",
+    "intro.step3.title": "SECURE STORAGE",
+    "intro.step3.desc": "Your encrypted files are stored in our protected cloud with 24/7 watchdog monitoring.",
+    "intro.step4.title": "ACCESS ANYWHERE",
+    "intro.step4.desc": "Access your files from any device. Your data stays protected with end-to-end security.",
+    "intro.cta.ready": "READY TO GET STARTED?",
+    "intro.cta.scroll": "SCROLL DOWN TO UPLOAD",
+    
+    // Nav
+    "nav.cloudServer": "CLOUD SERVER v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "ACTIVATING PROTECTION",
+    "watchdogs.activating.subtitle": "Enabling all security systems...",
+    "watchdogs.safe.title": "ALL CLEAR",
+    "watchdogs.safe.subtitle": "There are no intruders, your data is safe.",
+    "watchdogs.threat.title": "THREAT DETECTED",
+    "watchdogs.threat.subtitle": "Don't worry, your data was protected by NECROM. Please wait a while.",
+    "watchdogs.scanning.title": "WATCHDOGS ACTIVE",
+    "watchdogs.scanning.subtitle": "SCANNING FOR INTRUDERS...",
+    
+    // Security Panel
+    "securityPanel.title": "SECURITY CONTROL CENTER",
+    "securityPanel.close": "CLOSE [X]",
+    "securityPanel.activeProtections": "ACTIVE PROTECTIONS",
+    "securityPanel.backups": "BACKUPS",
+    "securityPanel.enableAll": "ENABLE ALL SYSTEMS",
+    "securityPanel.disableAll": "DISABLE ALL SYSTEMS",
+    "securityPanel.tab.protections": "PROTECTIONS",
+    "securityPanel.tab.logs": "LOGS",
+    "securityPanel.tab.backups": "BACKUPS",
+    
+    // Protection Names
+    "protection.antivirus.name": "ANTIVIRUS",
+    "protection.antivirus.desc": "Real-time threat detection & removal",
+    "protection.vpn.name": "PRIVACY VPN",
+    "protection.vpn.desc": "Encrypted tunnel for all connections",
+    "protection.firewall.name": "FIREWALL",
+    "protection.firewall.desc": "Advanced packet filtering & monitoring",
+    "protection.encryption.name": "END-TO-END",
+    "protection.encryption.desc": "Military-grade AES-256 encryption",
+    "protection.watchdogs.name": "WATCHDOGS",
+    "protection.watchdogs.desc": "24/7 intrusion detection system",
+    "protection.audit.name": "AUDIT LOG",
+    "protection.audit.desc": "Complete activity tracking & forensics",
   },
   es: {
     // Navigation
@@ -274,6 +325,57 @@ const translations: Translations = {
     "common.off": "OFF",
     "common.enabled": "ACTIVADO",
     "common.disabled": "DESACTIVADO",
+    
+    // Introduction
+    "intro.title": "CÓMO FUNCIONA",
+    "intro.step1.title": "SUBE TUS ARCHIVOS",
+    "intro.step1.desc": "Arrastra y suelta o haz clic para subir cualquier tipo de archivo - documentos, imágenes, videos, audio y más.",
+    "intro.step2.title": "ENCRIPTACIÓN ACTIVA",
+    "intro.step2.desc": "Cada archivo se encripta con encriptación AES-256 de grado militar antes de salir de tu dispositivo.",
+    "intro.step3.title": "ALMACENAMIENTO SEGURO",
+    "intro.step3.desc": "Tus archivos encriptados se almacenan en nuestra nube protegida con monitoreo 24/7.",
+    "intro.step4.title": "ACCESO EN CUALQUIER LUGAR",
+    "intro.step4.desc": "Accede a tus archivos desde cualquier dispositivo. Tus datos permanecen protegidos con seguridad de extremo a extremo.",
+    "intro.cta.ready": "¿LISTO PARA COMENZAR?",
+    "intro.cta.scroll": "DESPLÁZATE HACIA ABAJO PARA SUBIR",
+    
+    // Nav
+    "nav.cloudServer": "SERVIDOR EN LA NUBE v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "ACTIVANDO PROTECCIÓN",
+    "watchdogs.activating.subtitle": "Activando todos los sistemas de seguridad...",
+    "watchdogs.safe.title": "TODO CLARO",
+    "watchdogs.safe.subtitle": "No hay intrusos, tus datos están seguros.",
+    "watchdogs.threat.title": "AMENAZA DETECTADA",
+    "watchdogs.threat.subtitle": "No te preocupes, tus datos fueron protegidos por NECROM. Por favor espera un momento.",
+    "watchdogs.scanning.title": "VIGILANTES ACTIVOS",
+    "watchdogs.scanning.subtitle": "ESCANEANDO INTRUSOS...",
+    
+    // Security Panel
+    "securityPanel.title": "CENTRO DE CONTROL DE SEGURIDAD",
+    "securityPanel.close": "CERRAR [X]",
+    "securityPanel.activeProtections": "PROTECCIONES ACTIVAS",
+    "securityPanel.backups": "RESPALDOS",
+    "securityPanel.enableAll": "ACTIVAR TODOS LOS SISTEMAS",
+    "securityPanel.disableAll": "DESACTIVAR TODOS LOS SISTEMAS",
+    "securityPanel.tab.protections": "PROTECCIONES",
+    "securityPanel.tab.logs": "REGISTROS",
+    "securityPanel.tab.backups": "RESPALDOS",
+    
+    // Protection Names
+    "protection.antivirus.name": "ANTIVIRUS",
+    "protection.antivirus.desc": "Detección y eliminación de amenazas en tiempo real",
+    "protection.vpn.name": "VPN PRIVADA",
+    "protection.vpn.desc": "Túnel encriptado para todas las conexiones",
+    "protection.firewall.name": "CORTAFUEGOS",
+    "protection.firewall.desc": "Filtrado avanzado de paquetes y monitoreo",
+    "protection.encryption.name": "CIFRADO EXTREMO",
+    "protection.encryption.desc": "Cifrado AES-256 de grado militar",
+    "protection.watchdogs.name": "VIGILANTES",
+    "protection.watchdogs.desc": "Sistema de detección de intrusiones 24/7",
+    "protection.audit.name": "REGISTRO DE AUDITORÍA",
+    "protection.audit.desc": "Seguimiento completo de actividad y forense",
   },
   fr: {
     // Navigation
@@ -400,6 +502,57 @@ const translations: Translations = {
     "common.off": "OFF",
     "common.enabled": "ACTIVÉ",
     "common.disabled": "DÉSACTIVÉ",
+    
+    // Introduction
+    "intro.title": "COMMENT ÇA MARCHE",
+    "intro.step1.title": "TÉLÉCHARGEZ VOS FICHIERS",
+    "intro.step1.desc": "Glissez-déposez ou cliquez pour télécharger tout type de fichier - documents, images, vidéos, audio et plus.",
+    "intro.step2.title": "CHIFFREMENT ACTIF",
+    "intro.step2.desc": "Chaque fichier est chiffré avec un chiffrement AES-256 de qualité militaire avant de quitter votre appareil.",
+    "intro.step3.title": "STOCKAGE SÉCURISÉ",
+    "intro.step3.desc": "Vos fichiers chiffrés sont stockés dans notre cloud protégé avec surveillance 24/7.",
+    "intro.step4.title": "ACCÈS PARTOUT",
+    "intro.step4.desc": "Accédez à vos fichiers depuis n'importe quel appareil. Vos données restent protégées avec une sécurité de bout en bout.",
+    "intro.cta.ready": "PRÊT À COMMENCER?",
+    "intro.cta.scroll": "DÉFILEZ VERS LE BAS POUR TÉLÉCHARGER",
+    
+    // Nav
+    "nav.cloudServer": "SERVEUR CLOUD v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "ACTIVATION DE LA PROTECTION",
+    "watchdogs.activating.subtitle": "Activation de tous les systèmes de sécurité...",
+    "watchdogs.safe.title": "TOUT EST CLAIR",
+    "watchdogs.safe.subtitle": "Il n'y a pas d'intrus, vos données sont en sécurité.",
+    "watchdogs.threat.title": "MENACE DÉTECTÉE",
+    "watchdogs.threat.subtitle": "Ne vous inquiétez pas, vos données ont été protégées par NECROM. Veuillez patienter un moment.",
+    "watchdogs.scanning.title": "GARDIENS ACTIFS",
+    "watchdogs.scanning.subtitle": "DÉTECTION D'INTRUS...",
+    
+    // Security Panel
+    "securityPanel.title": "CENTRE DE CONTRÔLE DE SÉCURITÉ",
+    "securityPanel.close": "FERMER [X]",
+    "securityPanel.activeProtections": "PROTECTIONS ACTIVES",
+    "securityPanel.backups": "SAUVEGARDES",
+    "securityPanel.enableAll": "ACTIVER TOUS LES SYSTÈMES",
+    "securityPanel.disableAll": "DÉSACTIVER TOUS LES SYSTÈMES",
+    "securityPanel.tab.protections": "PROTECTIONS",
+    "securityPanel.tab.logs": "JOURNAUX",
+    "securityPanel.tab.backups": "SAUVEGARDES",
+    
+    // Protection Names
+    "protection.antivirus.name": "ANTIVIRUS",
+    "protection.antivirus.desc": "Détection et suppression des menaces en temps réel",
+    "protection.vpn.name": "VPN PRIVÉ",
+    "protection.vpn.desc": "Tunnel chiffré pour toutes les connexions",
+    "protection.firewall.name": "PARE-FEU",
+    "protection.firewall.desc": "Filtrage avancé des paquets et surveillance",
+    "protection.encryption.name": "CHIFFREMENT",
+    "protection.encryption.desc": "Chiffrement AES-256 de qualité militaire",
+    "protection.watchdogs.name": "GARDIENS",
+    "protection.watchdogs.desc": "Système de détection d'intrusion 24/7",
+    "protection.audit.name": "JOURNAL D'AUDIT",
+    "protection.audit.desc": "Suivi complet de l'activité et forensique",
   },
   de: {
     // Navigation
@@ -526,6 +679,57 @@ const translations: Translations = {
     "common.off": "OFF",
     "common.enabled": "AKTIVIERT",
     "common.disabled": "DEAKTIVIERT",
+    
+    // Introduction
+    "intro.title": "WIE ES FUNKTIONIERT",
+    "intro.step1.title": "DATEIEN HOCHLADEN",
+    "intro.step1.desc": "Ziehen und Ablegen oder klicken Sie, um jeden Dateityp hochzuladen - Dokumente, Bilder, Videos, Audio und mehr.",
+    "intro.step2.title": "VERSCHLÜSSELUNG AKTIV",
+    "intro.step2.desc": "Jede Datei wird mit AES-256-Militärverschlüsselung verschlüsselt, bevor sie Ihr Gerät verlässt.",
+    "intro.step3.title": "SICHERER SPEICHER",
+    "intro.step3.desc": "Ihre verschlüsselten Dateien werden in unserer geschützten Cloud mit 24/7-Überwachung gespeichert.",
+    "intro.step4.title": "VON ÜBERALL ZUGREIFEN",
+    "intro.step4.desc": "Greifen Sie von jedem Gerät auf Ihre Dateien zu. Ihre Daten bleiben mit End-to-End-Sicherheit geschützt.",
+    "intro.cta.ready": "BEREIT ZU STARTEN?",
+    "intro.cta.scroll": "NACH UNTEN SCROLLEN ZUM HOCHLADEN",
+    
+    // Nav
+    "nav.cloudServer": "CLOUD-SERVER v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "SCHUTZ WIRD AKTIVIERT",
+    "watchdogs.activating.subtitle": "Alle Sicherheitssysteme werden aktiviert...",
+    "watchdogs.safe.title": "ALLES KLAR",
+    "watchdogs.safe.subtitle": "Es gibt keine Eindringlinge, Ihre Daten sind sicher.",
+    "watchdogs.threat.title": "BEDROHUNG ERKANNT",
+    "watchdogs.threat.subtitle": "Keine Sorge, Ihre Daten wurden von NECROM geschützt. Bitte warten Sie einen Moment.",
+    "watchdogs.scanning.title": "WÄCHTER AKTIV",
+    "watchdogs.scanning.subtitle": "SCANNE NACH EINDRINGLINGEN...",
+    
+    // Security Panel
+    "securityPanel.title": "SICHERHEITSKONTROLLZENTRUM",
+    "securityPanel.close": "SCHLIESSEN [X]",
+    "securityPanel.activeProtections": "AKTIVE SCHUTZSYSTEME",
+    "securityPanel.backups": "BACKUPS",
+    "securityPanel.enableAll": "ALLE SYSTEME AKTIVIEREN",
+    "securityPanel.disableAll": "ALLE SYSTEME DEAKTIVIEREN",
+    "securityPanel.tab.protections": "SCHUTZ",
+    "securityPanel.tab.logs": "PROTOKOLLE",
+    "securityPanel.tab.backups": "BACKUPS",
+    
+    // Protection Names
+    "protection.antivirus.name": "ANTIVIRUS",
+    "protection.antivirus.desc": "Echtzeit-Bedrohungserkennung & -entfernung",
+    "protection.vpn.name": "PRIVATES VPN",
+    "protection.vpn.desc": "Verschlüsselter Tunnel für alle Verbindungen",
+    "protection.firewall.name": "FIREWALL",
+    "protection.firewall.desc": "Erweiterte Paketfilterung & Überwachung",
+    "protection.encryption.name": "END-TO-END",
+    "protection.encryption.desc": "Militärgrad-AES-256-Verschlüsselung",
+    "protection.watchdogs.name": "WÄCHTER",
+    "protection.watchdogs.desc": "24/7 Einbruchserkennungssystem",
+    "protection.audit.name": "PRÜFPROTOKOLL",
+    "protection.audit.desc": "Vollständige Aktivitätsverfolgung & Forensik",
   },
   zh: {
     // Navigation
@@ -652,6 +856,57 @@ const translations: Translations = {
     "common.off": "关",
     "common.enabled": "已启用",
     "common.disabled": "已禁用",
+    
+    // Introduction
+    "intro.title": "工作原理",
+    "intro.step1.title": "上传您的文件",
+    "intro.step1.desc": "拖放或点击上传任何文件类型 - 文档、图片、视频、音频等。",
+    "intro.step2.title": "加密已激活",
+    "intro.step2.desc": "每个文件在离开您的设备之前都会使用军用级AES-256加密进行加密。",
+    "intro.step3.title": "安全存储",
+    "intro.step3.desc": "您的加密文件存储在我们受保护的云中，并提供24/7监控。",
+    "intro.step4.title": "随处访问",
+    "intro.step4.desc": "从任何设备访问您的文件。您的数据通过端到端安全保持保护。",
+    "intro.cta.ready": "准备好开始了吗？",
+    "intro.cta.scroll": "向下滚动以上传",
+    
+    // Nav
+    "nav.cloudServer": "云服务器 v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "正在激活保护",
+    "watchdogs.activating.subtitle": "正在启用所有安全系统...",
+    "watchdogs.safe.title": "一切正常",
+    "watchdogs.safe.subtitle": "没有入侵者，您的数据是安全的。",
+    "watchdogs.threat.title": "检测到威胁",
+    "watchdogs.threat.subtitle": "别担心，您的数据已被NECROM保护。请稍等片刻。",
+    "watchdogs.scanning.title": "看门狗已激活",
+    "watchdogs.scanning.subtitle": "正在扫描入侵者...",
+    
+    // Security Panel
+    "securityPanel.title": "安全控制中心",
+    "securityPanel.close": "关闭 [X]",
+    "securityPanel.activeProtections": "活动保护",
+    "securityPanel.backups": "备份",
+    "securityPanel.enableAll": "启用所有系统",
+    "securityPanel.disableAll": "禁用所有系统",
+    "securityPanel.tab.protections": "保护",
+    "securityPanel.tab.logs": "日志",
+    "securityPanel.tab.backups": "备份",
+    
+    // Protection Names
+    "protection.antivirus.name": "防病毒",
+    "protection.antivirus.desc": "实时威胁检测与清除",
+    "protection.vpn.name": "隐私VPN",
+    "protection.vpn.desc": "所有连接的加密隧道",
+    "protection.firewall.name": "防火墙",
+    "protection.firewall.desc": "高级数据包过滤与监控",
+    "protection.encryption.name": "端到端加密",
+    "protection.encryption.desc": "军用级AES-256加密",
+    "protection.watchdogs.name": "看门狗",
+    "protection.watchdogs.desc": "24/7入侵检测系统",
+    "protection.audit.name": "审计日志",
+    "protection.audit.desc": "完整的活动跟踪与取证",
   },
   ja: {
     // Navigation
@@ -778,6 +1033,57 @@ const translations: Translations = {
     "common.off": "オフ",
     "common.enabled": "有効",
     "common.disabled": "無効",
+    
+    // Introduction
+    "intro.title": "使い方",
+    "intro.step1.title": "ファイルをアップロード",
+    "intro.step1.desc": "ドラッグ＆ドロップまたはクリックして、ドキュメント、画像、動画、音声などのファイルをアップロードします。",
+    "intro.step2.title": "暗号化有効",
+    "intro.step2.desc": "すべてのファイルは、デバイスから送信される前に軍事グレードのAES-256暗号化で暗号化されます。",
+    "intro.step3.title": "安全なストレージ",
+    "intro.step3.desc": "暗号化されたファイルは、24時間365日の監視付きで保護されたクラウドに保存されます。",
+    "intro.step4.title": "どこからでもアクセス",
+    "intro.step4.desc": "あらゆるデバイスからファイルにアクセス。データはエンドツーエンドのセキュリティで保護されます。",
+    "intro.cta.ready": "始める準備はできましたか？",
+    "intro.cta.scroll": "下にスクロールしてアップロード",
+    
+    // Nav
+    "nav.cloudServer": "クラウドサーバー v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "保護を有効化中",
+    "watchdogs.activating.subtitle": "すべてのセキュリティシステムを有効化中...",
+    "watchdogs.safe.title": "すべて正常",
+    "watchdogs.safe.subtitle": "侵入者はいません。データは安全です。",
+    "watchdogs.threat.title": "脅威を検出",
+    "watchdogs.threat.subtitle": "ご心配なく。データはNECROMによって保護されました。しばらくお待ちください。",
+    "watchdogs.scanning.title": "ウォッチドッグ有効",
+    "watchdogs.scanning.subtitle": "侵入者をスキャン中...",
+    
+    // Security Panel
+    "securityPanel.title": "セキュリティコントロールセンター",
+    "securityPanel.close": "閉じる [X]",
+    "securityPanel.activeProtections": "アクティブな保護",
+    "securityPanel.backups": "バックアップ",
+    "securityPanel.enableAll": "すべてのシステムを有効化",
+    "securityPanel.disableAll": "すべてのシステムを無効化",
+    "securityPanel.tab.protections": "保護",
+    "securityPanel.tab.logs": "ログ",
+    "securityPanel.tab.backups": "バックアップ",
+    
+    // Protection Names
+    "protection.antivirus.name": "アンチウイルス",
+    "protection.antivirus.desc": "リアルタイム脅威検出と除去",
+    "protection.vpn.name": "プライバシーVPN",
+    "protection.vpn.desc": "すべての接続の暗号化トンネル",
+    "protection.firewall.name": "ファイアウォール",
+    "protection.firewall.desc": "高度なパケットフィルタリングと監視",
+    "protection.encryption.name": "エンドツーエンド暗号化",
+    "protection.encryption.desc": "軍事グレードAES-256暗号化",
+    "protection.watchdogs.name": "ウォッチドッグ",
+    "protection.watchdogs.desc": "24時間365日の侵入検出システム",
+    "protection.audit.name": "監査ログ",
+    "protection.audit.desc": "完全なアクティビティ追跡とフォレンジック",
   },
 };
 

@@ -214,7 +214,7 @@ function NavBar() {
             NECROM
           </div>
           <div className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
-            CLOUD SERVER v2.7.7
+            {t("nav.cloudServer")}
           </div>
         </div>
       </div>
@@ -565,29 +565,31 @@ function SecurityFeatures({
 
 // Introduction Section for New Users
 function IntroductionSection() {
+  const { t } = useI18n();
+  
   const steps = [
     {
       step: "01",
-      title: "UPLOAD YOUR FILES",
-      desc: "Drag and drop or click to upload any file type - documents, images, videos, audio, and more.",
+      title: t("intro.step1.title"),
+      desc: t("intro.step1.desc"),
       icon: "📤"
     },
     {
       step: "02", 
-      title: "ENCRYPTION ACTIVE",
-      desc: "Every file is encrypted with AES-256 military-grade encryption before leaving your device.",
+      title: t("intro.step2.title"),
+      desc: t("intro.step2.desc"),
       icon: "🔐"
     },
     {
       step: "03",
-      title: "SECURE STORAGE",
-      desc: "Your encrypted files are stored in our protected cloud with 24/7 watchdog monitoring.",
+      title: t("intro.step3.title"),
+      desc: t("intro.step3.desc"),
       icon: "☁️"
     },
     {
       step: "04",
-      title: "ACCESS ANYWHERE",
-      desc: "Access your files from any device. Your data stays protected with end-to-end security.",
+      title: t("intro.step4.title"),
+      desc: t("intro.step4.desc"),
       icon: "🌐"
     }
   ];
@@ -602,7 +604,7 @@ function IntroductionSection() {
             className="text-xs tracking-[0.4em] px-4 py-1 border"
             style={{ color: "#00d4ff", borderColor: "#1a3a5c" }}
           >
-            HOW IT WORKS
+            {t("intro.title")}
           </div>
           <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
         </div>
@@ -654,10 +656,10 @@ function IntroductionSection() {
         <div className="text-center mt-8">
           <div className="inline-block necrom-panel px-6 py-3" style={{ borderColor: "#1a3a5c" }}>
             <span className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
-              READY TO GET STARTED? {" "}
+              {t("intro.cta.ready")}{" "}
             </span>
             <span className="text-xs" style={{ color: "#00d4ff" }}>
-              ↓ SCROLL DOWN TO UPLOAD ↓
+              ↓ {t("intro.cta.scroll")} ↓
             </span>
           </div>
         </div>
@@ -716,29 +718,31 @@ function WatchdogsAnimation({ securityActivation }: { securityActivation?: boole
     return "trick";
   };
 
+  const { t } = useI18n();
+  
   // Determine message based on scan phase and activation
   const getMessage = () => {
     if (securityActivation) {
       return {
-        title: "ACTIVATING PROTECTION",
-        subtitle: "Enabling all security systems...",
+        title: t("watchdogs.activating.title"),
+        subtitle: t("watchdogs.activating.subtitle"),
       };
     }
     if (scanPhase === "safe") {
       return {
-        title: "ALL CLEAR",
-        subtitle: "There are no intruders, your data is safe.",
+        title: t("watchdogs.safe.title"),
+        subtitle: t("watchdogs.safe.subtitle"),
       };
     }
     if (scanPhase === "intruder") {
       return {
-        title: "THREAT DETECTED",
-        subtitle: "Don't worry, your data was protected by NECROM. Please wait a while.",
+        title: t("watchdogs.threat.title"),
+        subtitle: t("watchdogs.threat.subtitle"),
       };
     }
     return {
-      title: "WATCHDOGS ACTIVE",
-      subtitle: "SCANNING FOR INTRUDERS...",
+      title: t("watchdogs.scanning.title"),
+      subtitle: t("watchdogs.scanning.subtitle"),
     };
   };
 
@@ -824,6 +828,7 @@ function WatchdogsAnimation({ securityActivation }: { securityActivation?: boole
 function SecurityPanel({ onClose }: { onClose: () => void }) {
   const { protections, logs, backups, toggleProtection, runScan, createBackup, deleteBackup, restoreBackup, isAllEnabled, enableAll, disableAll, threatsBlockedTotal } = useSecurity();
   const [activeTab, setActiveTab] = useState<"protections" | "logs" | "backups">("protections");
+  const { t } = useI18n();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.9)" }}>
@@ -833,7 +838,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
           <div className="flex items-center gap-3">
             <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: isAllEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 10px ${isAllEnabled ? "#55efc4" : "#ff3a3a"}` }} />
             <span className="text-lg font-bold tracking-widest" style={{ color: "#c0392b" }}>
-              SECURITY CONTROL CENTER
+              {t("securityPanel.title")}
             </span>
           </div>
           <button
@@ -841,7 +846,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
             className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
             style={{ color: "#c0392b", borderColor: "#c0392b" }}
           >
-            CLOSE [X]
+            {t("securityPanel.close")}
           </button>
         </div>
 
@@ -849,13 +854,13 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
         <div className="flex items-center justify-between p-3 border-b" style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.5)" }}>
           <div className="flex items-center gap-6 text-xs">
             <span style={{ color: "#3a6080" }}>
-              ACTIVE PROTECTIONS: <span style={{ color: isAllEnabled ? "#55efc4" : "#ff3a3a" }}>{Object.values(protections).filter(p => p.enabled).length}/6</span>
+              {t("securityPanel.activeProtections")}: <span style={{ color: isAllEnabled ? "#55efc4" : "#ff3a3a" }}>{Object.values(protections).filter(p => p.enabled).length}/6</span>
             </span>
             <span style={{ color: "#3a6080" }}>
-              THREATS BLOCKED: <span style={{ color: "#ff3a3a" }}>{threatsBlockedTotal}</span>
+              {t("security.threatsBlocked")}: <span style={{ color: "#ff3a3a" }}>{threatsBlockedTotal}</span>
             </span>
             <span style={{ color: "#3a6080" }}>
-              BACKUPS: <span style={{ color: "#55efc4" }}>{backups.length}</span>
+              {t("securityPanel.backups")}: <span style={{ color: "#55efc4" }}>{backups.length}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -865,7 +870,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                 className="text-xs px-3 py-1 border hover:bg-green-900/30 transition-colors"
                 style={{ color: "#55efc4", borderColor: "#55efc4" }}
               >
-                ENABLE ALL SYSTEMS
+                {t("securityPanel.enableAll")}
               </button>
             ) : (
               <button
@@ -873,7 +878,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                 className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
                 style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
               >
-                DISABLE ALL SYSTEMS
+                {t("securityPanel.disableAll")}
               </button>
             )}
           </div>
@@ -892,7 +897,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                 borderBottom: activeTab === tab ? "2px solid #c0392b" : undefined,
               }}
             >
-              {tab}
+              {t(`securityPanel.tab.${tab}`)}
             </button>
           ))}
         </div>

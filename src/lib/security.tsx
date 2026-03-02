@@ -51,62 +51,62 @@ interface SecurityContextType {
   lastFullScan: string | null;
 }
 
-const defaultProtections: Record<ProtectionType, Protection> = {
+const getDefaultProtections = (t: (key: string) => string): Record<ProtectionType, Protection> => ({
   antivirus: {
     id: "antivirus",
-    name: "ANTIVIRUS",
+    name: t("protection.antivirus.name"),
     icon: "🛡️",
-    description: "Real-time threat detection & removal",
+    description: t("protection.antivirus.desc"),
     enabled: false,
     lastScan: null,
     threatsBlocked: 0,
   },
   vpn: {
     id: "vpn",
-    name: "PRIVACY VPN",
+    name: t("protection.vpn.name"),
     icon: "🔒",
-    description: "Encrypted tunnel for all connections",
+    description: t("protection.vpn.desc"),
     enabled: false,
     lastScan: null,
     threatsBlocked: 0,
   },
   firewall: {
     id: "firewall",
-    name: "FIREWALL",
+    name: t("protection.firewall.name"),
     icon: "🔥",
-    description: "Advanced packet filtering & monitoring",
+    description: t("protection.firewall.desc"),
     enabled: false,
     lastScan: null,
     threatsBlocked: 0,
   },
   encryption: {
     id: "encryption",
-    name: "END-TO-END",
+    name: t("protection.encryption.name"),
     icon: "🔐",
-    description: "Military-grade AES-256 encryption",
+    description: t("protection.encryption.desc"),
     enabled: false,
     lastScan: null,
     threatsBlocked: 0,
   },
   watchdogs: {
     id: "watchdogs",
-    name: "WATCHDOGS",
+    name: t("protection.watchdogs.name"),
     icon: "👁️",
-    description: "24/7 intrusion detection system",
+    description: t("protection.watchdogs.desc"),
     enabled: false,
     lastScan: null,
     threatsBlocked: 0,
   },
   audit: {
     id: "audit",
-    name: "AUDIT LOG",
+    name: t("protection.audit.name"),
     icon: "📊",
-    description: "Complete activity tracking & forensics",
+    description: t("protection.audit.desc"),
     enabled: false,
     lastScan: null,
     threatsBlocked: 0,
   },
-};
+});
 
 const defaultBackups: BackupData[] = [
   { id: "1", name: "System Backup - Feb 28", size: "45.2 GB", date: "2026-02-28 03:00", type: "full", status: "complete", protected: true },
@@ -120,10 +120,25 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
   const { addNotification } = useNotifications();
   const { t } = useI18n();
   
-  const [protections, setProtections] = useState<Record<ProtectionType, Protection>>(defaultProtections);
+  const [protections, setProtections] = useState<Record<ProtectionType, Protection>>(() => getDefaultProtections(t));
   const [logs, setLogs] = useState<SecurityLog[]>([]);
   const [backups, setBackups] = useState<BackupData[]>(defaultBackups);
   const [lastFullScan, setLastFullScan] = useState<string | null>(null);
+  
+  // Update protection names when language changes (use setTimeout to avoid cascading renders warning)
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setProtections(prev => {
+        const updatedNames = getDefaultProtections(t);
+        const result: Partial<Record<ProtectionType, Protection>> = {};
+        (Object.keys(prev) as ProtectionType[]).forEach((key) => {
+          result[key] = { ...prev[key], name: updatedNames[key].name, description: updatedNames[key].description };
+        });
+        return result as Record<ProtectionType, Protection>;
+      });
+    }, 0);
+    return () => clearTimeout(timeoutId);
+  }, [t]);
 
   const isAllEnabled = Object.values(protections).every((p) => p.enabled);
 
