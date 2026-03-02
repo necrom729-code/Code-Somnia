@@ -1,6 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
+import { useNotifications } from "./notifications";
+import { useI18n } from "./i18n";
 
 type ProtectionType = "antivirus" | "vpn" | "firewall" | "encryption" | "watchdogs" | "audit";
 
@@ -115,6 +117,9 @@ const defaultBackups: BackupData[] = [
 const SecurityContext = createContext<SecurityContextType | null>(null);
 
 export function SecurityProvider({ children }: { children: React.ReactNode }) {
+  const { addNotification } = useNotifications();
+  const { t } = useI18n();
+  
   const [protections, setProtections] = useState<Record<ProtectionType, Protection>>(defaultProtections);
   const [logs, setLogs] = useState<SecurityLog[]>([]);
   const [backups, setBackups] = useState<BackupData[]>(defaultBackups);
@@ -180,13 +185,20 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
         const threats = Math.floor(Math.random() * 3) + 1;
         updated[id] = { ...updated[id], threatsBlocked: updated[id].threatsBlocked + threats };
         addLog("threat", `${threats} threats detected and neutralized by ${updated[id].name}`, updated[id].name);
+        
+        // Send notification for threat detection
+        addNotification({
+          type: "threat",
+          title: t("notifications.virusDetected"),
+          message: t("notifications.threatBlocked", { protection: updated[id].name }),
+        });
       } else {
         addLog("info", `Scan completed - No threats found`, updated[id].name);
       }
       
       return updated;
     });
-  }, [addLog]);
+  }, [addLog, addNotification, t]);
 
   const createBackup = useCallback((name: string, type: BackupData["type"]) => {
     const newBackup: BackupData = {
@@ -207,8 +219,13 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
         prev.map((b) => (b.id === newBackup.id ? { ...b, status: "complete" } : b))
       );
       addLog("success", `Backup "${name}" completed successfully`, "BACKUP_MANAGER");
+      addNotification({
+        type: "success",
+        title: t("notifications.backupComplete"),
+        message: `"${name}" has been saved successfully.`,
+      });
     }, 3000);
-  }, [addLog]);
+  }, [addLog, addNotification, t]);
 
   const deleteBackup = useCallback((id: string) => {
     setBackups((prev) => prev.filter((b) => b.id !== id));

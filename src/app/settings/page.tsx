@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SkullIcon from "@/components/SkullIcon";
 import { useAuth, type Theme } from "@/lib/auth";
+import { useI18n, LANGUAGES } from "@/lib/i18n";
 
 const THEMES: { id: Theme; label: string; description: string; accent: string; bg: string; border: string }[] = [
   {
@@ -50,6 +51,7 @@ const THEMES: { id: Theme; label: string; description: string; accent: string; b
 
 export default function SettingsPage() {
   const { user, theme, setTheme, signOut } = useAuth();
+  const { language, setLanguage, t } = useI18n();
   const router = useRouter();
 
   function handleSignOut() {
@@ -167,7 +169,54 @@ export default function SettingsPage() {
           </div>
 
           <p className="text-xs mt-4" style={{ color: "#1a3a5c" }}>
-            Theme preference is saved locally and applied on next visit.
+            {t("settings.themeNote")}
+          </p>
+        </section>
+
+        {/* Language */}
+        <section className="necrom-panel p-6 mb-6">
+          <div
+            className="text-xs tracking-[0.3em] mb-5 pb-3 border-b"
+            style={{ color: "#00d4ff", borderColor: "var(--necrom-border)" }}
+          >
+            {t("settings.language")}
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => setLanguage(lang.code)}
+                className="flex items-center gap-3 p-3 border transition-all text-left"
+                style={{
+                  background: language === lang.code ? "rgba(0, 212, 255, 0.1)" : "rgba(0,0,0,0.3)",
+                  borderColor: language === lang.code ? "#00d4ff" : "var(--necrom-border)",
+                  boxShadow: language === lang.code ? "0 0 12px rgba(0, 212, 255, 0.25)" : "none",
+                }}
+              >
+                <span className="text-2xl">{lang.flag}</span>
+                <div>
+                  <div
+                    className="text-xs font-bold tracking-widest"
+                    style={{ color: language === lang.code ? "#00d4ff" : "var(--necrom-text)" }}
+                  >
+                    {lang.nativeName}
+                  </div>
+                  <div className="text-xs" style={{ color: "#3a6080" }}>
+                    {lang.name}
+                  </div>
+                </div>
+                {language === lang.code && (
+                  <div className="ml-auto text-xs" style={{ color: "#00d4ff" }}>
+                    ✓
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-xs mt-4" style={{ color: "#1a3a5c" }}>
+            {t("settings.languageDescription")}
           </p>
         </section>
 

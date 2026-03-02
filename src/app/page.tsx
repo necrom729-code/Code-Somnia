@@ -4,11 +4,13 @@ import SkullIcon from "@/components/SkullIcon";
 import HoodedSkullIcon from "@/components/HoodedSkullIcon";
 import FileManager from "@/components/FileManager";
 import BackupManager from "@/components/BackupManager";
+import { NotificationBell } from "@/components/NotificationPanel";
 import { useAuth } from "@/lib/auth";
 import { useSecurity } from "@/lib/security";
+import { useI18n, LANGUAGES, type Language } from "@/lib/i18n";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, startTransition } from "react";
+import { useState, useEffect, useRef, startTransition } from "react";
 
 export default function Home() {
   const [showWatchdogs, setShowWatchdogs] = useState(false);
@@ -226,6 +228,12 @@ function NavBar() {
 
       {/* Right side — auth */}
       <div className="flex items-center gap-3">
+        {/* Language Selector */}
+        <LanguageSelector />
+        
+        {/* Notification Bell */}
+        <NotificationBell />
+        
         {user ? (
           <>
             <Link
@@ -277,6 +285,84 @@ function StatusDot({ label, active }: { label: string; active?: boolean }) {
         }}
       />
       <span className="text-xs tracking-widest" style={{ color: "#3a6080" }}>{label}</span>
+    </div>
+  );
+}
+
+function LanguageSelector() {
+  const { language, setLanguage, languages } = useI18n();
+  const [isOpen, setIsOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const currentLang = languages.find((l) => l.code === language);
+
+  // Close panel when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={panelRef} className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-1 px-2 py-1 border transition-colors hover:bg-white/5"
+        style={{ borderColor: "var(--necrom-border)", color: "#3a6080" }}
+        title="Select Language"
+      >
+        <span>{currentLang?.flag}</span>
+        <span className="text-xs font-bold hidden sm:inline">{currentLang?.code.toUpperCase()}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-3 w-3"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div
+          className="absolute right-0 top-full mt-1 w-40 z-50 border"
+          style={{
+            background: "rgba(5, 10, 15, 0.98)",
+            borderColor: "var(--necrom-border)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => {
+                setLanguage(lang.code);
+                setIsOpen(false);
+              }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-left transition-colors hover:bg-white/5"
+              style={{
+                background: lang.code === language ? "rgba(0, 212, 255, 0.1)" : undefined,
+                borderLeft: lang.code === language ? "3px solid #00d4ff" : undefined,
+              }}
+            >
+              <span>{lang.flag}</span>
+              <div className="flex flex-col">
+                <span className="text-xs" style={{ color: lang.code === language ? "#00d4ff" : "var(--necrom-text)" }}>
+                  {lang.nativeName}
+                </span>
+                <span className="text-xs" style={{ color: "#3a6080" }}>
+                  {lang.name}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
