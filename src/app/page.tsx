@@ -16,6 +16,7 @@ export default function Home() {
   const [showWatchdogs, setShowWatchdogs] = useState(false);
   const [showSecurityPanel, setShowSecurityPanel] = useState(false);
   const { protections, isAllEnabled, enableAll, logs, threatsBlockedTotal, lastFullScan } = useSecurity();
+  const { t } = useI18n();
 
   // Enable all security protections
   const enableAllSecurity = () => {
@@ -84,7 +85,7 @@ export default function Home() {
           {/* Text */}
           <div className="flex-1">
             <div className="text-xs tracking-[0.4em] mb-2" style={{ color: "#3a6080" }}>
-              {`// SECURE DIGITAL INFRASTRUCTURE`}
+              {t("home.subtitle")}
             </div>
             <h1
               className="text-4xl md:text-5xl font-bold tracking-[0.2em] mb-3"
@@ -94,19 +95,18 @@ export default function Home() {
                 fontFamily: "var(--font-geist-mono)",
               }}
             >
-              NECROM
+              {t("home.title")}
             </h1>
             <p className="text-sm max-w-lg leading-relaxed" style={{ color: "#3a6080" }}>
-              Encrypted cloud storage with military-grade security. Store, manage, and access your files,
-              videos, audio, and data from anywhere. Every byte is protected.
+              {t("home.description")}
             </p>
 
             {/* Stats row */}
             <div className="flex flex-wrap gap-6 mt-6">
-              <StatItem value="256-BIT" label="ENCRYPTION" />
-              <StatItem value="99.9%" label="UPTIME" />
-              <StatItem value="∞" label="STORAGE" />
-              <StatItem value="0" label="BREACHES" />
+              <StatItem value="256-BIT" label={t("home.encryption")} />
+              <StatItem value="99.9%" label={t("home.uptime")} />
+              <StatItem value="∞" label={t("home.storage")} />
+              <StatItem value="0" label={t("home.breaches")} />
             </div>
           </div>
 
@@ -137,7 +137,7 @@ export default function Home() {
               className="text-xs tracking-[0.4em] px-4 py-1 border"
               style={{ color: "#55efc4", borderColor: "#1a3a5c" }}
             >
-              BACKUP SERVER
+              {t("storage.title")}
             </div>
             <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
           </div>
@@ -155,7 +155,7 @@ export default function Home() {
             className="text-xs tracking-[0.4em] px-4 py-1 border"
             style={{ color: "#00d4ff", borderColor: "#1a3a5c" }}
           >
-            FILE SYSTEM
+            {t("files.title")}
           </div>
           <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
         </div>
@@ -172,11 +172,11 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <SkullIcon size={20} />
             <span className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
-              NECROM CLOUD // ALL DATA ENCRYPTED // WATCH_DOGS PROTOCOL ACTIVE
+              {t("footer.tagline")}
             </span>
           </div>
           <div className="text-xs" style={{ color: "#1a3a5c" }}>
-            SYS_BUILD: 2026.02.27 — NODE: ctOS-7
+            {t("footer.build")}
           </div>
         </div>
       </footer>
@@ -187,6 +187,7 @@ export default function Home() {
 function NavBar() {
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const { t } = useI18n();
 
   function handleSignOut() {
     signOut();
@@ -220,10 +221,10 @@ function NavBar() {
 
       {/* Status indicators */}
       <div className="hidden md:flex items-center gap-6">
-        <StatusDot label="SERVER" active />
-        <StatusDot label="ENCRYPT" active />
-        <StatusDot label="SYNC" active />
-        <StatusDot label="FIREWALL" active />
+        <StatusDot label={t("security.antivirus")} active />
+        <StatusDot label={t("security.encryption")} active />
+        <StatusDot label={t("security.vpn")} active />
+        <StatusDot label={t("security.firewall")} active />
       </div>
 
       {/* Right side — auth */}
@@ -241,7 +242,7 @@ function NavBar() {
               className="text-xs tracking-widest transition-colors hidden sm:block"
               style={{ color: "#3a6080" }}
             >
-              SETTINGS
+              {t("nav.settings")}
             </Link>
             <div className="text-xs tracking-widest hidden sm:block" style={{ color: "#a0c8e0" }}>
               {user.username}
@@ -258,14 +259,14 @@ function NavBar() {
         ) : (
           <div className="flex items-center gap-2">
             <Link href="/signin" className="necrom-btn text-xs py-1 px-3">
-              SIGN IN
+              {t("nav.signIn")}
             </Link>
             <Link
               href="/signup"
               className="text-xs tracking-widest hidden sm:block transition-colors"
               style={{ color: "#3a6080" }}
             >
-              REGISTER
+              {t("nav.register")}
             </Link>
           </div>
         )}
@@ -377,6 +378,7 @@ function StatItem({ value, label }: { value: string; label: string }) {
 }
 
 function StorageUsage() {
+  const { t } = useI18n();
   // Simulated storage data - in real app this would come from API
   const totalStorage = 500; // GB
   const usedStorage = 127.4; // GB
@@ -390,13 +392,13 @@ function StorageUsage() {
     >
       <div className="flex items-center gap-2 mb-3 pb-2 border-b" style={{ borderColor: "#1a3a5c" }}>
         <div className="w-2 h-2 rounded-full" style={{ background: "#55efc4" }} />
-        <span className="ml-2" style={{ color: "#3a6080" }}>SSD STORAGE</span>
+        <span className="ml-2" style={{ color: "#3a6080" }}>{t("storage.ssd")}</span>
       </div>
       
       {/* Storage bar */}
       <div className="mb-3">
         <div className="flex justify-between text-xs mb-1">
-          <span style={{ color: "#a0c8e0" }}>USED</span>
+          <span style={{ color: "#a0c8e0" }}>{t("storage.used")}</span>
           <span style={{ color: "#00d4ff" }}>{percentage.toFixed(1)}%</span>
         </div>
         <div 
@@ -417,13 +419,13 @@ function StorageUsage() {
       {/* Storage values */}
       <div className="grid grid-cols-2 gap-2 text-xs">
         <div className="border p-2" style={{ borderColor: "#1a3a5c" }}>
-          <div style={{ color: "#3a6080" }}>USED</div>
+          <div style={{ color: "#3a6080" }}>{t("storage.used")}</div>
           <div style={{ color: "#00d4ff", fontSize: "16px", fontWeight: "bold" }}>
             {Math.floor(usedStorage)}<span className="text-xs">GB</span> {usedMB}<span className="text-xs">MB</span>
           </div>
         </div>
         <div className="border p-2" style={{ borderColor: "#1a3a5c" }}>
-          <div style={{ color: "#3a6080" }}>FREE</div>
+          <div style={{ color: "#3a6080" }}>{t("storage.free")}</div>
           <div style={{ color: "#55efc4", fontSize: "16px", fontWeight: "bold" }}>
             {(totalStorage - usedStorage).toFixed(1)}<span className="text-xs">GB</span>
           </div>
@@ -433,11 +435,11 @@ function StorageUsage() {
       {/* Drive info */}
       <div className="mt-3 pt-2 border-t text-xs" style={{ borderColor: "#1a3a5c", color: "#3a6080" }}>
         <div className="flex justify-between">
-          <span>NVMe SSD</span>
+          <span>{t("storage.ssd")}</span>
           <span style={{ color: "#55efc4" }}>● ONLINE</span>
         </div>
         <div className="flex justify-between mt-1">
-          <span>Total:</span>
+          <span>{t("storage.total")}:</span>
           <span>{totalStorage} GB</span>
         </div>
       </div>
@@ -459,6 +461,7 @@ function SecurityFeatures({
   lastScan?: string | null;
 }) {
   const { protections, toggleProtection } = useSecurity();
+  const { t } = useI18n();
 
   return (
     <section className="border-b" style={{ borderColor: "var(--necrom-border)" }}>
@@ -470,7 +473,7 @@ function SecurityFeatures({
             className="text-xs tracking-[0.4em] px-4 py-1 border"
             style={{ color: "#c0392b", borderColor: "#1a3a5c" }}
           >
-            SECURITY PROTECTION
+            {t("security.title")}
           </div>
           <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
         </div>
@@ -498,18 +501,18 @@ function SecurityFeatures({
                 className="text-[10px] tracking-[0.2em] mb-1" 
                 style={{ color: feature.enabled ? "#55efc4" : "#ff3a3a" }}
               >
-                {feature.enabled ? "ACTIVE" : "OFFLINE"}
+                {feature.enabled ? t("common.enabled") : t("common.disabled")}
               </div>
               <div className="text-[9px]" style={{ color: "#3a6080" }}>
                 {feature.description}
               </div>
               {feature.enabled && feature.threatsBlocked > 0 && (
                 <div className="text-[8px] mt-1" style={{ color: "#ff3a3a" }}>
-                  BLOCKED: {feature.threatsBlocked}
+                  {t("security.threatsBlocked")}: {feature.threatsBlocked}
                 </div>
               )}
               <div className="text-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#00d4ff" }}>
-                [CLICK TO {feature.enabled ? "DISABLE" : "ENABLE"}]
+                [{feature.enabled ? t("common.disabled") : t("common.enabled")}]
               </div>
             </div>
           ))}
@@ -527,13 +530,13 @@ function SecurityFeatures({
                 style={{ background: securityEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 8px ${securityEnabled ? "#55efc4" : "#ff3a3a"}` }}
               />
               <span className="text-xs tracking-widest" style={{ color: securityEnabled ? "#55efc4" : "#ff3a3a" }}>
-                {securityEnabled ? "ALL SECURITY SYSTEMS OPERATIONAL" : "SOME SYSTEMS OFFLINE"}
+                {securityEnabled ? t("security.allEnabled") : t("security.someEnabled")}
               </span>
             </div>
             <div className="flex items-center gap-4 text-xs" style={{ color: "#3a6080" }}>
-              <span>THREATS BLOCKED: {threatsBlocked || 0}</span>
+              <span>{t("security.threatsBlocked")}: {threatsBlocked || 0}</span>
               <span>|</span>
-              <span>LAST SCAN: {lastScan || "NEVER"}</span>
+              <span>{t("security.lastScan")}: {lastScan || t("security.never")}</span>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -543,7 +546,7 @@ function SecurityFeatures({
                 className="text-xs px-3 py-1 border hover:bg-cyan-900/30 transition-colors"
                 style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
               >
-                ENABLE ALL
+                {t("security.enableAll")}
               </button>
             )}
             <button
@@ -551,7 +554,7 @@ function SecurityFeatures({
               className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
               style={{ color: "#c0392b", borderColor: "#c0392b" }}
             >
-              VIEW DETAILS
+              {t("security.viewDetails")}
             </button>
           </div>
         </div>
