@@ -112,6 +112,7 @@ const translations: Translations = {
     // Notifications
     "notifications.title": "NOTIFICATIONS",
     "notifications.clearAll": "Clear All",
+    "notifications.markAllRead": "Mark all read",
     "notifications.empty": "No notifications",
     "notifications.virusDetected": "VIRUS DETECTED",
     "notifications.threatBlocked": "Threat blocked by {protection}",
@@ -226,6 +227,7 @@ const translations: Translations = {
     // Notifications
     "notifications.title": "NOTIFICACIONES",
     "notifications.clearAll": "Borrar Todo",
+    "notifications.markAllRead": "Marcar todo leído",
     "notifications.empty": "Sin notificaciones",
     "notifications.virusDetected": "VIRUS DETECTADO",
     "notifications.threatBlocked": "Amenaza bloqueada por {protection}",
@@ -340,6 +342,7 @@ const translations: Translations = {
     // Notifications
     "notifications.title": "NOTIFICATIONS",
     "notifications.clearAll": "Tout Effacer",
+    "notifications.markAllRead": "Tout marquer comme lu",
     "notifications.empty": "Aucune notification",
     "notifications.virusDetected": "VIRUS DÉTECTÉ",
     "notifications.threatBlocked": "Menace bloquée par {protection}",
@@ -454,6 +457,7 @@ const translations: Translations = {
     // Notifications
     "notifications.title": "BENACHRICHTIGUNGEN",
     "notifications.clearAll": "Alle Löschen",
+    "notifications.markAllRead": "Alle als gelesen markieren",
     "notifications.empty": "Keine Benachrichtigungen",
     "notifications.virusDetected": "VIRUS ERKANNT",
     "notifications.threatBlocked": "Bedrohung blockiert durch {protection}",
@@ -568,6 +572,7 @@ const translations: Translations = {
     // Notifications
     "notifications.title": "通知",
     "notifications.clearAll": "全部清除",
+    "notifications.markAllRead": "全部标记为已读",
     "notifications.empty": "没有通知",
     "notifications.virusDetected": "检测到病毒",
     "notifications.threatBlocked": "{protection} 阻止了威胁",
@@ -682,6 +687,7 @@ const translations: Translations = {
     // Notifications
     "notifications.title": "通知",
     "notifications.clearAll": "すべてクリア",
+    "notifications.markAllRead": "すべて既読にする",
     "notifications.empty": "通知はありません",
     "notifications.virusDetected": "ウイルス検出",
     "notifications.threatBlocked": "{protection} が脅威をブロックしました",
