@@ -5,20 +5,34 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SkullIcon from "@/components/SkullIcon";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 
-export default function SignInPage() {
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
+export default function SignInPage(): React.ReactElement {
   const { signIn } = useAuth();
+  const { t } = useI18n();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<SignInFormData>({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData((prev: SignInFormData) => ({ ...prev, [name]: value }));
+  };
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const result = await signIn(email, password);
+    const result = await signIn(formData.email, formData.password);
     setLoading(false);
     if (result.error) {
       setError(result.error);
@@ -55,7 +69,7 @@ export default function SignInPage() {
             NECROM
           </div>
           <div className="text-xs tracking-[0.4em]" style={{ color: "#3a6080" }}>
-            SECURE ACCESS TERMINAL
+            {t("auth.terminalTitle")}
           </div>
         </div>
 
@@ -65,7 +79,7 @@ export default function SignInPage() {
             className="text-xs tracking-[0.3em] mb-6 pb-3 border-b"
             style={{ color: "#00d4ff", borderColor: "var(--necrom-border)" }}
           >
-            {"// OPERATOR AUTHENTICATION"}
+            {`// ${t("auth.operatorAuth")}`}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -74,14 +88,15 @@ export default function SignInPage() {
                 className="block text-xs tracking-widest mb-2"
                 style={{ color: "#3a6080" }}
               >
-                EMAIL ADDRESS
+                {t("auth.emailLabel")}
               </label>
               <input
                 type="email"
+                name="email"
                 className="necrom-input"
-                placeholder="operator@necrom.sys"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("auth.emailPlaceholder")}
+                value={formData.email}
+                onChange={handleInputChange}
                 autoComplete="email"
                 required
               />
@@ -92,14 +107,15 @@ export default function SignInPage() {
                 className="block text-xs tracking-widest mb-2"
                 style={{ color: "#3a6080" }}
               >
-                PASSWORD
+                {t("auth.passwordLabel")}
               </label>
               <input
                 type="password"
+                name="password"
                 className="necrom-input"
-                placeholder="••••••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t("auth.passwordPlaceholder")}
+                value={formData.password}
+                onChange={handleInputChange}
                 autoComplete="current-password"
                 required
               />
@@ -119,7 +135,7 @@ export default function SignInPage() {
               className="necrom-btn w-full py-3 text-sm tracking-[0.2em]"
               disabled={loading}
             >
-              {loading ? "AUTHENTICATING..." : "ACCESS SYSTEM"}
+              {loading ? t("auth.authenticating") : t("auth.accessSystem")}
             </button>
           </form>
 
@@ -127,20 +143,20 @@ export default function SignInPage() {
             className="mt-6 pt-5 border-t text-center text-xs"
             style={{ borderColor: "var(--necrom-border)", color: "#3a6080" }}
           >
-            NO ACCOUNT?{" "}
+            {t("auth.noAccount")}{" "}
             <Link
               href="/signup"
-              className="transition-colors"
+              className="transition-colors hover:underline"
               style={{ color: "#00d4ff" }}
             >
-              CREATE OPERATOR PROFILE →
+              {t("auth.createAccountLink")} →
             </Link>
           </div>
         </div>
 
         {/* Footer note */}
         <div className="text-center mt-6 text-xs" style={{ color: "#1a3a5c" }}>
-          ALL CONNECTIONS ENCRYPTED // AES-256
+          {t("auth.encryptionNote")}
         </div>
       </div>
     </div>
