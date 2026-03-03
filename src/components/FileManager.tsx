@@ -628,19 +628,44 @@ function PreviewContent({ file }: { file: NecromFile }) {
 
   // Demo / text content
   if (file.type === "document" || file.type === "code") {
-    const content = file.demoContent ?? `// No preview available for ${file.name}`;
+    const content = file.demoContent ?? `[${file.name}]
+
+This file is ready for editing.
+Created: ${file.created}
+Size: ${file.size}
+
+NECROM Secure Document Vault
+All changes are encrypted and monitored.`;
     return (
-      <pre
-        className="text-xs leading-relaxed overflow-auto p-4 rounded font-mono whitespace-pre-wrap"
-        style={{
-          background: "rgba(0,0,0,0.4)",
-          color: file.type === "code" ? "#00d4ff" : "#a0c8e0",
-          border: `1px solid ${cfg.borderColor}`,
-          maxHeight: "60vh",
-        }}
-      >
-        {content}
-      </pre>
+      <div className="flex flex-col gap-3">
+        <pre
+          className="text-xs leading-relaxed overflow-auto p-4 rounded font-mono whitespace-pre-wrap"
+          style={{
+            background: "rgba(0,0,0,0.4)",
+            color: file.type === "code" ? "#00d4ff" : "#a0c8e0",
+            border: `1px solid ${cfg.borderColor}`,
+            maxHeight: "60vh",
+          }}
+        >
+          {content}
+        </pre>
+        <div className="flex gap-2 justify-end">
+          <button 
+            className="text-xs px-3 py-1 border transition-all hover:opacity-80"
+            style={{ borderColor: cfg.borderColor, color: cfg.color }}
+            onClick={() => alert(`Editing ${file.name}...\n\n(In a full implementation, this would open an editor)`)} 
+          >
+            ✎ EDIT
+          </button>
+          <button 
+            className="text-xs px-3 py-1 border transition-all hover:opacity-80"
+            style={{ borderColor: cfg.borderColor, color: cfg.color }}
+            onClick={() => alert(`Downloading ${file.name}...`)} 
+          >
+            ↓ DOWNLOAD
+          </button>
+        </div>
+      </div>
     );
   }
 
@@ -791,6 +816,10 @@ export default function FileManager() {
     const name = newFileName.includes(".") ? newFileName : `${newFileName}.${defaultExt(newFileType)}`;
     const type = getFileType(name);
     const today = todayStr();
+    
+    // Generate demo content based on file type
+    const demoContent = generateDemoContent(name, type);
+    
     const file: NecromFile = {
       id: genId(),
       name,
@@ -798,11 +827,49 @@ export default function FileManager() {
       size: randomSize(type),
       created: today,
       modified: today,
+      demoContent,
     };
     setFiles((prev) => [file, ...prev]);
     setNewFileName("");
     setShowCreate(false);
     showNotif(`FILE CREATED: ${name}`);
+  }
+  
+  function generateDemoContent(name: string, type: FileType): string | undefined {
+    if (type === "document") {
+      return `[${new Date().toISOString()}] Document: ${name}
+
+--- Content ---
+
+This is a newly created document.
+You can edit this content by opening the file.
+
+NECROM Cloud Storage
+Military-grade encryption active
+WATCH_DOGS protocol monitoring enabled
+
+--- End of Document ---`;
+    }
+    if (type === "code") {
+      const ext = name.split('.').pop()?.toLowerCase();
+      return `// ${name}
+// Created: ${new Date().toISOString()}
+// NECROM Secure Code Vault
+
+function initialize() {
+  console.log("System initialized...");
+  return {
+    status: "active",
+    encryption: "AES-256",
+    protocol: "WATCH_DOGS"
+  };
+}
+
+// Main execution
+const system = initialize();
+export default system;`;
+    }
+    return undefined;
   }
 
   function defaultExt(type: FileType): string {
