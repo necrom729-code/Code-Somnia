@@ -141,7 +141,7 @@ function todayStr(): string {
 
 // ─── File Preview Modal ───────────────────────────────────────────────────────
 
-function FilePreviewModal({ file, onClose }: { file: NecromFile; onClose: () => void }) {
+function FilePreviewModal({ file, onClose, onDownload }: { file: NecromFile; onClose: () => void; onDownload: () => void }) {
   const cfg = FILE_TYPE_CONFIG[file.type];
 
   // Close on Escape (but not when video is fullscreen)
@@ -193,7 +193,7 @@ function FilePreviewModal({ file, onClose }: { file: NecromFile; onClose: () => 
 
         {/* Modal body */}
         <div className="flex-1 overflow-auto p-4">
-          <PreviewContent file={file} />
+          <PreviewContent file={file} onDownload={onDownload} />
         </div>
       </div>
     </div>
@@ -596,7 +596,7 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
   );
 }
 
-function PreviewContent({ file }: { file: NecromFile }) {
+function PreviewContent({ file, onDownload }: { file: NecromFile; onDownload: () => void }) {
   const cfg = FILE_TYPE_CONFIG[file.type];
 
   // Real uploaded file
@@ -660,7 +660,7 @@ All changes are encrypted and monitored.`;
           <button 
             className="text-xs px-3 py-1 border transition-all hover:opacity-80"
             style={{ borderColor: cfg.borderColor, color: cfg.color }}
-            onClick={() => alert(`Downloading ${file.name}...`)} 
+            onClick={onDownload} 
           >
             ↓ DOWNLOAD
           </button>
@@ -873,12 +873,26 @@ export default system;`;
   }
 
   function defaultExt(type: FileType): string {
-    const map: Record<FileType, string> = {
-      document: "txt", video: "mp4", audio: "mp3", image: "png",
-      archive: "zip", code: "ts", other: "dat",
-    };
-    return map[type];
-  }
+  const map: Record<FileType, string> = {
+    document: "txt", video: "mp4", audio: "mp3", image: "png",
+    archive: "zip", code: "ts", other: "dat",
+  };
+  return map[type];
+}
+
+function downloadFile(file: NecromFile, showNotif: (msg: string) => void) {
+  const content = file.demoContent ?? "";
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = file.name;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showNotif(`DOWNLOADED: ${file.name}`);
+}
 
   function handleUploadFiles(uploadedFiles: File[]) {
     if (uploadedFiles.length === 0) return;
@@ -990,7 +1004,7 @@ export default system;`;
 
       {/* Preview Modal */}
       {previewFile && (
-        <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />
+        <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} onDownload={() => downloadFile(previewFile, showNotif)} />
       )}
 
       {/* Notification */}
@@ -1226,7 +1240,13 @@ export default system;`;
                     className="text-xs px-2 py-1 border transition-all hover:opacity-80"
                     style={{ borderColor: "#1a3a5c", color: "#3a6080" }}
                     title="Download"
-                    onClick={() => showNotif(`DOWNLOADING: ${file.name}`)}
+                    onClick={() => {
+                      if (file.type === "document" || file.type === "code") {
+                        downloadFile(file, showNotif);
+                      } else {
+                        showNotif(`DOWNLOADING: ${file.name}`);
+                      }
+                    }}
                   >
                     ↓
                   </button>
@@ -1280,7 +1300,13 @@ export default system;`;
                   <button
                     className="text-xs px-2 py-1 border hover:opacity-80"
                     style={{ borderColor: "#1a3a5c", color: "#3a6080" }}
-                    onClick={() => showNotif(`DOWNLOADING: ${file.name}`)}
+                    onClick={() => {
+                      if (file.type === "document" || file.type === "code") {
+                        downloadFile(file, showNotif);
+                      } else {
+                        showNotif(`DOWNLOADING: ${file.name}`);
+                      }
+                    }}
                   >↓</button>
                   <button
                     className="text-xs px-2 py-1 border hover:opacity-80"
