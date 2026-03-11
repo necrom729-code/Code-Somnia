@@ -4,6 +4,7 @@ import SkullIcon from "@/components/SkullIcon";
 import HoodedSkullIcon from "@/components/HoodedSkullIcon";
 import FileManager from "@/components/FileManager";
 import BackupManager from "@/components/BackupManager";
+import VPNPanel from "@/components/VPNPanel";
 import { NotificationBell } from "@/components/NotificationPanel";
 import { useAuth } from "@/lib/auth";
 import { useSecurity } from "@/lib/security";
@@ -234,6 +235,9 @@ function NavBar() {
         
         {/* Notification Bell */}
         <NotificationBell />
+        
+        {/* VPN Panel */}
+        <VPNPanel />
         
         {user ? (
           <>

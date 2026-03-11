@@ -136,6 +136,19 @@ const translations: Translations = {
     "footer.tagline": "NECROM CLOUD // ALL DATA ENCRYPTED // WATCH_DOGS PROTOCOL ACTIVE",
     "footer.build": "SYS_BUILD: 2026.02.27 — NODE: ctOS-7",
     
+    // VPN
+    "vpn.title": "VPN SERVERS",
+    "vpn.connecting": "CONNECTING",
+    "vpn.connected": "CONNECTED",
+    "vpn.disconnected": "DISCONNECTED",
+    "vpn.disconnect": "DISCONNECT",
+    "vpn.realIP": "REAL IP",
+    "vpn.vpnIP": "VPN IP",
+    "vpn.servers": "Servers",
+    "vpn.countries": "Countries",
+    "vpn.connect": "CONNECT",
+    "vpn.selectServer": "Select Server",
+    
     // Common
     "common.save": "SAVE",
     "common.cancel": "CANCEL",
@@ -312,6 +325,19 @@ const translations: Translations = {
     // Footer
     "footer.tagline": "NECROM CLOUD // TODOS LOS DATOS ENCRIPTADOS // PROTOCOLO WATCH_DOGS ACTIVO",
     "footer.build": "SYS_BUILD: 2026.02.27 — NODO: ctOS-7",
+    
+    // VPN
+    "vpn.title": "SERVIDORES VPN",
+    "vpn.connecting": "CONECTANDO",
+    "vpn.connected": "CONECTADO",
+    "vpn.disconnected": "DESCONECTADO",
+    "vpn.disconnect": "DESCONECTAR",
+    "vpn.realIP": "IP REAL",
+    "vpn.vpnIP": "IP VPN",
+    "vpn.servers": "Servidores",
+    "vpn.countries": "Países",
+    "vpn.connect": "CONECTAR",
+    "vpn.selectServer": "Seleccionar Servidor",
     
     // Common
     "common.save": "GUARDAR",
@@ -490,6 +516,19 @@ const translations: Translations = {
     "footer.tagline": "NECROM CLOUD // TOUTES LES DONNÉES CHIFFRÉES // PROTOCOLE WATCH_DOGS ACTIF",
     "footer.build": "SYS_BUILD: 2026.02.27 — NŒUD: ctOS-7",
     
+    // VPN
+    "vpn.title": "SERVEURS VPN",
+    "vpn.connecting": "CONNEXION",
+    "vpn.connected": "CONNECTÉ",
+    "vpn.disconnected": "DÉCONNECTÉ",
+    "vpn.disconnect": "DÉCONNECTER",
+    "vpn.realIP": "IP RÉELLE",
+    "vpn.vpnIP": "IP VPN",
+    "vpn.servers": "Serveurs",
+    "vpn.countries": "Pays",
+    "vpn.connect": "CONNECTER",
+    "vpn.selectServer": "Sélectionner un serveur",
+    
     // Common
     "common.save": "SAUVEGARDER",
     "common.cancel": "ANNULER",
@@ -666,6 +705,19 @@ const translations: Translations = {
     // Footer
     "footer.tagline": "NECROM CLOUD // ALLE DATEN VERSCHLÜSSELT // WATCH_DOGS PROTOKOLL AKTIV",
     "footer.build": "SYS_BUILD: 2026.02.27 — KNOTEN: ctOS-7",
+    
+    // VPN
+    "vpn.title": "VPN-SERVER",
+    "vpn.connecting": "VERBINDEN",
+    "vpn.connected": "VERBUNDEN",
+    "vpn.disconnected": "GETRENNT",
+    "vpn.disconnect": "TRENNEN",
+    "vpn.realIP": "ECHT-IP",
+    "vpn.vpnIP": "VPN-IP",
+    "vpn.servers": "Server",
+    "vpn.countries": "Länder",
+    "vpn.connect": "VERBINDEN",
+    "vpn.selectServer": "Server auswählen",
     
     // Common
     "common.save": "SPEICHERN",
@@ -844,6 +896,19 @@ const translations: Translations = {
     "footer.tagline": "NECROM 云 // 所有数据已加密 // WATCH_DOGS 协议激活",
     "footer.build": "系统构建: 2026.02.27 — 节点: ctOS-7",
     
+    // VPN
+    "vpn.title": "VPN 服务器",
+    "vpn.connecting": "连接中",
+    "vpn.connected": "已连接",
+    "vpn.disconnected": "已断开",
+    "vpn.disconnect": "断开连接",
+    "vpn.realIP": "真实IP",
+    "vpn.vpnIP": "VPN IP",
+    "vpn.servers": "服务器",
+    "vpn.countries": "国家",
+    "vpn.connect": "连接",
+    "vpn.selectServer": "选择服务器",
+    
     // Common
     "common.save": "保存",
     "common.cancel": "取消",
@@ -1020,6 +1085,19 @@ const translations: Translations = {
     // Footer
     "footer.tagline": "NECROM クラウド // すべてのデータが暗号化 // WATCH_DOGS プロトコル有効",
     "footer.build": "システムビルド: 2026.02.27 — ノード: ctOS-7",
+    
+    // VPN
+    "vpn.title": "VPNサーバー",
+    "vpn.connecting": "接続中",
+    "vpn.connected": "接続済み",
+    "vpn.disconnected": "未接続",
+    "vpn.disconnect": "切断",
+    "vpn.realIP": " реальный IP",
+    "vpn.vpnIP": "VPN IP",
+    "vpn.servers": "サーバー",
+    "vpn.countries": "国",
+    "vpn.connect": "接続",
+    "vpn.selectServer": "サーバーを選択",
     
     // Common
     "common.save": "保存",
