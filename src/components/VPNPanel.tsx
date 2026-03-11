@@ -39,12 +39,15 @@ export default function VPNPanel() {
   const [showServers, setShowServers] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   
-  // Simulated real IP detection
-  const [realIP, setRealIP] = useState<string | null>(null);
-  
   // Connection time
   const [connectionTime, setConnectionTime] = useState<number>(0);
   const connectionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Simulated real IP detection
+  const [realIP, setRealIP] = useState<string | null>(null);
+  const [isIPLeak, setIsIPLeak] = useState(false);
+  const [connectionSpeed, setConnectionSpeed] = useState<number>(0);
+  const [dataUsage, setDataUsage] = useState<number>(0);
 
   // Detect real IP on mount
   useEffect(() => {
@@ -53,22 +56,33 @@ export default function VPNPanel() {
       // In a real app, this would call an IP detection API
       // For simulation, we'll use a mock IP
       setRealIP("203.0.113.45");
+      
+      // Simulate IP leak detection
+      const randomLeak = Math.random() > 0.8; // 20% chance of leak
+      setIsIPLeak(randomLeak);
+      
+      // Simulate connection speed
+      setConnectionSpeed(Math.floor(Math.random() * 100) + 50); // 50-150 Mbps
     };
     detectIP();
   }, []);
 
-  // Connection timer
+  // Connection timer and data usage
   useEffect(() => {
     if (isConnected && selectedServer) {
       connectionTimerRef.current = setInterval(() => {
         setConnectionTime(prev => prev + 1);
+        setDataUsage(prev => prev + Math.floor(Math.random() * 1024 * 10)); // Simulate data usage
       }, 1000);
     } else {
       if (connectionTimerRef.current) {
         clearInterval(connectionTimerRef.current);
       }
       // Use setTimeout to avoid cascading renders warning
-      setTimeout(() => setConnectionTime(0), 0);
+      setTimeout(() => {
+        setConnectionTime(0);
+        setDataUsage(0);
+      }, 0);
     }
     return () => {
       if (connectionTimerRef.current) {
@@ -112,6 +126,18 @@ export default function VPNPanel() {
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
     return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  }
+
+  function formatSpeed(speed: number): string {
+    if (speed >= 1000) return `${(speed / 1000).toFixed(1)} Gbps`;
+    return `${speed} Mbps`;
+  }
+
+  function formatUsage(bytes: number): string {
+    if (bytes >= 1024 * 1024 * 1024) return `${(bytes / 1024 / 1024 / 1024).toFixed(2)} GB`;
+    if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+    if (bytes >= 1024) return `${(bytes / 1024).toFixed(2)} KB`;
+    return `${bytes} B`;
   }
 
   // Group servers by country
@@ -184,7 +210,10 @@ export default function VPNPanel() {
             <div className="flex items-center gap-4 text-xs">
               <div>
                 <span style={{ color: "#3a6080" }}>{t("vpn.realIP")}: </span>
-                <span style={{ color: "#ff3a3a" }}>{realIP || "..."}</span>
+                <span style={{ color: isIPLeak ? "#ff3a3a" : "#55efc4" }}>{realIP || "..."}</span>
+                {isIPLeak && (
+                  <span className="ml-1 text-xs" style={{ color: "#ff3a3a" }}>({t("vpn.leak")})</span>
+                )}
               </div>
               {isConnected && currentIP && (
                 <div>
@@ -192,6 +221,18 @@ export default function VPNPanel() {
                   <span style={{ color: "#55efc4" }}>{currentIP}</span>
                 </div>
               )}
+            </div>
+            
+            {/* Connection Details */}
+            <div className="flex items-center gap-4 text-xs mt-2">
+              <div>
+                <span style={{ color: "#3a6080" }}>{t("vpn.speed")}: </span>
+                <span style={{ color: "#55efc4" }}>{formatSpeed(connectionSpeed)}</span>
+              </div>
+              <div>
+                <span style={{ color: "#3a6080" }}>{t("vpn.usage")}: </span>
+                <span style={{ color: "#55efc4" }}>{formatUsage(dataUsage)}</span>
+              </div>
             </div>
             
             {isConnected && (
