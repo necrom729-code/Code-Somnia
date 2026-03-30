@@ -99,6 +99,8 @@ export async function GET() {
 | Recipe | File | Use Case |
 |--------|------|----------|
 | Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
+| Add Authentication | `.kilocode/recipes/add-auth.md` | User authentication and login |
+| Add User Storage | `.kilocode/recipes/add-user-storage.md` | Individual user storage with Google integration |
 
 ## Pending Improvements
 
