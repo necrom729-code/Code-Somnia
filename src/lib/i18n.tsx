@@ -99,6 +99,61 @@ const translations: Translations = {
     "settings.signedInAs": "Signed in as",
     "settings.themeNote": "Theme preference is saved locally and applied on next visit.",
     
+    // Notifications Settings
+    "settings.notifications": "// NOTIFICATIONS",
+    "settings.notificationsEnabled": "Enable Notifications",
+    "settings.notificationsEnabledDesc": "Receive system notifications and alerts",
+    "settings.notificationSound": "Notification Sound",
+    "settings.notificationSoundDesc": "Play sound for incoming notifications",
+    "settings.virusAlerts": "Virus Alerts",
+    "settings.virusAlertsDesc": "Get notified when threats are detected",
+    "settings.backupAlerts": "Backup Alerts",
+    "settings.backupAlertsDesc": "Notifications for backup completion",
+    "settings.securityAlerts": "Security Alerts",
+    "settings.securityAlertsDesc": "Critical security event notifications",
+    
+    // Privacy Settings
+    "settings.privacy": "// PRIVACY",
+    "settings.analytics": "Analytics",
+    "settings.analyticsDesc": "Help improve by sharing anonymous usage data",
+    "settings.shareUsageData": "Share Usage Data",
+    "settings.shareUsageDataDesc": "Share storage and feature usage statistics",
+    "settings.showOnlineStatus": "Show Online Status",
+    "settings.showOnlineStatusDesc": "Display your online status to other users",
+    
+    // Security Settings
+    "settings.security": "// SECURITY",
+    "settings.twoFactor": "Two-Factor Authentication",
+    "settings.twoFactorDesc": "Add an extra layer of security to your account",
+    "settings.autoLock": "Auto Lock",
+    "settings.autoLockDesc": "Lock session after period of inactivity",
+    "settings.autoLockMinutes": "Auto Lock Timer (minutes)",
+    "settings.sessionTimeout": "Session Timeout",
+    "settings.sessionTimeoutDesc": "Automatically log out after inactivity",
+    "settings.sessionTimeoutMinutes": "Session Timeout (minutes)",
+    
+    // Storage Settings
+    "settings.storageSettings": "// STORAGE",
+    "settings.autoCleanup": "Auto Cleanup",
+    "settings.autoCleanupDesc": "Automatically remove old files",
+    "settings.cleanupDays": "Cleanup After (days)",
+    "settings.compressUploads": "Compress Uploads",
+    "settings.compressUploadsDesc": "Compress files before uploading to save space",
+    "settings.storageUsed": "Storage Used",
+    "settings.storageTotal": "Total Storage",
+    
+    // Profile Settings
+    "settings.profile": "// PROFILE",
+    "settings.changeAvatar": "Change Avatar",
+    "settings.uploadPhoto": "Upload Photo",
+    "settings.displayName": "Display Name",
+    "settings.bio": "Bio",
+    "settings.updateProfile": "UPDATE PROFILE",
+    "settings.profileUpdated": "Profile updated successfully",
+    "settings.enterBio": "Enter your bio...",
+    "settings.save": "SAVE",
+    "settings.cancel": "CANCEL",
+    
     // Auth
     "auth.signIn": "SIGN IN",
     "auth.signUp": "CREATE ACCOUNT",
@@ -288,6 +343,61 @@ const translations: Translations = {
     "settings.signOut": "CERRAR SESIÓN",
     "settings.signedInAs": "Sesión iniciada como",
     "settings.themeNote": "La preferencia de tema se guarda localmente y se aplica en la próxima visita.",
+    
+    // Notifications Settings
+    "settings.notifications": "// NOTIFICACIONES",
+    "settings.notificationsEnabled": "Habilitar Notificaciones",
+    "settings.notificationsEnabledDesc": "Recibir notificaciones y alertas del sistema",
+    "settings.notificationSound": "Sonido de Notificación",
+    "settings.notificationSoundDesc": "Reproducir sonido para notificaciones entrantes",
+    "settings.virusAlerts": "Alertas de Virus",
+    "settings.virusAlertsDesc": "Notificar cuando se detectan amenazas",
+    "settings.backupAlerts": "Alertas de Respaldo",
+    "settings.backupAlertsDesc": "Notificaciones para respaldo completado",
+    "settings.securityAlerts": "Alertas de Seguridad",
+    "settings.securityAlertsDesc": "Notificaciones de eventos de seguridad críticos",
+    
+    // Privacy Settings
+    "settings.privacy": "// PRIVACIDAD",
+    "settings.analytics": "Analíticas",
+    "settings.analyticsDesc": "Ayuda a mejorar compartiendo datos de uso anónimos",
+    "settings.shareUsageData": "Compartir Datos de Uso",
+    "settings.shareUsageDataDesc": "Compartir estadísticas de almacenamiento y funciones",
+    "settings.showOnlineStatus": "Mostrar Estado en Línea",
+    "settings.showOnlineStatusDesc": "Mostrar tu estado en línea a otros usuarios",
+    
+    // Security Settings
+    "settings.security": "// SEGURIDAD",
+    "settings.twoFactor": "Autenticación de Dos Factores",
+    "settings.twoFactorDesc": "Añade una capa extra de seguridad a tu cuenta",
+    "settings.autoLock": "Bloqueo Automático",
+    "settings.autoLockDesc": "Bloquear sesión después de un período de inactividad",
+    "settings.autoLockMinutes": "Temporizador de Bloqueo (minutos)",
+    "settings.sessionTimeout": "Tiempo de Sesión",
+    "settings.sessionTimeoutDesc": "Cerrar sesión automáticamente después de inactividad",
+    "settings.sessionTimeoutMinutes": "Tiempo de Sesión (minutos)",
+    
+    // Storage Settings
+    "settings.storageSettings": "// ALMACENAMIENTO",
+    "settings.autoCleanup": "Limpieza Automática",
+    "settings.autoCleanupDesc": "Eliminar archivos antiguos automáticamente",
+    "settings.cleanupDays": "Limpiar Después de (días)",
+    "settings.compressUploads": "Comprimir Subidas",
+    "settings.compressUploadsDesc": "Comprimir archivos antes de subir para ahorrar espacio",
+    "settings.storageUsed": "Almacenamiento Usado",
+    "settings.storageTotal": "Almacenamiento Total",
+    
+    // Profile Settings
+    "settings.profile": "// PERFIL",
+    "settings.changeAvatar": "Cambiar Avatar",
+    "settings.uploadPhoto": "Subir Foto",
+    "settings.displayName": "Nombre para Mostrar",
+    "settings.bio": "Biografía",
+    "settings.updateProfile": "ACTUALIZAR PERFIL",
+    "settings.profileUpdated": "Perfil actualizado con éxito",
+    "settings.enterBio": "Ingresa tu biografía...",
+    "settings.save": "GUARDAR",
+    "settings.cancel": "CANCELAR",
     
     // Auth
     "auth.signIn": "INICIAR SESIÓN",
@@ -479,6 +589,61 @@ const translations: Translations = {
     "settings.signedInAs": "Connecté en tant que",
     "settings.themeNote": "La préférence de thème est enregistrée localement et appliquée lors de la prochaine visite.",
     
+    // Notifications Settings
+    "settings.notifications": "// NOTIFICATIONS",
+    "settings.notificationsEnabled": "Activer les Notifications",
+    "settings.notificationsEnabledDesc": "Recevoir les notifications et alertes système",
+    "settings.notificationSound": "Son de Notification",
+    "settings.notificationSoundDesc": "Jouer un son pour les notifications entrantes",
+    "settings.virusAlerts": "Alertes Virus",
+    "settings.virusAlertsDesc": "Être notifié lorsque des menaces sont détectées",
+    "settings.backupAlerts": "Alertes de Sauvegarde",
+    "settings.backupAlertsDesc": "Notifications pour les sauvegardes terminées",
+    "settings.securityAlerts": "Alertes de Sécurité",
+    "settings.securityAlertsDesc": "Notifications d'événements de sécurité critiques",
+    
+    // Privacy Settings
+    "settings.privacy": "// CONFIDENTIALITÉ",
+    "settings.analytics": "Analytique",
+    "settings.analyticsDesc": "Aider à améliorer en partageant des données d'utilisation anonymes",
+    "settings.shareUsageData": "Partager les Données d'Utilisation",
+    "settings.shareUsageDataDesc": "Partager les statistiques de stockage et d'utilisation des fonctionnalités",
+    "settings.showOnlineStatus": "Afficher le Statut en Ligne",
+    "settings.showOnlineStatusDesc": "Afficher votre statut en ligne aux autres utilisateurs",
+    
+    // Security Settings
+    "settings.security": "// SÉCURITÉ",
+    "settings.twoFactor": "Authentification à Deux Facteurs",
+    "settings.twoFactorDesc": "Ajouter une couche de sécurité supplémentaire à votre compte",
+    "settings.autoLock": "Verrouillage Automatique",
+    "settings.autoLockDesc": "Verrouiller la session après une période d'inactivité",
+    "settings.autoLockMinutes": "Minuterie de Verrouillage (minutes)",
+    "settings.sessionTimeout": "Expiration de Session",
+    "settings.sessionTimeoutDesc": "Déconnexion automatique après inactivité",
+    "settings.sessionTimeoutMinutes": "Expiration de Session (minutes)",
+    
+    // Storage Settings
+    "settings.storageSettings": "// STOCKAGE",
+    "settings.autoCleanup": "Nettoyage Automatique",
+    "settings.autoCleanupDesc": "Supprimer automatiquement les anciens fichiers",
+    "settings.cleanupDays": "Nettoyer Après (jours)",
+    "settings.compressUploads": "Compresser les Téléchargements",
+    "settings.compressUploadsDesc": "Compresser les fichiers avant le téléchargement pour économiser l'espace",
+    "settings.storageUsed": "Stockage Utilisé",
+    "settings.storageTotal": "Stockage Total",
+    
+    // Profile Settings
+    "settings.profile": "// PROFIL",
+    "settings.changeAvatar": "Changer l'Avatar",
+    "settings.uploadPhoto": "Télécharger une Photo",
+    "settings.displayName": "Nom d'Affichage",
+    "settings.bio": "Bio",
+    "settings.updateProfile": "METTRE À JOUR LE PROFIL",
+    "settings.profileUpdated": "Profil mis à jour avec succès",
+    "settings.enterBio": "Entrez votre bio...",
+    "settings.save": "SAUVEGARDER",
+    "settings.cancel": "ANNULER",
+    
     // Auth
     "auth.signIn": "CONNEXION",
     "auth.signUp": "CRÉER UN COMPTE",
@@ -668,6 +833,61 @@ const translations: Translations = {
     "settings.signOut": "ABMELDEN",
     "settings.signedInAs": "Angemeldet als",
     "settings.themeNote": "Die Theme-Einstellung wird lokal gespeichert und beim nächsten Besuch angewendet.",
+    
+    // Notifications Settings
+    "settings.notifications": "// BENACHRICHTIGUNGEN",
+    "settings.notificationsEnabled": "Benachrichtigungen Aktivieren",
+    "settings.notificationsEnabledDesc": "Systembenachrichtigungen und Warnungen erhalten",
+    "settings.notificationSound": "Benachrichtigungston",
+    "settings.notificationSoundDesc": "Ton für eingehende Benachrichtigungen abspielen",
+    "settings.virusAlerts": "Viruswarnungen",
+    "settings.virusAlertsDesc": "Benachrichtigung bei erkannten Bedrohungen",
+    "settings.backupAlerts": "Backup-Warnungen",
+    "settings.backupAlertsDesc": "Benachrichtigungen für abgeschlossene Backups",
+    "settings.securityAlerts": "Sicherheitswarnungen",
+    "settings.securityAlertsDesc": "Kritische Sicherheitsereignis-Benachrichtigungen",
+    
+    // Privacy Settings
+    "settings.privacy": "// DATENSCHUTZ",
+    "settings.analytics": "Analytik",
+    "settings.analyticsDesc": "Helfen Sie bei der Verbesserung durch Teilen anonymer Nutzungsdaten",
+    "settings.shareUsageData": "Nutzungsdaten Teilen",
+    "settings.shareUsageDataDesc": "Speicher- und Funktionsnutzungsstatistiken teilen",
+    "settings.showOnlineStatus": "Online-Status Anzeigen",
+    "settings.showOnlineStatusDesc": "Ihren Online-Status für andere Benutzer anzeigen",
+    
+    // Security Settings
+    "settings.security": "// SICHERHEIT",
+    "settings.twoFactor": "Zwei-Faktor-Authentifizierung",
+    "settings.twoFactorDesc": "Fügen Sie Ihrem Konto eine zusätzliche Sicherheitsebene hinzu",
+    "settings.autoLock": "Automatische Sperre",
+    "settings.autoLockDesc": "Sitzung nach Inaktivität sperren",
+    "settings.autoLockMinutes": "Sperrzeitgeber (Minuten)",
+    "settings.sessionTimeout": "Sitzungs-Timeout",
+    "settings.sessionTimeoutDesc": "Automatisch nach Inaktivität abmelden",
+    "settings.sessionTimeoutMinutes": "Sitzungs-Timeout (Minuten)",
+    
+    // Storage Settings
+    "settings.storageSettings": "// SPEICHER",
+    "settings.autoCleanup": "Automatische Bereinigung",
+    "settings.autoCleanupDesc": "Alte Dateien automatisch entfernen",
+    "settings.cleanupDays": "Bereinigung Nach (Tage)",
+    "settings.compressUploads": "Uploads Komprimieren",
+    "settings.compressUploadsDesc": "Dateien vor dem Hochladen komprimieren, um Speicherplatz zu sparen",
+    "settings.storageUsed": "Verwendeter Speicher",
+    "settings.storageTotal": "Gesamtspeicher",
+    
+    // Profile Settings
+    "settings.profile": "// PROFIL",
+    "settings.changeAvatar": "Avatar Ändern",
+    "settings.uploadPhoto": "Foto Hochladen",
+    "settings.displayName": "Anzeigename",
+    "settings.bio": "Bio",
+    "settings.updateProfile": "PROFIL AKTUALISIEREN",
+    "settings.profileUpdated": "Profil erfolgreich aktualisiert",
+    "settings.enterBio": "Geben Sie Ihre Bio ein...",
+    "settings.save": "SPEICHERN",
+    "settings.cancel": "ABBRECHEN",
     
     // Auth
     "auth.signIn": "ANMELDEN",
@@ -859,6 +1079,61 @@ const translations: Translations = {
     "settings.signedInAs": "登录身份",
     "settings.themeNote": "主题首选项保存在本地，下次访问时应用。",
     
+    // Notifications Settings
+    "settings.notifications": "// 通知",
+    "settings.notificationsEnabled": "启用通知",
+    "settings.notificationsEnabledDesc": "接收系统通知和警报",
+    "settings.notificationSound": "通知声音",
+    "settings.notificationSoundDesc": "为传入通知播放声音",
+    "settings.virusAlerts": "病毒警报",
+    "settings.virusAlertsDesc": "检测到威胁时通知",
+    "settings.backupAlerts": "备份警报",
+    "settings.backupAlertsDesc": "备份完成通知",
+    "settings.securityAlerts": "安全警报",
+    "settings.securityAlertsDesc": "关键安全事件通知",
+    
+    // Privacy Settings
+    "settings.privacy": "// 隐私",
+    "settings.analytics": "分析",
+    "settings.analyticsDesc": "通过分享匿名使用数据帮助改进",
+    "settings.shareUsageData": "分享使用数据",
+    "settings.shareUsageDataDesc": "分享存储和功能使用统计",
+    "settings.showOnlineStatus": "显示在线状态",
+    "settings.showOnlineStatusDesc": "向其他用户显示您的在线状态",
+    
+    // Security Settings
+    "settings.security": "// 安全",
+    "settings.twoFactor": "双因素认证",
+    "settings.twoFactorDesc": "为您的账户添加额外的安全层",
+    "settings.autoLock": "自动锁定",
+    "settings.autoLockDesc": "一段时间不活动后锁定会话",
+    "settings.autoLockMinutes": "自动锁定计时器（分钟）",
+    "settings.sessionTimeout": "会话超时",
+    "settings.sessionTimeoutDesc": "不活动后自动登出",
+    "settings.sessionTimeoutMinutes": "会话超时（分钟）",
+    
+    // Storage Settings
+    "settings.storageSettings": "// 存储",
+    "settings.autoCleanup": "自动清理",
+    "settings.autoCleanupDesc": "自动删除旧文件",
+    "settings.cleanupDays": "清理周期（天）",
+    "settings.compressUploads": "压缩上传",
+    "settings.compressUploadsDesc": "上传前压缩文件以节省空间",
+    "settings.storageUsed": "已用存储",
+    "settings.storageTotal": "总存储",
+    
+    // Profile Settings
+    "settings.profile": "// 个人资料",
+    "settings.changeAvatar": "更改头像",
+    "settings.uploadPhoto": "上传照片",
+    "settings.displayName": "显示名称",
+    "settings.bio": "简介",
+    "settings.updateProfile": "更新个人资料",
+    "settings.profileUpdated": "个人资料更新成功",
+    "settings.enterBio": "输入您的简介...",
+    "settings.save": "保存",
+    "settings.cancel": "取消",
+    
     // Auth
     "auth.signIn": "登录",
     "auth.signUp": "创建账户",
@@ -1048,6 +1323,61 @@ const translations: Translations = {
     "settings.signOut": "ログアウト",
     "settings.signedInAs": "ログイン中",
     "settings.themeNote": "テーマ設定はローカルに保存され、次回の訪問時に適用されます。",
+    
+    // Notifications Settings
+    "settings.notifications": "// 通知",
+    "settings.notificationsEnabled": "通知を有効にする",
+    "settings.notificationsEnabledDesc": "システム通知とアラートを受信",
+    "settings.notificationSound": "通知音",
+    "settings.notificationSoundDesc": "着信通知のサウンドを再生",
+    "settings.virusAlerts": "ウイルスアラート",
+    "settings.virusAlertsDesc": "脅威検出時の通知",
+    "settings.backupAlerts": "バックアップアラート",
+    "settings.backupAlertsDesc": "バックアップ完了の通知",
+    "settings.securityAlerts": "セキュリティアラート",
+    "settings.securityAlertsDesc": "重要なセキュリティイベントの通知",
+    
+    // Privacy Settings
+    "settings.privacy": "// プライバシー",
+    "settings.analytics": "アナリティクス",
+    "settings.analyticsDesc": "匿名の使用データを共有して改善に協力",
+    "settings.shareUsageData": "使用データを共有",
+    "settings.shareUsageDataDesc": "ストレージと機能の使用統計を共有",
+    "settings.showOnlineStatus": "オンラインステータスを表示",
+    "settings.showOnlineStatusDesc": "他のユーザーにオンラインステータスを表示",
+    
+    // Security Settings
+    "settings.security": "// セキュリティ",
+    "settings.twoFactor": "二要素認証",
+    "settings.twoFactorDesc": "アカウントにセキュリティの追加レイヤーを追加",
+    "settings.autoLock": "自動ロック",
+    "settings.autoLockDesc": "一定時間の非アクティブ後にセッションをロック",
+    "settings.autoLockMinutes": "自動ロックタイマー（分）",
+    "settings.sessionTimeout": "セッションタイムアウト",
+    "settings.sessionTimeoutDesc": "非アクティブ後に自動ログアウト",
+    "settings.sessionTimeoutMinutes": "セッションタイムアウト（分）",
+    
+    // Storage Settings
+    "settings.storageSettings": "// ストレージ",
+    "settings.autoCleanup": "自動クリーンアップ",
+    "settings.autoCleanupDesc": "古いファイルを自動的に削除",
+    "settings.cleanupDays": "クリーンアップ期間（日）",
+    "settings.compressUploads": "アップロードを圧縮",
+    "settings.compressUploadsDesc": "スペースを節約するためにアップロード前にファイルを圧縮",
+    "settings.storageUsed": "使用済みストレージ",
+    "settings.storageTotal": "総ストレージ",
+    
+    // Profile Settings
+    "settings.profile": "// プロフィール",
+    "settings.changeAvatar": "アバターを変更",
+    "settings.uploadPhoto": "写真をアップロード",
+    "settings.displayName": "表示名",
+    "settings.bio": "自己紹介",
+    "settings.updateProfile": "プロフィールを更新",
+    "settings.profileUpdated": "プロフィールが正常に更新されました",
+    "settings.enterBio": "自己紹介を入力...",
+    "settings.save": "保存",
+    "settings.cancel": "キャンセル",
     
     // Auth
     "auth.signIn": "ログイン",
@@ -1239,6 +1569,61 @@ const translations: Translations = {
     "settings.signedInAs": "Log masuk sebagai",
     "settings.themeNote": "Keutamaan tema disimpan secara tempatan dan digunakan pada lawatan seterusnya.",
     
+    // Notifications Settings
+    "settings.notifications": "// PEMBERITAHUAN",
+    "settings.notificationsEnabled": "Dayakan Pemberitahuan",
+    "settings.notificationsEnabledDesc": "Terima pemberitahuan dan amaran sistem",
+    "settings.notificationSound": "Bunyi Pemberitahuan",
+    "settings.notificationSoundDesc": "Mainkan bunyi untuk pemberitahuan masuk",
+    "settings.virusAlerts": "Amaran Virus",
+    "settings.virusAlertsDesc": "Diberitahu apabila ancaman dikesan",
+    "settings.backupAlerts": "Amaran Sandaran",
+    "settings.backupAlertsDesc": "Pemberitahuan untuk sandaran selesai",
+    "settings.securityAlerts": "Amaran Keselamatan",
+    "settings.securityAlertsDesc": "Pemberitahuan acara keselamatan kritikal",
+    
+    // Privacy Settings
+    "settings.privacy": "// PRIVASI",
+    "settings.analytics": "Analitik",
+    "settings.analyticsDesc": "Bantu tingkatkan dengan berkongsi data penggunaan tanpa nama",
+    "settings.shareUsageData": "Kongsi Data Penggunaan",
+    "settings.shareUsageDataDesc": "Kongsi statistik penggunaan storan dan ciri",
+    "settings.showOnlineStatus": "Tunjuk Status Dalam Talian",
+    "settings.showOnlineStatusDesc": "Paparkan status dalam talian anda kepada pengguna lain",
+    
+    // Security Settings
+    "settings.security": "// KESELAMATAN",
+    "settings.twoFactor": "Pengesahan Dua Faktor",
+    "settings.twoFactorDesc": "Tambah lapisan keselamatan tambahan ke akaun anda",
+    "settings.autoLock": "Kunci Automatik",
+    "settings.autoLockDesc": "Kunci sesi selepas tempoh tidak aktif",
+    "settings.autoLockMinutes": "Pemasa Kunci (minit)",
+    "settings.sessionTimeout": "Had Masa Sesi",
+    "settings.sessionTimeoutDesc": "Log keluar secara automatik selepas tidak aktif",
+    "settings.sessionTimeoutMinutes": "Had Masa Sesi (minit)",
+    
+    // Storage Settings
+    "settings.storageSettings": "// STORAN",
+    "settings.autoCleanup": "Pembersihan Automatik",
+    "settings.autoCleanupDesc": "Buang fail lama secara automatik",
+    "settings.cleanupDays": "Bersihkan Selepas (hari)",
+    "settings.compressUploads": "Mampatkan Muat Naik",
+    "settings.compressUploadsDesc": "Mampatkan fail sebelum muat naik untuk jimat ruang",
+    "settings.storageUsed": "Storan Digunakan",
+    "settings.storageTotal": "Jumlah Storan",
+    
+    // Profile Settings
+    "settings.profile": "// PROFIL",
+    "settings.changeAvatar": "Tukar Avatar",
+    "settings.uploadPhoto": "Muat Naik Gambar",
+    "settings.displayName": "Nama Paparan",
+    "settings.bio": "Bio",
+    "settings.updateProfile": "KEMAS KINI PROFIL",
+    "settings.profileUpdated": "Profil berjaya dikemas kini",
+    "settings.enterBio": "Masukkan bio anda...",
+    "settings.save": "SIMPAN",
+    "settings.cancel": "BATAL",
+    
     // Auth
     "auth.signIn": "LOG MASUK",
     "auth.signUp": "CIPTA AKAUN",
@@ -1428,6 +1813,61 @@ const translations: Translations = {
     "settings.signOut": "KELUAR",
     "settings.signedInAs": "Masuk sebagai",
     "settings.themeNote": "Preferensi tema disimpan secara lokal dan diterapkan pada kunjungan berikutnya.",
+    
+    // Notifications Settings
+    "settings.notifications": "// NOTIFIKASI",
+    "settings.notificationsEnabled": "Aktifkan Notifikasi",
+    "settings.notificationsEnabledDesc": "Terima notifikasi dan peringatan sistem",
+    "settings.notificationSound": "Suara Notifikasi",
+    "settings.notificationSoundDesc": "Mainkan suara untuk notifikasi masuk",
+    "settings.virusAlerts": "Peringatan Virus",
+    "settings.virusAlertsDesc": "Dapatkan pemberitahuan saat ancaman terdeteksi",
+    "settings.backupAlerts": "Peringatan Cadangan",
+    "settings.backupAlertsDesc": "Notifikasi untuk cadangan yang selesai",
+    "settings.securityAlerts": "Peringatan Keamanan",
+    "settings.securityAlertsDesc": "Notifikasi peristiwa keamanan kritis",
+    
+    // Privacy Settings
+    "settings.privacy": "// PRIVASI",
+    "settings.analytics": "Analitik",
+    "settings.analyticsDesc": "Bantu tingkatkan dengan berbagi data penggunaan anonim",
+    "settings.shareUsageData": "Bagikan Data Penggunaan",
+    "settings.shareUsageDataDesc": "Bagikan statistik penggunaan penyimpanan dan fitur",
+    "settings.showOnlineStatus": "Tampilkan Status Online",
+    "settings.showOnlineStatusDesc": "Tampilkan status online Anda kepada pengguna lain",
+    
+    // Security Settings
+    "settings.security": "// KEAMANAN",
+    "settings.twoFactor": "Autentikasi Dua Faktor",
+    "settings.twoFactorDesc": "Tambahkan lapisan keamanan ekstra ke akun Anda",
+    "settings.autoLock": "Kunci Otomatis",
+    "settings.autoLockDesc": "Kunci sesi setelah periode tidak aktif",
+    "settings.autoLockMinutes": "Timer Kunci (menit)",
+    "settings.sessionTimeout": "Batas Waktu Sesi",
+    "settings.sessionTimeoutDesc": "Keluar otomatis setelah tidak aktif",
+    "settings.sessionTimeoutMinutes": "Batas Waktu Sesi (menit)",
+    
+    // Storage Settings
+    "settings.storageSettings": "// PENYIMPANAN",
+    "settings.autoCleanup": "Pembersihan Otomatis",
+    "settings.autoCleanupDesc": "Hapus file lama secara otomatis",
+    "settings.cleanupDays": "Bersihkan Setelah (hari)",
+    "settings.compressUploads": "Kompres Unggahan",
+    "settings.compressUploadsDesc": "Kompres file sebelum mengunggah untuk menghemat ruang",
+    "settings.storageUsed": "Penyimpanan Terpakai",
+    "settings.storageTotal": "Total Penyimpanan",
+    
+    // Profile Settings
+    "settings.profile": "// PROFIL",
+    "settings.changeAvatar": "Ubah Avatar",
+    "settings.uploadPhoto": "Unggah Foto",
+    "settings.displayName": "Nama Tampilan",
+    "settings.bio": "Bio",
+    "settings.updateProfile": "PERBARUI PROFIL",
+    "settings.profileUpdated": "Profil berhasil diperbarui",
+    "settings.enterBio": "Masukkan bio Anda...",
+    "settings.save": "SIMPAN",
+    "settings.cancel": "BATAL",
     
     // Auth
     "auth.signIn": "MASUK",
