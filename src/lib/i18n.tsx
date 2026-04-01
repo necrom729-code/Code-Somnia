@@ -2,13 +2,14 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, startTransition } from "react";
 
-export type Language = "en" | "es" | "fr" | "de" | "zh" | "ja";
+export type Language = "en" | "es" | "fr" | "de" | "zh" | "ja" | "ms" | "id";
 
 interface LanguageOption {
   code: Language;
   name: string;
   flag: string;
   nativeName: string;
+  dir?: "ltr" | "rtl";
 }
 
 export const LANGUAGES: LanguageOption[] = [
@@ -18,6 +19,8 @@ export const LANGUAGES: LanguageOption[] = [
   { code: "de", name: "German", flag: "🇩🇪", nativeName: "Deutsch" },
   { code: "zh", name: "Chinese", flag: "🇨🇳", nativeName: "中文" },
   { code: "ja", name: "Japanese", flag: "🇯🇵", nativeName: "日本語" },
+  { code: "ms", name: "Malay", flag: "🇲🇾", nativeName: "Bahasa Melayu" },
+  { code: "id", name: "Indonesian", flag: "🇮🇩", nativeName: "Bahasa Indonesia" },
 ];
 
 type Translations = Record<Language, Record<string, string>>;
@@ -1162,6 +1165,386 @@ const translations: Translations = {
     "protection.watchdogs.desc": "24時間365日の侵入検出システム",
     "protection.audit.name": "監査ログ",
     "protection.audit.desc": "完全なアクティビティ追跡とフォレンジック",
+  },
+  ms: {
+    // Navigation
+    "nav.settings": "TETAPAN",
+    "nav.signIn": "LOG MASUK",
+    "nav.signOut": "LOG KELUAR",
+    "nav.register": "DAFTAR",
+    
+    // Home
+    "home.title": "NECROM",
+    "home.subtitle": "// INFRASTRUKTUR DIGITAL SELAMAT",
+    "home.description": "Storan awan disulitkan dengan keselamatan gred ketenteraan. Simpan, urus dan akses fail, video, audio dan data anda dari mana-mana sahaja. Setiap byte dilindungi.",
+    "home.encryption": "PENYULITAN",
+    "home.uptime": "MASA AKTIF",
+    "home.storage": "STORAN",
+    "home.breaches": "PELANGGARAN",
+    
+    // Security
+    "security.title": "CIRI KESELAMATAN",
+    "security.subtitle": "// SISTEM PERLINDUNGAN AKTIF",
+    "security.allEnabled": "SEMUA SISTEM AKTIF",
+    "security.someEnabled": "SISTEM SEBAHAGIAN AKTIF",
+    "security.allDisabled": "SISTEM LUAR TALIAN",
+    "security.enableAll": "AKTIFKAN SEMUA",
+    "security.viewDetails": "LIHAT BUTIRAN",
+    "security.threatsBlocked": "ANCAMAN DIHALANG",
+    "security.lastScan": "IMBASAN TERAKHIR",
+    "security.never": "Tidak Pernah",
+    "security.antivirus": "ANTIVIRUS",
+    "security.vpn": "VPN PRIVASI",
+    "security.firewall": "TEMBAKAW",
+    "security.encryption": "HANTAR KE HANTAR",
+    "security.watchdogs": "ANJING PENJAGA",
+    "security.audit": "LOG AUDIT",
+    "security.description.antivirus": "Pengesanan & pembuangan ancaman masa nyata",
+    "security.description.vpn": "Terowong disulitkan untuk semua sambungan",
+    "security.description.firewall": "Penapisan & pemantauan paket lanjutan",
+    "security.description.encryption": "Penyulitan AES-256 gred ketenteraan",
+    "security.description.watchdogs": "Sistem pengesanan pencerobohan 24/7",
+    "security.description.audit": "Penjejakan aktiviti & forensik lengkap",
+    
+    // Storage
+    "storage.title": "PELAYAN SANDARAN",
+    "storage.used": "Digunakan",
+    "storage.free": "Percuma",
+    "storage.total": "Jumlah Storan",
+    "storage.ssd": "NVMe SSD",
+    
+    // File Manager
+    "files.title": "SISTEM FAIL",
+    "files.upload": "MUAT NAIK",
+    "files.newFolder": "FOLDER BARU",
+    "files.search": "Cari fail...",
+    "files.allTypes": "Semua Jenis",
+    "files.images": "Imej",
+    "files.videos": "Video",
+    "files.audio": "Audio",
+    "files.documents": "Dokumen",
+    "files.archives": "Arkib",
+    "files.noFiles": "Tiada fail dijumpai",
+    "files.dropFiles": "Lepaskan fail di sini untuk muat naik",
+    
+    // Settings
+    "settings.title": "TETAPAN SISTEM",
+    "settings.appearance": "// PENAMPILAN & TEMA",
+    "settings.language": "// BAHASA",
+    "settings.account": "// AKAUN",
+    "settings.active": "AKTIF",
+    "settings.currentLanguage": "Bahasa Semasa",
+    "settings.languageDescription": "Keutamaan bahasa antara muka disimpan secara tempatan.",
+    "settings.signOut": "LOG KELUAR",
+    "settings.signedInAs": "Log masuk sebagai",
+    "settings.themeNote": "Keutamaan tema disimpan secara tempatan dan digunakan pada lawatan seterusnya.",
+    
+    // Auth
+    "auth.signIn": "LOG MASUK",
+    "auth.signUp": "CIPTA AKAUN",
+    "auth.email": "E-MEL",
+    "auth.password": "KATA LALUAN",
+    "auth.username": "NAMA PENGGUNA",
+    "auth.rememberMe": "INGAT SAYA",
+    "auth.forgotPassword": "Lupa kata laluan?",
+    "auth.noAccount": "TIADA AKAUN?",
+    "auth.hasAccount": "Sudah ada akaun?",
+    "auth.createAccount": "Cipta akaun",
+    "auth.createAccountLink": "CIPTA PROFIL OPERATOR",
+    "auth.login": "Log masuk",
+    "auth.terminalTitle": "TERMINAL AKSES SELAMAT",
+    "auth.operatorAuth": "PENGESAHAN OPERATOR",
+    "auth.emailLabel": "ALAMAT E-MEL",
+    "auth.emailPlaceholder": "operator@necrom.sys",
+    "auth.passwordLabel": "KATA LALUAN",
+    "auth.passwordPlaceholder": "••••••••••••",
+    "auth.authenticating": "MENGESAHKAN...",
+    "auth.accessSystem": "AKSES SISTEM",
+    "auth.encryptionNote": "SEMUA SAMBUNGAN DISULITKAN // AES-256",
+    "auth.register": "DAFTAR",
+    
+    // Notifications
+    "notifications.title": "PEMBERITAHUAN",
+    "notifications.clearAll": "Kosongkan Semua",
+    "notifications.markAllRead": "Tandakan semua dibaca",
+    "notifications.empty": "Tiada pemberitahuan",
+    "notifications.virusDetected": "VIRUS DIKESAN",
+    "notifications.threatBlocked": "Ancaman dihalang oleh {protection}",
+    "notifications.systemClean": "Pembersihan sistem selesai",
+    "notifications.backupComplete": "Sandaran selesai",
+    "notifications.daysSinceClean": "{days} hari sejak pembersihan terakhir",
+    "notifications.cleanNow": "Bersihkan Sekarang",
+    
+    // Footer
+    "footer.tagline": "NECROM CLOUD // SEMUA DATA DISULITKAN // PROTOKOL WATCH_DOGS AKTIF",
+    "footer.build": "SYS_BUILD: 2026.02.27 — NODE: ctOS-7",
+    
+    // VPN
+    "vpn.title": "PELAYAN VPN",
+    "vpn.connecting": "MENYAMBUNG",
+    "vpn.connected": "BERSAMBUNG",
+    "vpn.disconnected": "TERPUTUS",
+    "vpn.disconnect": "PUTUSKAN",
+    "vpn.realIP": "IP SEBENAR",
+    "vpn.vpnIP": "IP VPN",
+    "vpn.servers": "Pelayan",
+    "vpn.countries": "Negara",
+    "vpn.connect": "SAMBUNG",
+    "vpn.selectServer": "Pilih Pelayan",
+    
+    // Common
+    "common.save": "SIMPAN",
+    "common.cancel": "BATAL",
+    "common.delete": "PADAM",
+    "common.restore": "PULIHKAN",
+    "common.close": "TUTUP",
+    "common.yes": "YA",
+    "common.no": "TIDAK",
+    "common.on": "ON",
+    "common.off": "OFF",
+    "common.enabled": "DIAKTIFKAN",
+    "common.disabled": "DINYAHAKTIFKAN",
+    
+    // Introduction
+    "intro.title": "BAGAIMANA IA BERFUNGSI",
+    "intro.step1.title": "MUAT NAIK FAIL ANDA",
+    "intro.step1.desc": "Seret dan lepas atau klik untuk memuat naik sebarang jenis fail - dokumen, imej, video, audio dan banyak lagi.",
+    "intro.step2.title": "PENYULITAN AKTIF",
+    "intro.step2.desc": "Setiap fail disulitkan dengan penyulitan AES-256 gred ketenteraan sebelum meninggalkan peranti anda.",
+    "intro.step3.title": "STORAN SELAMAT",
+    "intro.step3.desc": "Fail anda yang disulitkan disimpan dalam awan terlindung kami dengan pemantauan 24/7.",
+    "intro.step4.title": "AKSES DI MANA-MANA",
+    "intro.step4.desc": "Akses fail anda dari mana-mana peranti. Data anda kekal dilindungi dengan keselamatan hantar ke hantar.",
+    "intro.cta.ready": "SEDIA UNTUK BERMULA?",
+    "intro.cta.scroll": "TURUN KE BAWAH UNTUK MUAT NAIK",
+    
+    // Nav
+    "nav.cloudServer": "PELAYAN AWAN v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "MENGAKTIFKAN PERLINDUNGAN",
+    "watchdogs.activating.subtitle": "Mengaktifkan semua sistem keselamatan...",
+    "watchdogs.safe.title": "SEMUA SELAMAT",
+    "watchdogs.safe.subtitle": "Tiada penceroboh, data anda selamat.",
+    "watchdogs.threat.title": "ANCAMAN DIKESAN",
+    "watchdogs.threat.subtitle": "Jangan risau, data anda dilindungi oleh NECROM. Sila tunggu sebentar.",
+    "watchdogs.scanning.title": "ANJING PENJAGA AKTIF",
+    "watchdogs.scanning.subtitle": "MENGIMBAS PENCEROBOH...",
+    
+    // Security Panel
+    "securityPanel.title": "PUSAT KAWALAN KESELAMATAN",
+    "securityPanel.close": "TUTUP [X]",
+    "securityPanel.activeProtections": "PERLINDUNGAN AKTIF",
+    "securityPanel.backups": "SANDARAN",
+    "securityPanel.enableAll": "AKTIFKAN SEMUA SISTEM",
+    "securityPanel.disableAll": "NYAHAKTIFKAN SEMUA SISTEM",
+    "securityPanel.tab.protections": "PERLINDUNGAN",
+    "securityPanel.tab.logs": "LOG",
+    "securityPanel.tab.backups": "SANDARAN",
+    
+    // Protection Names
+    "protection.antivirus.name": "ANTIVIRUS",
+    "protection.antivirus.desc": "Pengesanan & pembuangan ancaman masa nyata",
+    "protection.vpn.name": "VPN PRIVASI",
+    "protection.vpn.desc": "Terowong disulitkan untuk semua sambungan",
+    "protection.firewall.name": "TEMBAKAW",
+    "protection.firewall.desc": "Penapisan & pemantauan paket lanjutan",
+    "protection.encryption.name": "HANTAR KE HANTAR",
+    "protection.encryption.desc": "Penyulitan AES-256 gred ketenteraan",
+    "protection.watchdogs.name": "ANJING PENJAGA",
+    "protection.watchdogs.desc": "Sistem pengesanan pencerobohan 24/7",
+    "protection.audit.name": "LOG AUDIT",
+    "protection.audit.desc": "Penjejakan aktiviti & forensik lengkap",
+  },
+  id: {
+    // Navigation
+    "nav.settings": "PENGATURAN",
+    "nav.signIn": "MASUK",
+    "nav.signOut": "KELUAR",
+    "nav.register": "DAFTAR",
+    
+    // Home
+    "home.title": "NECROM",
+    "home.subtitle": "// INFRASTRUKTUR DIGITAL AMAN",
+    "home.description": "Penyimpanan cloud terenkripsi dengan keamanan tingkat militer. Simpan, kelola, dan akses file, video, audio, dan data Anda dari mana saja. Setiap byte dilindungi.",
+    "home.encryption": "ENKRIPSI",
+    "home.uptime": "WAKTU AKTIF",
+    "home.storage": "PENYIMPANAN",
+    "home.breaches": "PELANGGARAN",
+    
+    // Security
+    "security.title": "FITUR KEAMANAN",
+    "security.subtitle": "// SISTEM PERLINDUNGAN AKTIF",
+    "security.allEnabled": "SEMUA SISTEM AKTIF",
+    "security.someEnabled": "SISTEM SEBAGIAN AKTIF",
+    "security.allDisabled": "SISTEM OFFLINE",
+    "security.enableAll": "AKTIFKAN SEMUA",
+    "security.viewDetails": "LIHAT DETAIL",
+    "security.threatsBlocked": "ANCAMAN DIBLOKIR",
+    "security.lastScan": "PEMINDAIAN TERAKHIR",
+    "security.never": "Tidak Pernah",
+    "security.antivirus": "ANTIVIRUS",
+    "security.vpn": "VPN PRIVASI",
+    "security.firewall": "FIREWALL",
+    "security.encryption": "END-TO-END",
+    "security.watchdogs": "WATCHDOGS",
+    "security.audit": "LOG AUDIT",
+    "security.description.antivirus": "Deteksi & penghapusan ancaman real-time",
+    "security.description.vpn": "Terowongan terenkripsi untuk semua koneksi",
+    "security.description.firewall": "Filtering & pemantauan paket lanjutan",
+    "security.description.encryption": "Enkripsi AES-256 tingkat militer",
+    "security.description.watchdogs": "Sistem deteksi intrusi 24/7",
+    "security.description.audit": "Pelacakan aktivitas & forensik lengkap",
+    
+    // Storage
+    "storage.title": "SERVER CADANGAN",
+    "storage.used": "Terpakai",
+    "storage.free": "Tersedia",
+    "storage.total": "Total Penyimpanan",
+    "storage.ssd": "NVMe SSD",
+    
+    // File Manager
+    "files.title": "SISTEM BERKAS",
+    "files.upload": "UNGGAH",
+    "files.newFolder": "FOLDER BARU",
+    "files.search": "Cari berkas...",
+    "files.allTypes": "Semua Jenis",
+    "files.images": "Gambar",
+    "files.videos": "Video",
+    "files.audio": "Audio",
+    "files.documents": "Dokumen",
+    "files.archives": "Arsip",
+    "files.noFiles": "Tidak ada berkas ditemukan",
+    "files.dropFiles": "Jatuhkan berkas di sini untuk mengunggah",
+    
+    // Settings
+    "settings.title": "PENGATURAN SISTEM",
+    "settings.appearance": "// TAMPILAN & TEMA",
+    "settings.language": "// BAHASA",
+    "settings.account": "// AKUN",
+    "settings.active": "AKTIF",
+    "settings.currentLanguage": "Bahasa Saat Ini",
+    "settings.languageDescription": "Preferensi bahasa antarmuka disimpan secara lokal.",
+    "settings.signOut": "KELUAR",
+    "settings.signedInAs": "Masuk sebagai",
+    "settings.themeNote": "Preferensi tema disimpan secara lokal dan diterapkan pada kunjungan berikutnya.",
+    
+    // Auth
+    "auth.signIn": "MASUK",
+    "auth.signUp": "BUAT AKUN",
+    "auth.email": "EMAIL",
+    "auth.password": "KATA SANDI",
+    "auth.username": "NAMA PENGGUNA",
+    "auth.rememberMe": "INGAT SAYA",
+    "auth.forgotPassword": "Lupa kata sandi?",
+    "auth.noAccount": "BELUM PUNYA AKUN?",
+    "auth.hasAccount": "Sudah punya akun?",
+    "auth.createAccount": "Buat akun",
+    "auth.createAccountLink": "BUAT PROFIL OPERATOR",
+    "auth.login": "Masuk",
+    "auth.terminalTitle": "TERMINAL AKSES AMAN",
+    "auth.operatorAuth": "AUTENTIKASI OPERATOR",
+    "auth.emailLabel": "ALAMAT EMAIL",
+    "auth.emailPlaceholder": "operator@necrom.sys",
+    "auth.passwordLabel": "KATA SANDI",
+    "auth.passwordPlaceholder": "••••••••••••",
+    "auth.authenticating": "MENGOTENTIKASI...",
+    "auth.accessSystem": "AKSES SISTEM",
+    "auth.encryptionNote": "SEMUA KONEKSI TERENKRIPSI // AES-256",
+    "auth.register": "DAFTAR",
+    
+    // Notifications
+    "notifications.title": "NOTIFIKASI",
+    "notifications.clearAll": "Hapus Semua",
+    "notifications.markAllRead": "Tandai semua dibaca",
+    "notifications.empty": "Tidak ada notifikasi",
+    "notifications.virusDetected": "VIRUS TERDETEKSI",
+    "notifications.threatBlocked": "Ancaman diblokir oleh {protection}",
+    "notifications.systemClean": "Pembersihan sistem selesai",
+    "notifications.backupComplete": "Cadangan selesai",
+    "notifications.daysSinceClean": "{days} hari sejak pembersihan terakhir",
+    "notifications.cleanNow": "Bersihkan Sekarang",
+    
+    // Footer
+    "footer.tagline": "NECROM CLOUD // SEMUA DATA TERENKRIPSI // PROTOKOL WATCH_DOGS AKTIF",
+    "footer.build": "SYS_BUILD: 2026.02.27 — NODE: ctOS-7",
+    
+    // VPN
+    "vpn.title": "SERVER VPN",
+    "vpn.connecting": "MENGHUBUNGKAN",
+    "vpn.connected": "TERHUBUNG",
+    "vpn.disconnected": "TERPUTUS",
+    "vpn.disconnect": "PUTUSKAN",
+    "vpn.realIP": "IP ASLI",
+    "vpn.vpnIP": "IP VPN",
+    "vpn.servers": "Server",
+    "vpn.countries": "Negara",
+    "vpn.connect": "HUBUNGKAN",
+    "vpn.selectServer": "Pilih Server",
+    
+    // Common
+    "common.save": "SIMPAN",
+    "common.cancel": "BATAL",
+    "common.delete": "HAPUS",
+    "common.restore": "PULIHKAN",
+    "common.close": "TUTUP",
+    "common.yes": "YA",
+    "common.no": "TIDAK",
+    "common.on": "ON",
+    "common.off": "OFF",
+    "common.enabled": "DIAKTIFKAN",
+    "common.disabled": "DINONAKTIFKAN",
+    
+    // Introduction
+    "intro.title": "BAGAIMANA CARA KERJANYA",
+    "intro.step1.title": "UNGGAH FILE ANDA",
+    "intro.step1.desc": "Seret dan jatuhkan atau klik untuk mengunggah jenis file apa pun - dokumen, gambar, video, audio, dan lainnya.",
+    "intro.step2.title": "ENKRIPSI AKTIF",
+    "intro.step2.desc": "Setiap file dienkripsi dengan enkripsi AES-256 tingkat militer sebelum meninggalkan perangkat Anda.",
+    "intro.step3.title": "PENYIMPANAN AMAN",
+    "intro.step3.desc": "File terenkripsi Anda disimpan di cloud terlindung kami dengan pemantauan 24/7.",
+    "intro.step4.title": "AKSES DI MANA SAJA",
+    "intro.step4.desc": "Akses file Anda dari perangkat apa pun. Data Anda tetap terlindungi dengan keamanan end-to-end.",
+    "intro.cta.ready": "SIAP UNTUK MEMULAI?",
+    "intro.cta.scroll": "GULIR KE BAWAH UNTUK MENGUNGGAH",
+    
+    // Nav
+    "nav.cloudServer": "SERVER CLOUD v2.7.7",
+    
+    // Watchdogs
+    "watchdogs.activating.title": "MENGAKTIFKAN PERLINDUNGAN",
+    "watchdogs.activating.subtitle": "Mengaktifkan semua sistem keamanan...",
+    "watchdogs.safe.title": "SEMUA AMAN",
+    "watchdogs.safe.subtitle": "Tidak ada penyusup, data Anda aman.",
+    "watchdogs.threat.title": "ANCAMAN TERDETEKSI",
+    "watchdogs.threat.subtitle": "Jangan khawatir, data Anda dilindungi oleh NECROM. Silakan tunggu sebentar.",
+    "watchdogs.scanning.title": "WATCHDOGS AKTIF",
+    "watchdogs.scanning.subtitle": "MEMINDAI PENYUSUP...",
+    
+    // Security Panel
+    "securityPanel.title": "PUSAT KONTROL KEAMANAN",
+    "securityPanel.close": "TUTUP [X]",
+    "securityPanel.activeProtections": "PERLINDUNGAN AKTIF",
+    "securityPanel.backups": "CADANGAN",
+    "securityPanel.enableAll": "AKTIFKAN SEMUA SISTEM",
+    "securityPanel.disableAll": "NONAKTIFKAN SEMUA SISTEM",
+    "securityPanel.tab.protections": "PERLINDUNGAN",
+    "securityPanel.tab.logs": "LOG",
+    "securityPanel.tab.backups": "CADANGAN",
+    
+    // Protection Names
+    "protection.antivirus.name": "ANTIVIRUS",
+    "protection.antivirus.desc": "Deteksi & penghapusan ancaman real-time",
+    "protection.vpn.name": "VPN PRIVASI",
+    "protection.vpn.desc": "Terowongan terenkripsi untuk semua koneksi",
+    "protection.firewall.name": "FIREWALL",
+    "protection.firewall.desc": "Filtering & pemantauan paket lanjutan",
+    "protection.encryption.name": "END-TO-END",
+    "protection.encryption.desc": "Enkripsi AES-256 tingkat militer",
+    "protection.watchdogs.name": "WATCHDOGS",
+    "protection.watchdogs.desc": "Sistem deteksi intrusi 24/7",
+    "protection.audit.name": "LOG AUDIT",
+    "protection.audit.desc": "Pelacakan aktivitas & forensik lengkap",
   },
 };
 
