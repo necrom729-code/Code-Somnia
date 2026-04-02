@@ -38,7 +38,7 @@ export default function RootLayout({
             <NotificationsProvider>
               <SecurityProvider>
                 <ThemeApplier />
-                <AnimatedBackground opacity={0.12} />
+                <AnimatedBackground opacity={0.35} />
                 {children}
               </SecurityProvider>
             </NotificationsProvider>
