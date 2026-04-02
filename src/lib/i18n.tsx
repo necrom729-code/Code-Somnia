@@ -155,6 +155,13 @@ const translations: Translations = {
     "settings.cancel": "CANCEL",
     "settings.selectAvatar": "SELECT AVATAR",
     "settings.avatarDescription": "Choose an icon from the gallery to represent your profile",
+    "settings.galleryTab": "GALLERY",
+    "settings.customTab": "CUSTOM",
+    "settings.uploadCustomAvatar": "UPLOAD CUSTOM AVATAR",
+    "settings.customAvatarActive": "Custom avatar active",
+    "settings.removeCustom": "REMOVE",
+    "settings.chooseFile": "CHOOSE FILE",
+    "settings.customAvatarHint": "Upload your own image (max 5MB, JPG/PNG/GIF)",
     
     // Auth
     "auth.signIn": "SIGN IN",
@@ -402,6 +409,13 @@ const translations: Translations = {
     "settings.cancel": "CANCELAR",
     "settings.selectAvatar": "SELECCIONAR AVATAR",
     "settings.avatarDescription": "Elige un icono de la galería para representar tu perfil",
+    "settings.galleryTab": "GALERÍA",
+    "settings.customTab": "PERSONALIZADO",
+    "settings.uploadCustomAvatar": "SUBIR AVATAR PERSONALIZADO",
+    "settings.customAvatarActive": "Avatar personalizado activo",
+    "settings.removeCustom": "ELIMINAR",
+    "settings.chooseFile": "ELEGIR ARCHIVO",
+    "settings.customAvatarHint": "Sube tu propia imagen (máx 5MB, JPG/PNG/GIF)",
     
     // Auth
     "auth.signIn": "INICIAR SESIÓN",
@@ -649,6 +663,13 @@ const translations: Translations = {
     "settings.cancel": "ANNULER",
     "settings.selectAvatar": "SÉLECTIONNER L'AVATAR",
     "settings.avatarDescription": "Choisissez une icône dans la galerie pour représenter votre profil",
+    "settings.galleryTab": "GALERIE",
+    "settings.customTab": "PERSONNALISÉ",
+    "settings.uploadCustomAvatar": "TÉLÉCHARGER UN AVATAR PERSONNALISÉ",
+    "settings.customAvatarActive": "Avatar personnalisé actif",
+    "settings.removeCustom": "SUPPRIMER",
+    "settings.chooseFile": "CHOISIR UN FICHIER",
+    "settings.customAvatarHint": "Téléchargez votre propre image (max 5 Mo, JPG/PNG/GIF)",
     
     // Auth
     "auth.signIn": "CONNEXION",
@@ -896,6 +917,13 @@ const translations: Translations = {
     "settings.cancel": "ABBRECHEN",
     "settings.selectAvatar": "AVATAR AUSWÄHLEN",
     "settings.avatarDescription": "Wählen Sie ein Symbol aus der Galerie, um Ihr Profil darzustellen",
+    "settings.galleryTab": "GALERIE",
+    "settings.customTab": "BENUTZERDEFINIERT",
+    "settings.uploadCustomAvatar": "BENUTZERDEFINIERTEN AVATAR HOCHLADEN",
+    "settings.customAvatarActive": "Benutzerdefinierter Avatar aktiv",
+    "settings.removeCustom": "ENTFERNEN",
+    "settings.chooseFile": "DATEI AUSWÄHLEN",
+    "settings.customAvatarHint": "Laden Sie Ihr eigenes Bild hoch (max 5 MB, JPG/PNG/GIF)",
     
     // Auth
     "auth.signIn": "ANMELDEN",
@@ -1143,6 +1171,13 @@ const translations: Translations = {
     "settings.cancel": "取消",
     "settings.selectAvatar": "选择头像",
     "settings.avatarDescription": "从图库中选择一个图标来代表您的个人资料",
+    "settings.galleryTab": "图库",
+    "settings.customTab": "自定义",
+    "settings.uploadCustomAvatar": "上传自定义头像",
+    "settings.customAvatarActive": "自定义头像已启用",
+    "settings.removeCustom": "移除",
+    "settings.chooseFile": "选择文件",
+    "settings.customAvatarHint": "上传您自己的图片（最大5MB，JPG/PNG/GIF）",
     
     // Auth
     "auth.signIn": "登录",
@@ -1390,6 +1425,13 @@ const translations: Translations = {
     "settings.cancel": "キャンセル",
     "settings.selectAvatar": "アバターを選択",
     "settings.avatarDescription": "プロフィールを表すアイコンをギャラリーから選択してください",
+    "settings.galleryTab": "ギャラリー",
+    "settings.customTab": "カスタム",
+    "settings.uploadCustomAvatar": "カスタムアバターをアップロード",
+    "settings.customAvatarActive": "カスタムアバター有効",
+    "settings.removeCustom": "削除",
+    "settings.chooseFile": "ファイルを選択",
+    "settings.customAvatarHint": "自分の画像をアップロード（最大5MB、JPG/PNG/GIF）",
     
     // Auth
     "auth.signIn": "ログイン",
@@ -1637,6 +1679,13 @@ const translations: Translations = {
     "settings.cancel": "BATAL",
     "settings.selectAvatar": "PILIH AVATAR",
     "settings.avatarDescription": "Pilih ikon dari galeri untuk mewakili profil anda",
+    "settings.galleryTab": "GALERI",
+    "settings.customTab": "Tersuai",
+    "settings.uploadCustomAvatar": "MUAT NAIK AVATAR TERSUAI",
+    "settings.customAvatarActive": "Avatar tersuai aktif",
+    "settings.removeCustom": "BUANG",
+    "settings.chooseFile": "PILIH FAIL",
+    "settings.customAvatarHint": "Muat naik imej anda sendiri (maks 5MB, JPG/PNG/GIF)",
     
     // Auth
     "auth.signIn": "LOG MASUK",
@@ -1884,6 +1933,13 @@ const translations: Translations = {
     "settings.cancel": "BATAL",
     "settings.selectAvatar": "PILIH AVATAR",
     "settings.avatarDescription": "Pilih ikon dari galeri untuk mewakili profil Anda",
+    "settings.galleryTab": "GALERI",
+    "settings.customTab": "KUSTOM",
+    "settings.uploadCustomAvatar": "UNGGAH AVATAR KUSTOM",
+    "settings.customAvatarActive": "Avatar kustom aktif",
+    "settings.removeCustom": "HAPUS",
+    "settings.chooseFile": "PILIH BERKAS",
+    "settings.customAvatarHint": "Unggah gambar Anda sendiri (maks 5MB, JPG/PNG/GIF)",
     
     // Auth
     "auth.signIn": "MASUK",

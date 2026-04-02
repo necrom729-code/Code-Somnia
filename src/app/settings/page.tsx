@@ -108,6 +108,7 @@ export default function SettingsPage() {
   const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption | null>(
     user?.avatarIcon ? AVATAR_OPTIONS.find((a) => a.emoji === user.avatarIcon) || null : null
   );
+  const [customImage, setCustomImage] = useState<string | null>(user?.customAvatar || null);
 
   function handleSignOut() {
     signOut();
@@ -116,10 +117,32 @@ export default function SettingsPage() {
 
   function handleSelectAvatar(avatar: AvatarOption) {
     setSelectedAvatar(avatar);
+    setCustomImage(null);
     if (user) {
       updateUser({
         avatarIcon: avatar.emoji,
         avatarColor: avatar.color,
+        customAvatar: undefined,
+      });
+    }
+  }
+
+  function handleCustomUpload(imageData: string) {
+    setCustomImage(imageData);
+    setSelectedAvatar(null);
+    if (user) {
+      updateUser({
+        customAvatar: imageData,
+        avatarIcon: undefined,
+      });
+    }
+  }
+
+  function handleRemoveCustom() {
+    setCustomImage(null);
+    if (user) {
+      updateUser({
+        customAvatar: undefined,
       });
     }
   }
@@ -164,14 +187,18 @@ export default function SettingsPage() {
                 {user.username}
               </div>
               <div
-                className="w-8 h-8 border flex items-center justify-center text-sm"
+                className="w-8 h-8 border flex items-center justify-center text-sm overflow-hidden"
                 style={{
                   borderColor: user.avatarColor || "#c0392b",
                   color: user.avatarColor || "#c0392b",
-                  background: `${user.avatarColor || "#c0392b"}15`,
+                  background: user.customAvatar ? "transparent" : `${user.avatarColor || "#c0392b"}15`,
                 }}
               >
-                {user.avatarIcon || user.avatarInitials}
+                {user.customAvatar ? (
+                  <img src={user.customAvatar} alt="Avatar" className="w-full h-full object-cover" />
+                ) : (
+                  user.avatarIcon || user.avatarInitials
+                )}
               </div>
             </>
           ) : (
@@ -209,20 +236,27 @@ export default function SettingsPage() {
               {/* Avatar */}
               <div className="flex items-center gap-4">
                 <div
-                  className="w-16 h-16 border flex items-center justify-center text-2xl"
+                  className="w-16 h-16 border flex items-center justify-center text-2xl overflow-hidden"
                   style={{
-                    borderColor: selectedAvatar?.color || user.avatarColor || "#c0392b",
-                    background: `${selectedAvatar?.color || user.avatarColor || "#c0392b"}15`,
+                    borderColor: customImage ? "#00d4ff" : selectedAvatar?.color || user.avatarColor || "#c0392b",
+                    background: customImage ? "transparent" : `${selectedAvatar?.color || user.avatarColor || "#c0392b"}15`,
                   }}
                 >
-                  {selectedAvatar?.emoji || user.avatarIcon || user.avatarInitials}
+                  {customImage ? (
+                    <img src={customImage} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    selectedAvatar?.emoji || user.avatarIcon || user.avatarInitials
+                  )}
                 </div>
               </div>
 
               {/* Avatar Gallery */}
               <AvatarGallery
                 selectedId={selectedAvatar?.id || ""}
+                customImage={customImage}
                 onSelect={handleSelectAvatar}
+                onCustomUpload={handleCustomUpload}
+                onRemoveCustom={handleRemoveCustom}
                 t={t}
               />
 

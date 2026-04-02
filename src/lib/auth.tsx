@@ -37,6 +37,7 @@ export interface User {
   avatarInitials: string;
   avatarIcon?: string;
   avatarColor?: string;
+  customAvatar?: string;
   bio?: string;
   settings: UserSettings;
 }

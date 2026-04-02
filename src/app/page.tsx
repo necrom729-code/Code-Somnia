@@ -252,16 +252,20 @@ function NavBar() {
               {user.username}
             </div>
             <div
-              className="w-8 h-8 border flex items-center justify-center text-sm cursor-pointer"
+              className="w-8 h-8 border flex items-center justify-center text-sm cursor-pointer overflow-hidden"
               style={{
                 borderColor: user.avatarColor || "#c0392b",
                 color: user.avatarColor || "#c0392b",
-                background: `${user.avatarColor || "#c0392b"}15`,
+                background: user.customAvatar ? "transparent" : `${user.avatarColor || "#c0392b"}15`,
               }}
               title="Sign out"
               onClick={handleSignOut}
             >
-              {user.avatarIcon || user.avatarInitials}
+              {user.customAvatar ? (
+                <img src={user.customAvatar} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                user.avatarIcon || user.avatarInitials
+              )}
             </div>
           </>
         ) : (

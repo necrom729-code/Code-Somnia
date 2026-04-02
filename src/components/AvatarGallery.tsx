@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export interface AvatarOption {
   id: string;
@@ -38,53 +38,173 @@ export const AVATAR_OPTIONS: AvatarOption[] = [
 
 interface AvatarGalleryProps {
   selectedId: string;
+  customImage: string | null;
   onSelect: (avatar: AvatarOption) => void;
+  onCustomUpload: (imageData: string) => void;
+  onRemoveCustom: () => void;
   t: (key: string) => string;
 }
 
-export default function AvatarGallery({ selectedId, onSelect, t }: AvatarGalleryProps) {
+export default function AvatarGallery({ selectedId, customImage, onSelect, onCustomUpload, onRemoveCustom, t }: AvatarGalleryProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"gallery" | "custom">("gallery");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image must be less than 5MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      onCustomUpload(result);
+    };
+    reader.readAsDataURL(file);
+  }
 
   return (
     <div>
-      <div className="text-xs tracking-widest mb-3" style={{ color: "#3a6080" }}>
-        {t("settings.selectAvatar")}
+      {/* Tab Switcher */}
+      <div className="flex gap-2 mb-4">
+        <button
+          onClick={() => setActiveTab("gallery")}
+          className="px-4 py-2 text-xs tracking-widest border transition-all"
+          style={{
+            background: activeTab === "gallery" ? "rgba(0, 212, 255, 0.15)" : "rgba(0,0,0,0.3)",
+            borderColor: activeTab === "gallery" ? "#00d4ff" : "var(--necrom-border)",
+            color: activeTab === "gallery" ? "#00d4ff" : "#3a6080",
+          }}
+        >
+          {t("settings.galleryTab")}
+        </button>
+        <button
+          onClick={() => setActiveTab("custom")}
+          className="px-4 py-2 text-xs tracking-widest border transition-all"
+          style={{
+            background: activeTab === "custom" ? "rgba(0, 212, 255, 0.15)" : "rgba(0,0,0,0.3)",
+            borderColor: activeTab === "custom" ? "#00d4ff" : "var(--necrom-border)",
+            color: activeTab === "custom" ? "#00d4ff" : "#3a6080",
+          }}
+        >
+          {t("settings.customTab")}
+        </button>
       </div>
-      <div className="grid grid-cols-6 sm:grid-cols-8 gap-2">
-        {AVATAR_OPTIONS.map((avatar) => (
-          <button
-            key={avatar.id}
-            onClick={() => onSelect(avatar)}
-            onMouseEnter={() => setHoveredId(avatar.id)}
-            onMouseLeave={() => setHoveredId(null)}
-            className="relative w-10 h-10 flex items-center justify-center text-xl border transition-all"
-            style={{
-              background:
-                selectedId === avatar.id
-                  ? `${avatar.color}25`
-                  : hoveredId === avatar.id
-                  ? "rgba(255,255,255,0.1)"
-                  : "rgba(0,0,0,0.3)",
-              borderColor: selectedId === avatar.id ? avatar.color : "var(--necrom-border)",
-              boxShadow: selectedId === avatar.id ? `0 0 10px ${avatar.color}40` : "none",
-            }}
-            title={avatar.label}
-          >
-            {avatar.emoji}
-            {selectedId === avatar.id && (
-              <span
-                className="absolute -top-1 -right-1 w-3 h-3 rounded-full flex items-center justify-center"
-                style={{ background: avatar.color }}
+
+      {/* Gallery Tab */}
+      {activeTab === "gallery" && (
+        <div>
+          <div className="text-xs tracking-widest mb-3" style={{ color: "#3a6080" }}>
+            {t("settings.selectAvatar")}
+          </div>
+          <div className="grid grid-cols-6 sm:grid-cols-8 gap-2">
+            {AVATAR_OPTIONS.map((avatar) => (
+              <button
+                key={avatar.id}
+                onClick={() => onSelect(avatar)}
+                onMouseEnter={() => setHoveredId(avatar.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                className="relative w-10 h-10 flex items-center justify-center text-xl border transition-all"
+                style={{
+                  background:
+                    selectedId === avatar.id && !customImage
+                      ? `${avatar.color}25`
+                      : hoveredId === avatar.id
+                      ? "rgba(255,255,255,0.1)"
+                      : "rgba(0,0,0,0.3)",
+                  borderColor: selectedId === avatar.id && !customImage ? avatar.color : "var(--necrom-border)",
+                  boxShadow: selectedId === avatar.id && !customImage ? `0 0 10px ${avatar.color}40` : "none",
+                }}
+                title={avatar.label}
               >
-                <span className="text-[8px] text-black">\u2713</span>
-              </span>
-            )}
+                {avatar.emoji}
+                {selectedId === avatar.id && !customImage && (
+                  <span
+                    className="absolute -top-1 -right-1 w-3 h-3 rounded-full flex items-center justify-center"
+                    style={{ background: avatar.color }}
+                  >
+                    <span className="text-[8px] text-black">{"\u2713"}</span>
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs mt-3" style={{ color: "#1a3a5c" }}>
+            {t("settings.avatarDescription")}
+          </p>
+        </div>
+      )}
+
+      {/* Custom Upload Tab */}
+      {activeTab === "custom" && (
+        <div>
+          <div className="text-xs tracking-widest mb-3" style={{ color: "#3a6080" }}>
+            {t("settings.uploadCustomAvatar")}
+          </div>
+
+          {/* Preview */}
+          {customImage && (
+            <div className="mb-4 flex items-center gap-4">
+              <div
+                className="w-20 h-20 border overflow-hidden"
+                style={{ borderColor: "#00d4ff" }}
+              >
+                <img
+                  src={customImage}
+                  alt="Custom avatar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="text-xs" style={{ color: "#00d4ff" }}>
+                  {t("settings.customAvatarActive")}
+                </div>
+                <button
+                  onClick={onRemoveCustom}
+                  className="text-xs mt-2 px-3 py-1 border transition-colors hover:bg-red-500/20"
+                  style={{ borderColor: "#ff3a3a", color: "#ff3a3a" }}
+                >
+                  {t("settings.removeCustom")}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Upload Button */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="px-4 py-3 text-xs tracking-widest border transition-all hover:bg-white/5"
+            style={{
+              borderColor: "#00d4ff",
+              color: "#00d4ff",
+              background: "rgba(0, 212, 255, 0.05)",
+            }}
+          >
+            <span className="mr-2">{"\uD83D\uDCC1"}</span>
+            {t("settings.chooseFile")}
           </button>
-        ))}
-      </div>
-      <p className="text-xs mt-3" style={{ color: "#1a3a5c" }}>
-        {t("settings.avatarDescription")}
-      </p>
+
+          <p className="text-xs mt-3" style={{ color: "#1a3a5c" }}>
+            {t("settings.customAvatarHint")}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
