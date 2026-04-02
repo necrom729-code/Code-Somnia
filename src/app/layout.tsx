@@ -6,6 +6,7 @@ import { AuthProvider } from "@/lib/auth";
 import { NotificationsProvider } from "@/lib/notifications";
 import { SecurityProvider } from "@/lib/security";
 import ThemeApplier from "@/components/ThemeApplier";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
             <NotificationsProvider>
               <SecurityProvider>
                 <ThemeApplier />
+                <AnimatedBackground opacity={0.12} />
                 {children}
               </SecurityProvider>
             </NotificationsProvider>
