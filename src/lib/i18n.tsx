@@ -153,6 +153,8 @@ const translations: Translations = {
     "settings.enterBio": "Enter your bio...",
     "settings.save": "SAVE",
     "settings.cancel": "CANCEL",
+    "settings.selectAvatar": "SELECT AVATAR",
+    "settings.avatarDescription": "Choose an icon from the gallery to represent your profile",
     
     // Auth
     "auth.signIn": "SIGN IN",
@@ -234,7 +236,7 @@ const translations: Translations = {
     "intro.cta.scroll": "SCROLL DOWN TO UPLOAD",
     
     // Nav
-    "nav.cloudServer": "CLOUD SERVER v2.7.7",
+    "nav.cloudServer": "CLOUD SERVER v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "ACTIVATING PROTECTION",
@@ -398,6 +400,8 @@ const translations: Translations = {
     "settings.enterBio": "Ingresa tu biografía...",
     "settings.save": "GUARDAR",
     "settings.cancel": "CANCELAR",
+    "settings.selectAvatar": "SELECCIONAR AVATAR",
+    "settings.avatarDescription": "Elige un icono de la galería para representar tu perfil",
     
     // Auth
     "auth.signIn": "INICIAR SESIÓN",
@@ -479,7 +483,7 @@ const translations: Translations = {
     "intro.cta.scroll": "DESPLÁZATE HACIA ABAJO PARA SUBIR",
     
     // Nav
-    "nav.cloudServer": "SERVIDOR EN LA NUBE v2.7.7",
+    "nav.cloudServer": "SERVIDOR EN LA NUBE v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "ACTIVANDO PROTECCIÓN",
@@ -643,6 +647,8 @@ const translations: Translations = {
     "settings.enterBio": "Entrez votre bio...",
     "settings.save": "SAUVEGARDER",
     "settings.cancel": "ANNULER",
+    "settings.selectAvatar": "SÉLECTIONNER L'AVATAR",
+    "settings.avatarDescription": "Choisissez une icône dans la galerie pour représenter votre profil",
     
     // Auth
     "auth.signIn": "CONNEXION",
@@ -724,7 +730,7 @@ const translations: Translations = {
     "intro.cta.scroll": "DÉFILEZ VERS LE BAS POUR TÉLÉCHARGER",
     
     // Nav
-    "nav.cloudServer": "SERVEUR CLOUD v2.7.7",
+    "nav.cloudServer": "SERVEUR CLOUD v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "ACTIVATION DE LA PROTECTION",
@@ -888,6 +894,8 @@ const translations: Translations = {
     "settings.enterBio": "Geben Sie Ihre Bio ein...",
     "settings.save": "SPEICHERN",
     "settings.cancel": "ABBRECHEN",
+    "settings.selectAvatar": "AVATAR AUSWÄHLEN",
+    "settings.avatarDescription": "Wählen Sie ein Symbol aus der Galerie, um Ihr Profil darzustellen",
     
     // Auth
     "auth.signIn": "ANMELDEN",
@@ -969,7 +977,7 @@ const translations: Translations = {
     "intro.cta.scroll": "NACH UNTEN SCROLLEN ZUM HOCHLADEN",
     
     // Nav
-    "nav.cloudServer": "CLOUD-SERVER v2.7.7",
+    "nav.cloudServer": "CLOUD-SERVER v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "SCHUTZ WIRD AKTIVIERT",
@@ -1133,6 +1141,8 @@ const translations: Translations = {
     "settings.enterBio": "输入您的简介...",
     "settings.save": "保存",
     "settings.cancel": "取消",
+    "settings.selectAvatar": "选择头像",
+    "settings.avatarDescription": "从图库中选择一个图标来代表您的个人资料",
     
     // Auth
     "auth.signIn": "登录",
@@ -1214,7 +1224,7 @@ const translations: Translations = {
     "intro.cta.scroll": "向下滚动以上传",
     
     // Nav
-    "nav.cloudServer": "云服务器 v2.7.7",
+    "nav.cloudServer": "云服务器 v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "正在激活保护",
@@ -1378,6 +1388,8 @@ const translations: Translations = {
     "settings.enterBio": "自己紹介を入力...",
     "settings.save": "保存",
     "settings.cancel": "キャンセル",
+    "settings.selectAvatar": "アバターを選択",
+    "settings.avatarDescription": "プロフィールを表すアイコンをギャラリーから選択してください",
     
     // Auth
     "auth.signIn": "ログイン",
@@ -1459,7 +1471,7 @@ const translations: Translations = {
     "intro.cta.scroll": "下にスクロールしてアップロード",
     
     // Nav
-    "nav.cloudServer": "クラウドサーバー v2.7.7",
+    "nav.cloudServer": "クラウドサーバー v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "保護を有効化中",
@@ -1623,6 +1635,8 @@ const translations: Translations = {
     "settings.enterBio": "Masukkan bio anda...",
     "settings.save": "SIMPAN",
     "settings.cancel": "BATAL",
+    "settings.selectAvatar": "PILIH AVATAR",
+    "settings.avatarDescription": "Pilih ikon dari galeri untuk mewakili profil anda",
     
     // Auth
     "auth.signIn": "LOG MASUK",
@@ -1704,7 +1718,7 @@ const translations: Translations = {
     "intro.cta.scroll": "TURUN KE BAWAH UNTUK MUAT NAIK",
     
     // Nav
-    "nav.cloudServer": "PELAYAN AWAN v2.7.7",
+    "nav.cloudServer": "PELAYAN AWAN v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "MENGAKTIFKAN PERLINDUNGAN",
@@ -1868,6 +1882,8 @@ const translations: Translations = {
     "settings.enterBio": "Masukkan bio Anda...",
     "settings.save": "SIMPAN",
     "settings.cancel": "BATAL",
+    "settings.selectAvatar": "PILIH AVATAR",
+    "settings.avatarDescription": "Pilih ikon dari galeri untuk mewakili profil Anda",
     
     // Auth
     "auth.signIn": "MASUK",
@@ -1949,7 +1965,7 @@ const translations: Translations = {
     "intro.cta.scroll": "GULIR KE BAWAH UNTUK MENGUNGGAH",
     
     // Nav
-    "nav.cloudServer": "SERVER CLOUD v2.7.7",
+    "nav.cloudServer": "SERVER CLOUD v3.0.0",
     
     // Watchdogs
     "watchdogs.activating.title": "MENGAKTIFKAN PERLINDUNGAN",

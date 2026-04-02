@@ -74,7 +74,7 @@ const DEMO_CONTENT: Record<string, string> = {
 [2026-02-27 12:34:56] OPERATOR AIDEN_P authenticated
 [2026-02-27 12:34:57] Session token issued: 8f3a...d9c2
 [2026-02-27 16:44:38] Sync complete — 0 conflicts`,
-  "hack_protocol.ts": `// NECROM HACK PROTOCOL v2.7.7
+  "hack_protocol.ts": `// NECROM HACK PROTOCOL v3.0.0
 // WARNING: Authorized use only — ctOS enforcement active
 
 import { encrypt, obfuscate } from "@necrom/core";

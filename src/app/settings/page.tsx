@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SkullIcon from "@/components/SkullIcon";
+import AvatarGallery, { AVATAR_OPTIONS, type AvatarOption } from "@/components/AvatarGallery";
 import { useAuth, type Theme } from "@/lib/auth";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
 
@@ -104,10 +105,23 @@ export default function SettingsPage() {
   const [profileName, setProfileName] = useState(user?.username || "");
   const [profileBio, setProfileBio] = useState(user?.bio || "");
   const [showSaved, setShowSaved] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption | null>(
+    user?.avatarIcon ? AVATAR_OPTIONS.find((a) => a.emoji === user.avatarIcon) || null : null
+  );
 
   function handleSignOut() {
     signOut();
     router.push("/signin");
+  }
+
+  function handleSelectAvatar(avatar: AvatarOption) {
+    setSelectedAvatar(avatar);
+    if (user) {
+      updateUser({
+        avatarIcon: avatar.emoji,
+        avatarColor: avatar.color,
+      });
+    }
   }
 
   function handleSaveProfile() {
@@ -150,10 +164,14 @@ export default function SettingsPage() {
                 {user.username}
               </div>
               <div
-                className="w-8 h-8 border flex items-center justify-center text-xs font-bold"
-                style={{ borderColor: "#c0392b", color: "#c0392b", background: "rgba(192,57,43,0.1)" }}
+                className="w-8 h-8 border flex items-center justify-center text-sm"
+                style={{
+                  borderColor: user.avatarColor || "#c0392b",
+                  color: user.avatarColor || "#c0392b",
+                  background: `${user.avatarColor || "#c0392b"}15`,
+                }}
               >
-                {user.avatarInitials}
+                {user.avatarIcon || user.avatarInitials}
               </div>
             </>
           ) : (
@@ -191,18 +209,22 @@ export default function SettingsPage() {
               {/* Avatar */}
               <div className="flex items-center gap-4">
                 <div
-                  className="w-16 h-16 border flex items-center justify-center text-xl font-bold"
-                  style={{ borderColor: "#c0392b", color: "#c0392b", background: "rgba(192,57,43,0.1)" }}
+                  className="w-16 h-16 border flex items-center justify-center text-2xl"
+                  style={{
+                    borderColor: selectedAvatar?.color || user.avatarColor || "#c0392b",
+                    background: `${selectedAvatar?.color || user.avatarColor || "#c0392b"}15`,
+                  }}
                 >
-                  {user.avatarInitials}
-                </div>
-                <div>
-                  <button className="necrom-btn text-xs">{t("settings.changeAvatar")}</button>
-                  <p className="text-xs mt-2" style={{ color: "#3a6080" }}>
-                    {t("settings.uploadPhoto")}
-                  </p>
+                  {selectedAvatar?.emoji || user.avatarIcon || user.avatarInitials}
                 </div>
               </div>
+
+              {/* Avatar Gallery */}
+              <AvatarGallery
+                selectedId={selectedAvatar?.id || ""}
+                onSelect={handleSelectAvatar}
+                t={t}
+              />
 
               {/* Display Name */}
               <div>
@@ -618,7 +640,7 @@ export default function SettingsPage() {
           </div>
           <div className="space-y-3">
             {[
-              ["VERSION", "NECROM v2.7.7"],
+              ["VERSION", "NECROM v3.0.0"],
               ["NODE", "ctOS-7"],
               ["ENCRYPTION", "AES-256-GCM"],
               ["PROTOCOL", "WATCH_DOGS"],
