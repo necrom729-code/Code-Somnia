@@ -124,8 +124,8 @@ export default function BackupManager() {
       {/* Backup Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" style={{ boxShadow: "0 0 8px #55efc4" }} />
-          <span className="text-xs tracking-widest" style={{ color: "#55efc4" }}>
+          <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: "#00d4ff", boxShadow: "0 0 8px #00d4ff" }} />
+          <span className="text-xs tracking-widest" style={{ color: "#00d4ff" }}>
             BACKUP SERVER ONLINE
           </span>
         </div>
@@ -274,8 +274,8 @@ export default function BackupManager() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" style={{ boxShadow: "0 0 6px #55efc4" }} />
-            <span className="text-xs" style={{ color: "#55efc4" }}>ACTIVE</span>
+            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00d4ff", boxShadow: "0 0 6px #00d4ff" }} />
+            <span className="text-xs" style={{ color: "#00d4ff" }}>ACTIVE</span>
           </div>
         </div>
       </div>
