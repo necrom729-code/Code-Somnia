@@ -68,9 +68,20 @@ export default function AIStatusBar({ status = "online", messages = defaultMessa
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
           <div
-            className="w-2 h-2 rounded-full animate-pulse"
+            className="w-2.5 h-2.5 rounded-full animate-pulse"
             style={{ background: colors.bg, boxShadow: `0 0 8px ${colors.bg}` }}
           />
+          <svg width="18" height="18" viewBox="0 0 50 60" fill="none" style={{ color: colors.text }}>
+            <ellipse cx="25" cy="30" rx="20" ry="25" fill="#0a0000" stroke={colors.text} strokeWidth="1.5"/>
+            <ellipse cx="15" cy="25" rx="6" ry="8" fill="#000" stroke={colors.text} strokeWidth="1"/>
+            <ellipse cx="35" cy="25" rx="6" ry="8" fill="#000" stroke={colors.text} strokeWidth="1"/>
+            <ellipse cx="15" cy="26" r="3" fill={colors.text} style={{ filter: `drop-shadow(0 0 4px ${colors.text})` }}/>
+            <ellipse cx="35" cy="26" r="3" fill={colors.text} style={{ filter: `drop-shadow(0 0 4px ${colors.text})` }}/>
+            <path d="M 25 35 L 23 42 L 27 42 Z" fill={colors.text}/>
+            <line x1="15" y1="48" x2="15" y2="55" stroke={colors.text} strokeWidth="1"/>
+            <line x1="25" y1="48" x2="25" y2="55" stroke={colors.text} strokeWidth="1"/>
+            <line x1="35" y1="48" x2="35" y2="55" stroke={colors.text} strokeWidth="1"/>
+          </svg>
           <span className="text-xs tracking-widest" style={{ color: colors.text, textShadow: `0 0 10px ${colors.shadow}` }}>
             CTOS // {status.toUpperCase()}
           </span>

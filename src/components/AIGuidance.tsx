@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface Question {
   id: number;
@@ -69,7 +69,6 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
   const [jawState, setJawState] = useState<"closed" | "open" | "snarl">("closed");
   const [floatingY, setFloatingY] = useState(0);
   const [wobble, setWobble] = useState(0);
-  const [showSteam, setShowSteam] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -90,13 +89,13 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
   }, [isHovered, mode]);
 
   useEffect(() => {
-    if (mode === "question" && !isTyping && displayText === "") {
+    if (mode === "question" && displayText === "") {
       typeQuestion(currentQ.question);
     }
-  }, [mode, currentQ]);
+  }, [mode, currentQ, displayText]);
 
   useEffect(() => {
-    if (mode === "response" && !isTyping && selectedResponse) {
+    if (mode === "response" && selectedResponse) {
       typeResponse(selectedResponse);
     }
   }, [mode, selectedResponse]);
@@ -157,23 +156,59 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
     setSelectedResponse(option.response);
     setShowOptions(false);
     setMode("response");
+    setEyeGlow("furious");
   };
 
   const handleHover = () => {
     setIsHovered(true);
     setEyeGlow("furious");
-    setShowSteam(true);
     setMode("question");
   };
 
   const handleLeave = () => {
     setIsHovered(false);
     setEyeGlow("idle");
-    setShowSteam(false);
   };
 
   const eyeColor = eyeGlow === "idle" ? "#ff0000" : eyeGlow === "angry" ? "#ff3300" : eyeGlow === "furious" ? "#ff0066" : "#ffff00";
   const glowIntensity = eyeGlow === "idle" ? 15 : eyeGlow === "angry" ? 25 : eyeGlow === "furious" ? 35 : 20;
+
+  const SkullIcon = () => (
+    <svg viewBox="0 0 100 120" width="80" height="90" style={{ filter: `drop-shadow(0 0 ${glowIntensity}px ${eyeColor})`, transition: "filter 0.2s" }}>
+      <ellipse cx="50" cy="60" rx="38" ry="45" fill="#0a0000" stroke="#ff0000" strokeWidth="2"/>
+      
+      <ellipse cx="30" cy="50" rx="14" ry="16" fill="#000" stroke="#ff0000" strokeWidth="1.5"/>
+      <ellipse cx="70" cy="50" rx="14" ry="16" fill="#000" stroke="#ff0000" strokeWidth="1.5"/>
+      
+      {(eyeGlow === "furious" || isTyping) && (
+        <>
+          <path d="M 15 45 L 28 48" stroke="#ff0000" strokeWidth="2" fill="none"/>
+          <path d="M 85 45 L 72 48" stroke="#ff0000" strokeWidth="2" fill="none"/>
+        </>
+      )}
+      
+      <ellipse cx="30" cy="52" r="8" ry="11" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 18 : 12}px ${eyeColor})` }}/>
+      <ellipse cx="70" cy="52" r="8" ry="11" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 18 : 12}px ${eyeColor})` }}/>
+      
+      <path d="M 50 70 L 46 85 L 54 85 Z" fill="#050000" stroke="#ff0000" strokeWidth="1"/>
+      
+      {jawState === "closed" && (
+        <path d="M 25 95 Q 50 102 75 95" stroke="#ff0000" strokeWidth="2" fill="none"/>
+      )}
+      {jawState === "snarl" && (
+        <path d="M 20 90 Q 50 110 80 90" stroke="#ff0000" strokeWidth="2" fill="none" style={{ filter: "drop-shadow(0 0 4px #ff0000)" }}/>
+      )}
+      {jawState === "open" && (
+        <ellipse cx="50" cy="95" rx="12" ry="10" fill="#000" stroke="#ff0000" strokeWidth="1.5"/>
+      )}
+      
+      <line x1="30" y1="102" x2="30" y2="115" stroke="#ff0000" strokeWidth="1.5"/>
+      <line x1="40" y1="102" x2="40" y2="115" stroke="#ff0000" strokeWidth="1.5"/>
+      <line x1="50" y1="102" x2="50" y2="115" stroke="#ff0000" strokeWidth="1.5"/>
+      <line x1="60" y1="102" x2="60" y2="115" stroke="#ff0000" strokeWidth="1.5"/>
+      <line x1="70" y1="102" x2="70" y2="115" stroke="#ff0000" strokeWidth="1.5"/>
+    </svg>
+  );
 
   if (!isVisible) {
     return (
@@ -182,14 +217,7 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
         className="fixed bottom-6 right-6 z-50 p-3 rounded-full border transition-all duration-300 hover:scale-110"
         style={{ background: "rgba(20, 0, 0, 0.95)", borderColor: "#ff0000", boxShadow: "0 0 25px rgba(255, 0, 0, 0.4)" }}
       >
-        <svg viewBox="0 0 80 100" className="w-8 h-10" fill="none">
-          <ellipse cx="40" cy="50" rx="30" ry="35" fill="#0a0000" stroke="#ff0000" strokeWidth="2"/>
-          <ellipse cx="25" cy="45" rx="10" ry="12" fill="#000" stroke="#ff0000" strokeWidth="2"/>
-          <ellipse cx="55" cy="45" rx="10" ry="12" fill="#000" stroke="#ff0000" strokeWidth="2"/>
-          <ellipse cx="25" cy="45" r="5" fill="#ff0000" style={{ filter: "drop-shadow(0 0 8px #ff0000)" }}/>
-          <ellipse cx="55" cy="45" r="5" fill="#ff0000" style={{ filter: "drop-shadow(0 0 8px #ff0000)" }}/>
-          <path d="M 25 75 Q 40 80 55 75" stroke="#ff0000" strokeWidth="2" fill="none"/>
-        </svg>
+        <SkullIcon />
       </button>
     );
   }
@@ -226,8 +254,6 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
                     borderColor: "#660000", 
                     color: "#ff6666",
                     textShadow: "0 0 5px #ff0000",
-                    animation: `fadeIn 0.3s ease ${i * 0.1}s forwards`,
-                    opacity: 0,
                   }}
                 >
                   [{opt.label}]
@@ -238,53 +264,7 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
         </div>
       </div>
 
-      <svg viewBox="0 0 100 130" width="90" height="120" style={{ filter: `drop-shadow(0 0 ${glowIntensity}px ${eyeColor})`, transition: "filter 0.2s" }}>
-        <ellipse cx="50" cy="65" rx="40" ry="50" fill="#0a0000" stroke="#ff0000" strokeWidth="2.5"/>
-        
-        <path d="M 15 30 Q 50 5 85 30 L 80 45 Q 50 35 20 45 Z" fill="#0f0505" stroke="#ff0000" strokeWidth="1.5"/>
-        
-        <path d="M 10 50 Q 15 35 25 30" stroke="#ff0000" strokeWidth="1" fill="none" opacity="0.5"/>
-        <path d="M 90 50 Q 85 35 75 30" stroke="#ff0000" strokeWidth="1" fill="none" opacity="0.5"/>
-        
-        <ellipse cx="30" cy="55" rx="12" ry="14" fill="#000" stroke="#ff0000" strokeWidth="2"/>
-        <ellipse cx="70" cy="55" rx="12" ry="14" fill="#000" stroke="#ff0000" strokeWidth="2"/>
-        
-        <ellipse cx="30" cy="55" r="7" ry="10" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 15 : 10}px ${eyeColor})` }}/>
-        <ellipse cx="70" cy="55" r="7" ry="10" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 15 : 10}px ${eyeColor})` }}/>
-        
-        {eyeGlow === "furious" && (
-          <>
-            <path d="M 18 50 L 28 53" stroke="#ff0000" strokeWidth="2"/>
-            <path d="M 82 50 L 72 53" stroke="#ff0000" strokeWidth="2"/>
-          </>
-        )}
-        
-        <path d="M 50 75 L 45 90 L 55 90 Z" fill="#050000" stroke="#ff0000" strokeWidth="1.5"/>
-        
-        {jawState === "closed" && (
-          <path d="M 25 100 Q 50 108 75 100" stroke="#ff0000" strokeWidth="2.5" fill="none"/>
-        )}
-        {jawState === "snarl" && (
-          <>
-            <path d="M 20 95 Q 50 115 80 95" stroke="#ff0000" strokeWidth="2.5" fill="none" style={{ filter: "drop-shadow(0 0 3px #ff0000)" }}/>
-            <path d="M 30 102 Q 50 108 70 102" stroke="#330000" strokeWidth="1" fill="none"/>
-          </>
-        )}
-        {jawState === "open" && (
-          <ellipse cx="50" cy="102" rx="15" ry="12" fill="#000" stroke="#ff0000" strokeWidth="1.5"/>
-        )}
-        
-        <line x1="32" y1="112" x2="32" y2="125" stroke="#ff0000" strokeWidth="2"/>
-        <line x1="42" y1="112" x2="42" y2="125" stroke="#ff0000" strokeWidth="2"/>
-        <line x1="50" y1="112" x2="50" y2="125" stroke="#ff0000" strokeWidth="2"/>
-        <line x1="58" y1="112" x2="58" y2="125" stroke="#ff0000" strokeWidth="2"/>
-        <line x1="68" y1="112" x2="68" y2="125" stroke="#ff0000" strokeWidth="2"/>
-        
-        <circle cx="15" cy="40" r="2" fill="#ff0000" opacity="0.6"/>
-        <circle cx="85" cy="40" r="2" fill="#ff0000" opacity="0.6"/>
-        <circle cx="25" cy="25" r="1.5" fill="#ff0000" opacity="0.4"/>
-        <circle cx="75" cy="25" r="1.5" fill="#ff0000" opacity="0.4"/>
-      </svg>
+      <SkullIcon />
 
       <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full animate-pulse" style={{ background: eyeColor, boxShadow: `0 0 10px ${eyeColor}` }}/>
     </div>
