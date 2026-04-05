@@ -98,13 +98,6 @@ export default function AIStatusBar({ status = "online", messages = defaultMessa
 
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-1">
-          <span className="text-xs" style={{ color: "#444" }}>SECTOR:</span>
-          <span className="text-xs tracking-wider" style={{ color: colors.text }}>7-G</span>
-        </div>
-
-        <div className="h-4 w-px" style={{ background: `${colors.bg}33` }} />
-
-        <div className="flex items-center gap-1">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
             <circle cx="12" cy="12" r="9" stroke={colors.text} strokeWidth="1.5"/>
             <path d="M12 7V12L15 15" stroke={colors.text} strokeWidth="1.5"/>
@@ -115,7 +108,7 @@ export default function AIStatusBar({ status = "online", messages = defaultMessa
         </div>
 
         <div className="flex items-center gap-1">
-          <span className="text-xs" style={{ color: "#444" }}>V3.0.0</span>
+          <span className="text-xs" style={{ color: "#444" }}>V3.1.0</span>
         </div>
       </div>
 

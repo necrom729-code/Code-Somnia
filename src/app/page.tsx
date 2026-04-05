@@ -246,13 +246,6 @@ function NavBar() {
         
         {user ? (
           <>
-            <Link
-              href="/settings"
-              className="text-xs tracking-widest transition-colors hidden sm:block"
-              style={{ color: "#3a6080" }}
-            >
-              {t("nav.settings")}
-            </Link>
             <div className="text-xs tracking-widest hidden sm:block" style={{ color: "#a0c8e0" }}>
               {user.username}
             </div>
