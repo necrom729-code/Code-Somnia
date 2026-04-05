@@ -87,6 +87,21 @@ export default function AIStatusBar({ status = "online", messages = defaultMessa
         <div className="h-4 w-px" style={{ background: `${colors.bg}33` }} />
 
         <div className="flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
+            <circle cx="11" cy="11" r="7" stroke={colors.text} strokeWidth="1.5"/>
+            <path d="M16 16L20 20" stroke={colors.text} strokeWidth="1.5"/>
+          </svg>
+          <input 
+            type="text" 
+            placeholder="Search..."
+            className="w-32 bg-transparent text-xs outline-none"
+            style={{ color: "#888", border: "none" }}
+          />
+        </div>
+
+        <div className="h-4 w-px" style={{ background: `${colors.bg}33` }} />
+
+        <div className="flex items-center gap-2">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
             <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke={colors.text} strokeWidth="1.5" fill="none"/>
             <circle cx="12" cy="12" r="3" fill={colors.text}/>
@@ -99,12 +114,11 @@ export default function AIStatusBar({ status = "online", messages = defaultMessa
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/5 transition-colors">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
+        <button className="p-2 rounded hover:bg-white/5 transition-colors" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
             <circle cx="12" cy="12" r="3" stroke={colors.text} strokeWidth="1.5"/>
             <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke={colors.text} strokeWidth="1.5"/>
           </svg>
-          <span className="text-xs" style={{ color: colors.text }}>SETTINGS</span>
         </button>
 
         <div className="h-4 w-px" style={{ background: `${colors.bg}33` }} />
