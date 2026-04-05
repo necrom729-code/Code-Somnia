@@ -114,15 +114,6 @@ export default function AIStatusBar({ status = "online", messages = defaultMessa
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="p-2 rounded hover:bg-white/5 transition-colors" title="Settings">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
-            <circle cx="12" cy="12" r="3" stroke={colors.text} strokeWidth="1.5"/>
-            <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke={colors.text} strokeWidth="1.5"/>
-          </svg>
-        </button>
-
-        <div className="h-4 w-px" style={{ background: `${colors.bg}33` }} />
-
         <div className="flex items-center gap-1">
           <span className="text-xs" style={{ color: "#444" }}>SECTOR:</span>
           <span className="text-xs tracking-wider" style={{ color: colors.text }}>7-G</span>
