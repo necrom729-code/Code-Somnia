@@ -965,9 +965,8 @@ function downloadFile(file: NecromFile, showNotif: (msg: string) => void) {
 
   const filtered = files
     .filter((f) => {
-      const matchSearch = f.name.toLowerCase().includes(search.toLowerCase());
       const matchType = filterType === "all" || f.type === filterType;
-      return matchSearch && matchType;
+      return matchType;
     })
     .sort((a, b) => {
       if (sortBy === "name") return a.name.localeCompare(b.name);
@@ -1041,15 +1040,6 @@ function downloadFile(file: NecromFile, showNotif: (msg: string) => void) {
 
       {/* Toolbar */}
       <div className="necrom-panel p-3 flex flex-wrap gap-2 items-center">
-        {/* Search */}
-        <input
-          className="necrom-input flex-1 min-w-[160px]"
-          placeholder="SEARCH FILES..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ maxWidth: 280 }}
-        />
-
         {/* Filter */}
         <select
           className="necrom-input"
