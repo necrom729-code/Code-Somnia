@@ -69,25 +69,13 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
   const [jawState, setJawState] = useState<"closed" | "open" | "snarl">("closed");
   const [floatingY, setFloatingY] = useState(0);
   const [wobble, setWobble] = useState(0);
-  const [activeSkull, setActiveSkull] = useState(0);
-
-  const skulls = [
-    { id: 0, offsetX: 0, offsetY: 0, size: 1 },
-    { id: 1, offsetX: -25, offsetY: 10, size: 0.7 },
-    { id: 2, offsetX: 25, offsetY: 5, size: 0.65 },
-    { id: 3, offsetX: -40, offsetY: 25, size: 0.5 },
-    { id: 4, offsetX: 40, offsetY: 20, size: 0.45 },
-  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setFloatingY(Math.sin(Date.now() / 600) * 4);
-      if (mode === "idle") {
-        setActiveSkull((prev) => (prev + 1) % skulls.length);
-      }
     }, 50);
     return () => clearInterval(interval);
-  }, [mode]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -185,22 +173,8 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
   const eyeColor = eyeGlow === "idle" ? "#ff0000" : eyeGlow === "angry" ? "#ff3300" : eyeGlow === "furious" ? "#ff0066" : "#ffff00";
   const glowIntensity = eyeGlow === "idle" ? 15 : eyeGlow === "angry" ? 25 : eyeGlow === "furious" ? 35 : 20;
 
-  const SingleSkull = ({ offsetX, offsetY, size, isActive }: { offsetX: number; offsetY: number; size: number; isActive: boolean }) => (
-    <svg 
-      viewBox="0 0 100 120" 
-      width={80 * size} 
-      height={90 * size}
-      style={{ 
-        position: "absolute",
-        left: offsetX,
-        top: offsetY,
-        filter: `drop-shadow(0 0 ${isActive ? glowIntensity : 8}px ${eyeColor})`,
-        transition: "all 0.3s ease",
-        transform: isActive ? "scale(1.1)" : "scale(1)",
-        zIndex: isActive ? 20 : 10 - Math.abs(activeSkull),
-        opacity: isActive ? 1 : 0.6,
-      }}
-    >
+  const SkullIcon = () => (
+    <svg viewBox="0 0 100 120" width="80" height="90" style={{ filter: `drop-shadow(0 0 ${glowIntensity}px ${eyeColor})`, transition: "filter 0.2s" }}>
       <ellipse cx="50" cy="60" rx="38" ry="45" fill="#0a0000" stroke="#ff0000" strokeWidth="2"/>
       <ellipse cx="30" cy="50" rx="14" ry="16" fill="#000" stroke="#ff0000" strokeWidth="1.5"/>
       <ellipse cx="70" cy="50" rx="14" ry="16" fill="#000" stroke="#ff0000" strokeWidth="1.5"/>
@@ -210,8 +184,8 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
           <path d="M 85 45 L 72 48" stroke="#ff0000" strokeWidth="2" fill="none"/>
         </>
       )}
-      <ellipse cx="30" cy="52" r="8" ry="11" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 18 : 8}px ${eyeColor})` }}/>
-      <ellipse cx="70" cy="52" r="8" ry="11" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 18 : 8}px ${eyeColor})` }}/>
+      <ellipse cx="30" cy="52" r="8" ry="11" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 18 : 12}px ${eyeColor})` }}/>
+      <ellipse cx="70" cy="52" r="8" ry="11" fill={eyeColor} style={{ filter: `drop-shadow(0 0 ${isTyping ? 18 : 12}px ${eyeColor})` }}/>
       <path d="M 50 70 L 46 85 L 54 85 Z" fill="#050000" stroke="#ff0000" strokeWidth="1"/>
       {jawState === "closed" && (
         <path d="M 25 95 Q 50 102 75 95" stroke="#ff0000" strokeWidth="2" fill="none"/>
@@ -237,7 +211,7 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
         className="fixed bottom-6 right-6 z-50 p-3 rounded-full border transition-all duration-300 hover:scale-110"
         style={{ background: "rgba(20, 0, 0, 0.95)", borderColor: "#ff0000", boxShadow: "0 0 25px rgba(255, 0, 0, 0.4)" }}
       >
-        <SingleSkull offsetX={0} offsetY={0} size={1} isActive={true} />
+        <SkullIcon />
       </button>
     );
   }
@@ -248,8 +222,6 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
       style={{
         transform: `translateY(${floatingY}px) rotate(${wobble}deg)`,
         transition: "transform 0.1s ease",
-        width: 120,
-        height: 150,
       }}
       onMouseEnter={handleHover}
       onMouseLeave={handleLeave}
@@ -286,17 +258,7 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
         </div>
       </div>
 
-      <div className="relative w-32 h-36">
-        {skulls.map((skull) => (
-          <SingleSkull 
-            key={skull.id}
-            offsetX={skull.offsetX} 
-            offsetY={skull.offsetY} 
-            size={skull.size} 
-            isActive={skull.id === activeSkull || skulls.findIndex(s => s.id === activeSkull) < 0}
-          />
-        ))}
-      </div>
+      <SkullIcon />
 
       <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full animate-pulse" style={{ background: eyeColor, boxShadow: `0 0 10px ${eyeColor}` }}/>
     </div>
