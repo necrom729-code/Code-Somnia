@@ -71,7 +71,7 @@ const translations: Translations = {
     "storage.used": "Used",
     "storage.free": "Free",
     "storage.total": "Total Storage",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "Cloud Drive",
     
     // File Manager
     "files.title": "FILE SYSTEM",
@@ -325,7 +325,7 @@ const translations: Translations = {
     "storage.used": "Usado",
     "storage.free": "Libre",
     "storage.total": "Almacenamiento Total",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "Unidad en la Nube",
     
     // File Manager
     "files.title": "SISTEMA DE ARCHIVOS",
@@ -579,7 +579,7 @@ const translations: Translations = {
     "storage.used": "Utilisé",
     "storage.free": "Libre",
     "storage.total": "Stockage Total",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "NVMe SSD",
     
     // File Manager
     "files.title": "SYSTÈME DE FICHIERS",
@@ -833,7 +833,7 @@ const translations: Translations = {
     "storage.used": "Benutzt",
     "storage.free": "Frei",
     "storage.total": "Gesamtspeicher",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "NVMe SSD",
     
     // File Manager
     "files.title": "DATEISYSTEM",
@@ -1087,7 +1087,7 @@ const translations: Translations = {
     "storage.used": "已使用",
     "storage.free": "可用",
     "storage.total": "总存储",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "NVMe SSD",
     
     // File Manager
     "files.title": "文件系统",
@@ -1341,7 +1341,7 @@ const translations: Translations = {
     "storage.used": "使用中",
     "storage.free": "空き",
     "storage.total": "総ストレージ",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "NVMe SSD",
     
     // File Manager
     "files.title": "ファイルシステム",
@@ -1595,7 +1595,7 @@ const translations: Translations = {
     "storage.used": "Digunakan",
     "storage.free": "Percuma",
     "storage.total": "Jumlah Storan",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "NVMe SSD",
     
     // File Manager
     "files.title": "SISTEM FAIL",
@@ -1849,7 +1849,7 @@ const translations: Translations = {
     "storage.used": "Terpakai",
     "storage.free": "Tersedia",
     "storage.total": "Total Penyimpanan",
-    "storage.ssd": "NVMe SSD",
+    "storage.drive": "NVMe SSD",
     
     // File Manager
     "files.title": "SISTEM BERKAS",

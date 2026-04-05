@@ -141,7 +141,7 @@ export default function Home() {
             <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
             <div
               className="text-xs tracking-[0.4em] px-4 py-1 border"
-              style={{ color: "#55efc4", borderColor: "#1a3a5c" }}
+              style={{ color: "#00d4ff", borderColor: "#1a3a5c" }}
             >
               {t("storage.title")}
             </div>
@@ -298,8 +298,8 @@ function StatusDot({ label, active }: { label: string; active?: boolean }) {
       <div
         className="w-2 h-2 rounded-full"
         style={{
-          background: active ? "#55efc4" : "#ff3a3a",
-          boxShadow: active ? "0 0 6px #55efc4" : "0 0 6px #ff3a3a",
+          background: active ? "#00d4ff" : "#ff3a3a",
+          boxShadow: active ? "0 0 6px #00d4ff" : "0 0 6px #ff3a3a",
         }}
       />
       <span className="text-xs tracking-widest" style={{ color: "#3a6080" }}>{label}</span>
@@ -408,8 +408,8 @@ function StorageUsage() {
       style={{ borderColor: "#1a3a5c" }}
     >
       <div className="flex items-center gap-2 mb-3 pb-2 border-b" style={{ borderColor: "#1a3a5c" }}>
-        <div className="w-2 h-2 rounded-full" style={{ background: "#55efc4" }} />
-        <span className="ml-2" style={{ color: "#3a6080" }}>{t("storage.ssd")}</span>
+        <div className="w-2 h-2 rounded-full" style={{ background: "#00d4ff" }} />
+        <span className="ml-2" style={{ color: "#3a6080" }}>{t("storage.drive")}</span>
       </div>
       
       {/* Storage bar */}
@@ -431,7 +431,7 @@ function StorageUsage() {
         </div>
         <div className="border p-2" style={{ borderColor: "#1a3a5c" }}>
           <div style={{ color: "#3a6080" }}>{t("storage.free")}</div>
-          <div style={{ color: "#55efc4", fontSize: "16px", fontWeight: "bold" }}>
+          <div style={{ color: "#00d4ff", fontSize: "16px", fontWeight: "bold" }}>
             {(totalStorage - usedStorage).toFixed(1)}<span className="text-xs">GB</span>
           </div>
         </div>
@@ -440,8 +440,8 @@ function StorageUsage() {
       {/* Drive info */}
       <div className="mt-3 pt-2 border-t text-xs" style={{ borderColor: "#1a3a5c", color: "#3a6080" }}>
         <div className="flex justify-between">
-          <span>{t("storage.ssd")}</span>
-          <span style={{ color: "#55efc4" }}>● ONLINE</span>
+          <span>{t("storage.drive")}</span>
+          <span style={{ color: "#00d4ff" }}>● ONLINE</span>
         </div>
         <div className="flex justify-between mt-1">
           <span>{t("storage.total")}:</span>
@@ -490,7 +490,7 @@ function SecurityFeatures({
               key={feature.id}
               className="necrom-panel p-4 text-center hover:scale-105 transition-transform cursor-pointer group"
               style={{ 
-                borderColor: feature.enabled ? "#55efc4" : "#1a3a5c",
+                borderColor: feature.enabled ? "#00d4ff" : "#1a3a5c",
                 background: feature.enabled ? "rgba(85, 239, 196, 0.05)" : undefined
               }}
               onClick={() => toggleProtection(feature.id)}
@@ -498,13 +498,13 @@ function SecurityFeatures({
               <div className="text-3xl mb-2 group-hover:animate-spin-slow">{feature.icon}</div>
               <div 
                 className="text-xs font-bold tracking-wider mb-1" 
-                style={{ color: feature.enabled ? "#55efc4" : "#c0392b" }}
+                style={{ color: feature.enabled ? "#00d4ff" : "#c0392b" }}
               >
                 {feature.name}
               </div>
               <div 
                 className="text-[10px] tracking-[0.2em] mb-1" 
-                style={{ color: feature.enabled ? "#55efc4" : "#ff3a3a" }}
+                style={{ color: feature.enabled ? "#00d4ff" : "#ff3a3a" }}
               >
                 {feature.enabled ? t("common.enabled") : t("common.disabled")}
               </div>
@@ -532,9 +532,9 @@ function SecurityFeatures({
             <div className="flex items-center gap-2">
               <div 
                 className="w-2 h-2 rounded-full animate-pulse"
-                style={{ background: securityEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 8px ${securityEnabled ? "#55efc4" : "#ff3a3a"}` }}
+                style={{ background: securityEnabled ? "#00d4ff" : "#ff3a3a", boxShadow: `0 0 8px ${securityEnabled ? "#00d4ff" : "#ff3a3a"}` }}
               />
-              <span className="text-xs tracking-widest" style={{ color: securityEnabled ? "#55efc4" : "#ff3a3a" }}>
+              <span className="text-xs tracking-widest" style={{ color: securityEnabled ? "#00d4ff" : "#ff3a3a" }}>
                 {securityEnabled ? t("security.allEnabled") : t("security.someEnabled")}
               </span>
             </div>
@@ -841,7 +841,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: "#1a3a5c" }}>
           <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: isAllEnabled ? "#55efc4" : "#ff3a3a", boxShadow: `0 0 10px ${isAllEnabled ? "#55efc4" : "#ff3a3a"}` }} />
+            <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: isAllEnabled ? "#00d4ff" : "#ff3a3a", boxShadow: `0 0 10px ${isAllEnabled ? "#00d4ff" : "#ff3a3a"}` }} />
             <span className="text-lg font-bold tracking-widest" style={{ color: "#c0392b" }}>
               {t("securityPanel.title")}
             </span>
@@ -859,13 +859,13 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
         <div className="flex items-center justify-between p-3 border-b" style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.5)" }}>
           <div className="flex items-center gap-6 text-xs">
             <span style={{ color: "#3a6080" }}>
-              {t("securityPanel.activeProtections")}: <span style={{ color: isAllEnabled ? "#55efc4" : "#ff3a3a" }}>{Object.values(protections).filter(p => p.enabled).length}/6</span>
+              {t("securityPanel.activeProtections")}: <span style={{ color: isAllEnabled ? "#00d4ff" : "#ff3a3a" }}>{Object.values(protections).filter(p => p.enabled).length}/6</span>
             </span>
             <span style={{ color: "#3a6080" }}>
               {t("security.threatsBlocked")}: <span style={{ color: "#ff3a3a" }}>{threatsBlockedTotal}</span>
             </span>
             <span style={{ color: "#3a6080" }}>
-              {t("securityPanel.backups")}: <span style={{ color: "#55efc4" }}>{backups.length}</span>
+              {t("securityPanel.backups")}: <span style={{ color: "#00d4ff" }}>{backups.length}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -873,7 +873,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
               <button
                 onClick={enableAll}
                 className="text-xs px-3 py-1 border hover:bg-green-900/30 transition-colors"
-                style={{ color: "#55efc4", borderColor: "#55efc4" }}
+                style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
               >
                 {t("securityPanel.enableAll")}
               </button>
@@ -916,7 +916,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                   key={protection.id}
                   className="p-4 border transition-all"
                   style={{
-                    borderColor: protection.enabled ? "#55efc4" : "#1a3a5c",
+                    borderColor: protection.enabled ? "#00d4ff" : "#1a3a5c",
                     background: protection.enabled ? "rgba(85, 239, 196, 0.05)" : "rgba(0,0,0,0.3)",
                   }}
                 >
@@ -924,7 +924,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{protection.icon}</span>
                       <div>
-                        <div className="text-sm font-bold" style={{ color: protection.enabled ? "#55efc4" : "#c0392b" }}>
+                        <div className="text-sm font-bold" style={{ color: protection.enabled ? "#00d4ff" : "#c0392b" }}>
                           {protection.name}
                         </div>
                         <div className="text-[10px]" style={{ color: "#3a6080" }}>
@@ -935,20 +935,20 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                     <button
                       onClick={() => toggleProtection(protection.id)}
                       className="w-10 h-5 border relative transition-colors"
-                      style={{ borderColor: protection.enabled ? "#55efc4" : "#1a3a5c" }}
+                      style={{ borderColor: protection.enabled ? "#00d4ff" : "#1a3a5c" }}
                     >
                       <div
                         className="absolute top-0.5 w-3.5 h-3.5 transition-all"
                         style={{
-                          background: protection.enabled ? "#55efc4" : "#ff3a3a",
+                          background: protection.enabled ? "#00d4ff" : "#ff3a3a",
                           left: protection.enabled ? "calc(100% - 1rem)" : "2px",
-                          boxShadow: protection.enabled ? "0 0 6px #55efc4" : "0 0 6px #ff3a3a",
+                          boxShadow: protection.enabled ? "0 0 6px #00d4ff" : "0 0 6px #ff3a3a",
                         }}
                       />
                     </button>
                   </div>
                   <div className="flex items-center justify-between text-[10px]" style={{ color: "#3a6080" }}>
-                    <span>STATUS: <span style={{ color: protection.enabled ? "#55efc4" : "#ff3a3a" }}>{protection.enabled ? "ACTIVE" : "OFFLINE"}</span></span>
+                    <span>STATUS: <span style={{ color: protection.enabled ? "#00d4ff" : "#ff3a3a" }}>{protection.enabled ? "ACTIVE" : "OFFLINE"}</span></span>
                     {protection.enabled && (
                       <button
                         onClick={() => runScan(protection.id)}
@@ -1016,7 +1016,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                       style={{
                         color: log.type === "threat" ? "#ff3a3a" :
                                log.type === "warning" ? "#ffa500" :
-                               log.type === "success" ? "#55efc4" : "#00d4ff",
+                               log.type === "success" ? "#00d4ff" : "#00d4ff",
                       }}
                     >
                       {log.type.toUpperCase()}
@@ -1036,7 +1036,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                 <button
                   onClick={() => createBackup(`Full Backup ${new Date().toLocaleDateString()}`, "full")}
                   className="flex-1 py-2 border text-xs hover:bg-green-900/30 transition-colors"
-                  style={{ color: "#55efc4", borderColor: "#55efc4" }}
+                  style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
                 >
                   CREATE FULL BACKUP
                 </button>
@@ -1063,8 +1063,8 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                         <span
                           className="text-[8px] px-1.5 py-0.5"
                           style={{
-                            color: backup.type === "full" ? "#55efc4" : "#00d4ff",
-                            border: `1px solid ${backup.type === "full" ? "#55efc4" : "#00d4ff"}`,
+                            color: backup.type === "full" ? "#00d4ff" : "#00d4ff",
+                            border: `1px solid ${backup.type === "full" ? "#00d4ff" : "#00d4ff"}`,
                           }}
                         >
                           {backup.type.toUpperCase()}
