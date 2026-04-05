@@ -344,7 +344,7 @@ export default function AnimatedBackground({ opacity = 0.45 }: AnimatedBackgroun
       // Top-left
       ctx.globalAlpha = 0.35;
       ctx.fillStyle = "#00d4ff";
-      ctx.fillText("CTOS v3.0.0", pad, pad + 10);
+      ctx.fillText("NECROM CLOUD SERVER v3.1.0", pad, pad + 10);
       ctx.fillText(`NODE: ${Math.floor((time * 7) % 9999).toString().padStart(4, "0")}`, pad, pad + 22);
       ctx.fillText(`SYS: ${new Date().toLocaleTimeString()}`, pad, pad + 34);
 
