@@ -84,23 +84,6 @@ export default function AIStatusBar({ status = "online", messages = defaultMessa
           </svg>
         </div>
 
-        <div className="h-4 w-px" style={{ background: `${colors.bg}33` }} />
-
-        <div className="flex items-center gap-2">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
-            <circle cx="11" cy="11" r="7" stroke={colors.text} strokeWidth="1.5"/>
-            <path d="M16 16L20 20" stroke={colors.text} strokeWidth="1.5"/>
-          </svg>
-          <input 
-            type="text" 
-            placeholder="Search..."
-            className="w-32 bg-transparent text-xs outline-none"
-            style={{ color: "#888", border: "none" }}
-          />
-        </div>
-
-        <div className="h-4 w-px" style={{ background: `${colors.bg}33` }} />
-
         <div className="flex items-center gap-2">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ color: colors.text }}>
             <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke={colors.text} strokeWidth="1.5" fill="none"/>
