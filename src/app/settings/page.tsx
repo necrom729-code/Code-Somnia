@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SkullIcon from "@/components/SkullIcon";
 import AvatarGallery, { AVATAR_OPTIONS, type AvatarOption } from "@/components/AvatarGallery";
+import GlitchText from "@/components/GlitchText";
+import DataStream from "@/components/DataStream";
 import { useAuth, type Theme } from "@/lib/auth";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
 
@@ -161,6 +163,8 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
+      <DataStream position="left" />
+      <DataStream position="right" />
       {/* Nav */}
       <nav
         className="border-b px-6 py-3 flex items-center justify-between sticky top-0 z-40"
@@ -217,7 +221,7 @@ export default function SettingsPage() {
             className="text-xs tracking-[0.4em] px-4 py-1 border"
             style={{ color: "#00d4ff", borderColor: "#1a3a5c" }}
           >
-            {t("settings.title")}
+            <GlitchText text={t("settings.title")} color="#00d4ff" />
           </div>
           <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
         </div>

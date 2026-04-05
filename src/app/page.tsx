@@ -6,6 +6,10 @@ import FileManager from "@/components/FileManager";
 import BackupManager from "@/components/BackupManager";
 import VPNPanel from "@/components/VPNPanel";
 import { NotificationBell } from "@/components/NotificationPanel";
+import Terminal from "@/components/Terminal";
+import GlitchText from "@/components/GlitchText";
+import HackerProgress from "@/components/HackerProgress";
+import DataStream from "@/components/DataStream";
 import { useAuth } from "@/lib/auth";
 import { useSecurity } from "@/lib/security";
 import { useI18n, LANGUAGES, type Language } from "@/lib/i18n";
@@ -44,6 +48,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
+      <DataStream position="left" />
+      <DataStream position="right" />
       <NavBar />
 
       {/* Watchdogs Animation Overlay */}
@@ -96,7 +102,7 @@ export default function Home() {
                 fontFamily: "var(--font-geist-mono)",
               }}
             >
-              {t("home.title")}
+              <GlitchText text={t("home.title")} color="#c0392b" />
             </h1>
             <p className="text-sm max-w-lg leading-relaxed" style={{ color: "#3a6080" }}>
               {t("home.description")}
@@ -163,6 +169,21 @@ export default function Home() {
 
         <FileManager />
       </main>
+
+      {/* Terminal Section */}
+      <section className="max-w-6xl mx-auto px-4 pb-8">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
+          <div
+            className="text-xs tracking-[0.4em] px-4 py-1 border"
+            style={{ color: "#00ff41", borderColor: "#003300" }}
+          >
+            {"// TERMINAL"}
+          </div>
+          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
+        </div>
+        <Terminal />
+      </section>
 
       {/* Footer */}
       <footer
@@ -409,23 +430,11 @@ function StorageUsage() {
       
       {/* Storage bar */}
       <div className="mb-3">
-        <div className="flex justify-between text-xs mb-1">
-          <span style={{ color: "#a0c8e0" }}>{t("storage.used")}</span>
-          <span style={{ color: "#00d4ff" }}>{percentage.toFixed(1)}%</span>
-        </div>
-        <div 
-          className="h-2 border"
-          style={{ borderColor: "#1a3a5c", background: "rgba(0,0,0,0.3)" }}
-        >
-          <div 
-            className="h-full transition-all duration-500"
-            style={{ 
-              width: `${percentage}%`,
-              background: "linear-gradient(90deg, #00d4ff, #c0392b)",
-              boxShadow: "0 0 10px rgba(0,212,255,0.5)"
-            }}
-          />
-        </div>
+        <HackerProgress 
+          value={percentage} 
+          label={t("storage.used")} 
+          color="#00d4ff"
+        />
       </div>
 
       {/* Storage values */}
