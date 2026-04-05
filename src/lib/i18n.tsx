@@ -243,7 +243,7 @@ const translations: Translations = {
     "intro.cta.scroll": "SCROLL DOWN TO UPLOAD",
     
     // Nav
-    "nav.cloudServer": "CLOUD SERVER v3.0.0",
+    "nav.cloudServer": "CLOUD SERVER v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "ACTIVATING PROTECTION",
@@ -497,7 +497,7 @@ const translations: Translations = {
     "intro.cta.scroll": "DESPLÁZATE HACIA ABAJO PARA SUBIR",
     
     // Nav
-    "nav.cloudServer": "SERVIDOR EN LA NUBE v3.0.0",
+    "nav.cloudServer": "SERVIDOR EN LA NUBE v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "ACTIVANDO PROTECCIÓN",
@@ -751,7 +751,7 @@ const translations: Translations = {
     "intro.cta.scroll": "DÉFILEZ VERS LE BAS POUR TÉLÉCHARGER",
     
     // Nav
-    "nav.cloudServer": "SERVEUR CLOUD v3.0.0",
+    "nav.cloudServer": "SERVEUR CLOUD v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "ACTIVATION DE LA PROTECTION",
@@ -1005,7 +1005,7 @@ const translations: Translations = {
     "intro.cta.scroll": "NACH UNTEN SCROLLEN ZUM HOCHLADEN",
     
     // Nav
-    "nav.cloudServer": "CLOUD-SERVER v3.0.0",
+    "nav.cloudServer": "CLOUD-SERVER v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "SCHUTZ WIRD AKTIVIERT",
@@ -1259,7 +1259,7 @@ const translations: Translations = {
     "intro.cta.scroll": "向下滚动以上传",
     
     // Nav
-    "nav.cloudServer": "云服务器 v3.0.0",
+    "nav.cloudServer": "云服务器 v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "正在激活保护",
@@ -1513,7 +1513,7 @@ const translations: Translations = {
     "intro.cta.scroll": "下にスクロールしてアップロード",
     
     // Nav
-    "nav.cloudServer": "クラウドサーバー v3.0.0",
+    "nav.cloudServer": "クラウドサーバー v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "保護を有効化中",
@@ -1767,7 +1767,7 @@ const translations: Translations = {
     "intro.cta.scroll": "TURUN KE BAWAH UNTUK MUAT NAIK",
     
     // Nav
-    "nav.cloudServer": "PELAYAN AWAN v3.0.0",
+    "nav.cloudServer": "PELAYAN AWAN v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "MENGAKTIFKAN PERLINDUNGAN",
@@ -2021,7 +2021,7 @@ const translations: Translations = {
     "intro.cta.scroll": "GULIR KE BAWAH UNTUK MENGUNGGAH",
     
     // Nav
-    "nav.cloudServer": "SERVER CLOUD v3.0.0",
+    "nav.cloudServer": "SERVER CLOUD v3.1.0",
     
     // Watchdogs
     "watchdogs.activating.title": "MENGAKTIFKAN PERLINDUNGAN",

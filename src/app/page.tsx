@@ -419,7 +419,7 @@ function StorageUsage() {
         <div className="border p-2" style={{ borderColor: "#1a3a5c" }}>
           <div style={{ color: "#3a6080" }}>{t("storage.used")}</div>
           <div style={{ color: "#00d4ff", fontSize: "16px", fontWeight: "bold" }}>
-            {Math.floor(usedStorage)}<span className="text-xs">GB</span> {usedMB}<span className="text-xs">MB</span>
+            {Math.floor(usedStorage)}<span className="text-xs">GB</span>{usedMB > 0 && <><span className="text-xs"> </span>{usedMB}<span className="text-xs">MB</span></>}
           </div>
         </div>
         <div className="border p-2" style={{ borderColor: "#1a3a5c" }}>
