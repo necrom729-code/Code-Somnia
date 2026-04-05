@@ -6,7 +6,6 @@ import FileManager from "@/components/FileManager";
 import BackupManager from "@/components/BackupManager";
 import VPNPanel from "@/components/VPNPanel";
 import { NotificationBell } from "@/components/NotificationPanel";
-import Terminal from "@/components/Terminal";
 import GlitchText from "@/components/GlitchText";
 import HackerProgress from "@/components/HackerProgress";
 import DataStream from "@/components/DataStream";
@@ -169,21 +168,6 @@ export default function Home() {
 
         <FileManager />
       </main>
-
-      {/* Terminal Section */}
-      <section className="max-w-6xl mx-auto px-4 pb-8">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
-          <div
-            className="text-xs tracking-[0.4em] px-4 py-1 border"
-            style={{ color: "#00ff41", borderColor: "#003300" }}
-          >
-            {"// TERMINAL"}
-          </div>
-          <div className="h-px flex-1" style={{ background: "var(--necrom-border)" }} />
-        </div>
-        <Terminal />
-      </section>
 
       {/* Footer */}
       <footer
