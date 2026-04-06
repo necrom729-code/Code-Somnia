@@ -208,7 +208,7 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
     return (
       <button
         onClick={() => setIsVisible(true)}
-        className="fixed bottom-6 right-6 z-50 p-3 rounded-full border transition-all duration-300 hover:scale-110"
+        className="fixed bottom-6 right-6 z-30 p-3 rounded-full border transition-all duration-300 hover:scale-110"
         style={{ background: "rgba(20, 0, 0, 0.95)", borderColor: "#ff0000", boxShadow: "0 0 25px rgba(255, 0, 0, 0.4)" }}
       >
         <SkullIcon />
