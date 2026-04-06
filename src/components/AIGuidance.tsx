@@ -212,13 +212,14 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
         style={{ background: "rgba(20, 0, 0, 0.95)", borderColor: "#ff0000", boxShadow: "0 0 25px rgba(255, 0, 0, 0.4)" }}
       >
         <SkullIcon />
+        <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full" style={{ background: "#ff0000", boxShadow: "0 0 10px #ff0000" }}/>
       </button>
     );
   }
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-50 cursor-pointer"
+      className="fixed bottom-6 right-6 z-30 cursor-pointer"
       style={{
         transform: `translateY(${floatingY}px) rotate(${wobble}deg)`,
         transition: "transform 0.1s ease",
@@ -232,9 +233,18 @@ export default function AIGuidance({ questions = defaultQuestions }: { questions
           borderColor: "#ff0000",
           boxShadow: "0 0 40px rgba(255, 0, 0, 0.3), inset 0 0 30px rgba(255, 0, 0, 0.1)",
         }}>
-          <div className="text-xs font-mono uppercase tracking-wider" style={{ color: "#ff3333", textShadow: "0 0 10px #ff0000" }}>
-            {isTyping && <span className="animate-pulse mr-1">▊</span>}
-            {displayText}
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-xs font-mono uppercase tracking-wider" style={{ color: "#ff3333", textShadow: "0 0 10px #ff0000" }}>
+              {isTyping && <span className="animate-pulse mr-1">▊</span>}
+              {displayText}
+            </div>
+            <button
+              onClick={(e) => { e.stopPropagation(); setIsVisible(false); }}
+              className="text-xs px-1 hover:bg-red-900/50"
+              style={{ color: "#ff3333" }}
+            >
+              ✕
+            </button>
           </div>
 
           {showOptions && (
