@@ -14,8 +14,6 @@ export default function HackerProgress({
   color = "#00d4ff",
 }: HackerProgressProps) {
   const percentage = Math.min((value / max) * 100, 100);
-  const filledBars = Math.floor(percentage / 5);
-  const emptyBars = 20 - filledBars;
 
   return (
     <div className="flex items-center gap-2">
@@ -24,27 +22,15 @@ export default function HackerProgress({
           {label}
         </span>
       )}
-      <div className="flex gap-0.5">
-        {Array.from({ length: filledBars }).map((_, i) => (
-          <div
-            key={`filled-${i}`}
-            className="w-3 h-2"
-            style={{
-              background: color,
-              boxShadow: `0 0 4px ${color}`,
-            }}
-          />
-        ))}
-        {Array.from({ length: emptyBars }).map((_, i) => (
-          <div
-            key={`empty-${i}`}
-            className="w-3 h-2"
-            style={{
-              background: "rgba(255,255,255,0.1)",
-              border: `1px solid ${color}40`,
-            }}
-          />
-        ))}
+      <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)", border: `1px solid ${color}40` }}>
+        <div
+          className="h-full rounded-full transition-all duration-300"
+          style={{
+            width: `${percentage}%`,
+            background: color,
+            boxShadow: `0 0 8px ${color}`,
+          }}
+        />
       </div>
       <span className="text-xs font-mono" style={{ color }}>
         {percentage.toFixed(0)}%
