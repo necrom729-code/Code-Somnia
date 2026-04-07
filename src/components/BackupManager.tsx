@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Backup data interface
 interface Backup {
@@ -11,6 +11,14 @@ interface Backup {
   files: number;
   status: "completed" | "in-progress" | "failed";
   type: "full" | "incremental";
+}
+
+// Cloud file interface for auto-sync simulation
+interface CloudFile {
+  id: string;
+  name: string;
+  size: string;
+  synced: boolean;
 }
 
 export default function BackupManager() {
@@ -52,6 +60,114 @@ export default function BackupManager() {
       type: "full"
     },
   ]);
+
+  // Auto-sync state
+  const [isAutoSyncEnabled, setIsAutoSyncEnabled] = useState(true);
+  const [syncProgress, setSyncProgress] = useState(0);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSyncTime, setLastSyncTime] = useState<string>("2h ago");
+  const [cloudFiles, setCloudFiles] = useState<CloudFile[]>([]);
+  const [syncLog, setSyncLog] = useState<string[]>([]);
+  const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Simulated cloud files that get auto-synced
+  useEffect(() => {
+    setCloudFiles([
+      { id: "f1", name: "documents", size: "2.4 GB", synced: true },
+      { id: "f2", name: "photos", size: "8.7 GB", synced: true },
+      { id: "f3", name: "videos", size: "15.2 GB", synced: true },
+      { id: "f4", name: "music", size: "4.1 GB", synced: true },
+      { id: "f5", name: "projects", size: "1.8 GB", synced: false },
+    ]);
+  }, []);
+
+  // Auto-sync function - simulates automatic cloud sync every 30 seconds
+  useEffect(() => {
+    if (!isAutoSyncEnabled) {
+      if (syncIntervalRef.current) {
+        clearInterval(syncIntervalRef.current);
+        syncIntervalRef.current = null;
+      }
+      return;
+    }
+
+    const runAutoSync = () => {
+      const unsyncedFiles = cloudFiles.filter(f => !f.synced);
+      
+      if (unsyncedFiles.length === 0) {
+        // All files synced, add sync log
+        const now = new Date().toLocaleTimeString();
+        setSyncLog(prev => [`[${now}] Auto-sync: All files up to date`, ...prev.slice(0, 9)]);
+        return;
+      }
+
+      setIsSyncing(true);
+      setSyncProgress(0);
+
+      // Simulate syncing files one by one
+      const totalFiles = unsyncedFiles.length;
+      let syncedCount = 0;
+
+      const syncFile = () => {
+        setSyncProgress((syncedCount / totalFiles) * 100);
+        
+        if (syncedCount < totalFiles) {
+          const file = unsyncedFiles[syncedCount];
+          setCloudFiles(prev => prev.map(f => 
+            f.id === file.id ? { ...f, synced: true } : f
+          ));
+          
+          const now = new Date().toLocaleTimeString();
+          setSyncLog(prev => [`[${now}] Synced: ${file.name} (${file.size})`, ...prev.slice(0, 9)]);
+          
+          syncedCount++;
+          setTimeout(syncFile, 800);
+        } else {
+          setIsSyncing(false);
+          setLastSyncTime("Just now");
+          
+          // Create automatic incremental backup
+          createAutoBackup();
+        }
+      };
+
+      syncFile();
+    };
+
+    // Run initial sync after 3 seconds, then every 30 seconds
+    const initialTimeout = setTimeout(runAutoSync, 3000);
+    syncIntervalRef.current = setInterval(runAutoSync, 30000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      if (syncIntervalRef.current) {
+        clearInterval(syncIntervalRef.current);
+      }
+    };
+  }, [isAutoSyncEnabled, cloudFiles]);
+
+  // Create automatic incremental backup
+  const createAutoBackup = () => {
+    const newBackup: Backup = {
+      id: `bkp_auto_${Date.now()}`,
+      name: `Auto Sync ${new Date().toLocaleTimeString()}`,
+      date: new Date().toISOString().replace("T", " ").substring(0, 19),
+      size: "0 MB",
+      files: 0,
+      status: "in-progress",
+      type: "incremental"
+    };
+
+    setBackups(prev => [newBackup, ...prev]);
+
+    setTimeout(() => {
+      setBackups(prev => prev.map(b => 
+        b.id === newBackup.id 
+          ? { ...b, status: "completed", size: "156 MB", files: 23 }
+          : b
+      ));
+    }, 2000);
+  };
 
   const [isCreating, setIsCreating] = useState(false);
   const [selectedBackup, setSelectedBackup] = useState<string | null>(null);
@@ -121,6 +237,76 @@ export default function BackupManager() {
 
   return (
     <div className="space-y-6">
+      {/* Auto Sync Status */}
+      <div className="necrom-panel p-4" style={{ borderColor: "#1a3a5c" }}>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className={`w-3 h-3 rounded-full animate-pulse ${isAutoSyncEnabled ? "" : "opacity-30"}`} style={{ background: isAutoSyncEnabled ? "#00d4ff" : "#3a6080", boxShadow: isAutoSyncEnabled ? "0 0 8px #00d4ff" : "none" }} />
+            <span className="text-xs tracking-widest" style={{ color: isAutoSyncEnabled ? "#00d4ff" : "#3a6080" }}>
+              {isAutoSyncEnabled ? "AUTO SYNC ACTIVE" : "AUTO SYNC DISABLED"}
+            </span>
+          </div>
+          <button
+            onClick={() => setIsAutoSyncEnabled(!isAutoSyncEnabled)}
+            className="text-xs px-3 py-1 border transition-colors hover:bg-white/5"
+            style={{ color: isAutoSyncEnabled ? "#ff3a3a" : "#00d4ff", borderColor: isAutoSyncEnabled ? "#ff3a3a" : "#00d4ff" }}
+          >
+            {isAutoSyncEnabled ? "PAUSE" : "ENABLE"}
+          </button>
+        </div>
+
+        {/* Sync Progress */}
+        {isSyncing && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between text-xs mb-2">
+              <span style={{ color: "#3a6080" }}>SYNCING FILES TO CLOUD...</span>
+              <span style={{ color: "#00d4ff" }}>{syncProgress.toFixed(0)}%</span>
+            </div>
+            <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
+              <div
+                className="h-full transition-all duration-300 rounded-full"
+                style={{
+                  width: `${syncProgress}%`,
+                  background: "linear-gradient(90deg, #00d4ff, #00b4d8)",
+                  boxShadow: "0 0 10px rgba(0,212,255,0.5)",
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Cloud Files Status */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+          {cloudFiles.map(file => (
+            <div key={file.id} className="p-2 border text-center" style={{ borderColor: file.synced ? "#00d4ff" : "#fdcb6e" }}>
+              <div className="text-[10px]" style={{ color: file.synced ? "#00d4ff" : "#fdcb6e" }}>
+                {file.synced ? "✓ SYNCED" : "⟳ PENDING"}
+              </div>
+              <div className="text-xs" style={{ color: "#a0c8e0" }}>{file.name}</div>
+              <div className="text-[10px]" style={{ color: "#3a6080" }}>{file.size}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Last Sync Time */}
+        <div className="mt-3 pt-3 border-t flex items-center justify-between" style={{ borderColor: "#1a3a5c" }}>
+          <span className="text-xs" style={{ color: "#3a6080" }}>Last sync: {lastSyncTime}</span>
+          <span className="text-xs" style={{ color: "#3a6080" }}>Sync interval: 30s</span>
+        </div>
+      </div>
+
+      {/* Sync Log */}
+      {syncLog.length > 0 && (
+        <div className="necrom-panel p-3" style={{ borderColor: "#1a3a5c" }}>
+          <div className="text-xs tracking-widest mb-2" style={{ color: "#3a6080" }}>SYNC LOG</div>
+          <div className="space-y-1 max-h-32 overflow-y-auto">
+            {syncLog.map((log, i) => (
+              <div key={i} className="text-xs font-mono" style={{ color: i === 0 ? "#00d4ff" : "#3a6080" }}>{log}</div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Backup Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
