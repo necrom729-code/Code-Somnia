@@ -32,19 +32,6 @@ export default function Home() {
     }, 5000);
   };
 
-  useEffect(() => {
-    // Trigger watchdogs animation on page load
-    startTransition(() => {
-      setShowWatchdogs(true);
-    });
-    const timer = setTimeout(() => {
-      startTransition(() => {
-        setShowWatchdogs(false);
-      });
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
       <DataStream position="left" />
