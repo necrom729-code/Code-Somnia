@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useI18n } from "@/lib/i18n";
 
 // Backup data interface
 interface Backup {
@@ -22,6 +23,7 @@ interface CloudFile {
 }
 
 export default function BackupManager() {
+  const { t } = useI18n();
   const [backups, setBackups] = useState<Backup[]>([
     {
       id: "bkp_001",
@@ -243,7 +245,7 @@ export default function BackupManager() {
           <div className="flex items-center gap-3">
             <div className={`w-3 h-3 rounded-full animate-pulse ${isAutoSyncEnabled ? "" : "opacity-30"}`} style={{ background: isAutoSyncEnabled ? "#00d4ff" : "#3a6080", boxShadow: isAutoSyncEnabled ? "0 0 8px #00d4ff" : "none" }} />
             <span className="text-xs tracking-widest" style={{ color: isAutoSyncEnabled ? "#00d4ff" : "#3a6080" }}>
-              {isAutoSyncEnabled ? "AUTO SYNC ACTIVE" : "AUTO SYNC DISABLED"}
+              {isAutoSyncEnabled ? t("backup.autoSyncActive") : t("backup.autoSyncDisabled")}
             </span>
           </div>
           <button
@@ -251,7 +253,7 @@ export default function BackupManager() {
             className="text-xs px-3 py-1 border transition-colors hover:bg-white/5"
             style={{ color: isAutoSyncEnabled ? "#ff3a3a" : "#00d4ff", borderColor: isAutoSyncEnabled ? "#ff3a3a" : "#00d4ff" }}
           >
-            {isAutoSyncEnabled ? "PAUSE" : "ENABLE"}
+            {isAutoSyncEnabled ? t("backup.pause") : t("backup.enable")}
           </button>
         </div>
 
@@ -259,7 +261,7 @@ export default function BackupManager() {
         {isSyncing && (
           <div className="mb-4">
             <div className="flex items-center justify-between text-xs mb-2">
-              <span style={{ color: "#3a6080" }}>SYNCING FILES TO CLOUD...</span>
+              <span style={{ color: "#3a6080" }}>{t("backup.syncingFiles")}</span>
               <span style={{ color: "#00d4ff" }}>{syncProgress.toFixed(0)}%</span>
             </div>
             <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
@@ -280,7 +282,7 @@ export default function BackupManager() {
           {cloudFiles.map(file => (
             <div key={file.id} className="p-2 border text-center" style={{ borderColor: file.synced ? "#00d4ff" : "#fdcb6e" }}>
               <div className="text-[10px]" style={{ color: file.synced ? "#00d4ff" : "#fdcb6e" }}>
-                {file.synced ? "✓ SYNCED" : "⟳ PENDING"}
+                {file.synced ? t("backup.synced") : t("backup.pending")}
               </div>
               <div className="text-xs" style={{ color: "#a0c8e0" }}>{file.name}</div>
               <div className="text-[10px]" style={{ color: "#3a6080" }}>{file.size}</div>
@@ -290,15 +292,15 @@ export default function BackupManager() {
 
         {/* Last Sync Time */}
         <div className="mt-3 pt-3 border-t flex items-center justify-between" style={{ borderColor: "#1a3a5c" }}>
-          <span className="text-xs" style={{ color: "#3a6080" }}>Last sync: {lastSyncTime}</span>
-          <span className="text-xs" style={{ color: "#3a6080" }}>Sync interval: 30s</span>
+          <span className="text-xs" style={{ color: "#3a6080" }}>{t("backup.lastSync")}: {lastSyncTime}</span>
+          <span className="text-xs" style={{ color: "#3a6080" }}>{t("backup.syncInterval")}: 30s</span>
         </div>
       </div>
 
       {/* Sync Log */}
       {syncLog.length > 0 && (
         <div className="necrom-panel p-3" style={{ borderColor: "#1a3a5c" }}>
-          <div className="text-xs tracking-widest mb-2" style={{ color: "#3a6080" }}>SYNC LOG</div>
+          <div className="text-xs tracking-widest mb-2" style={{ color: "#3a6080" }}>{t("backup.syncLog")}</div>
           <div className="space-y-1 max-h-32 overflow-y-auto">
             {syncLog.map((log, i) => (
               <div key={i} className="text-xs font-mono" style={{ color: i === 0 ? "#00d4ff" : "#3a6080" }}>{log}</div>
@@ -312,7 +314,7 @@ export default function BackupManager() {
         <div className="flex items-center gap-3">
           <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: "#00d4ff", boxShadow: "0 0 8px #00d4ff" }} />
           <span className="text-xs tracking-widest" style={{ color: "#00d4ff" }}>
-            BACKUP SERVER ONLINE
+            {t("storage.title")}
           </span>
         </div>
         
@@ -322,26 +324,26 @@ export default function BackupManager() {
           disabled={isCreating}
         >
           <span>+</span>
-          <span>NEW BACKUP</span>
+          <span>{t("backup.newBackup")}</span>
         </button>
       </div>
 
       {/* Backup Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="necrom-panel p-4" style={{ borderColor: "#1a3a5c" }}>
-          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>TOTAL BACKUPS</div>
+          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>{t("backup.totalBackups")}</div>
           <div className="text-2xl font-bold" style={{ color: "#00d4ff" }}>{backups.length}</div>
         </div>
         <div className="necrom-panel p-4" style={{ borderColor: "#1a3a5c" }}>
-          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>TOTAL SIZE</div>
+          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>{t("backup.totalSize")}</div>
           <div className="text-2xl font-bold" style={{ color: "#55efc4" }}>61.3 GB</div>
         </div>
         <div className="necrom-panel p-4" style={{ borderColor: "#1a3a5c" }}>
-          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>AUTO SCHEDULE</div>
-          <div className="text-2xl font-bold" style={{ color: "#fdcb6e" }}>DAILY</div>
+          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>{t("backup.autoSchedule")}</div>
+          <div className="text-2xl font-bold" style={{ color: "#fdcb6e" }}>{t("backup.daily")}</div>
         </div>
         <div className="necrom-panel p-4" style={{ borderColor: "#1a3a5c" }}>
-          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>LAST BACKUP</div>
+          <div className="text-xs tracking-widest mb-1" style={{ color: "#3a6080" }}>{t("backup.lastBackup")}</div>
           <div className="text-lg font-bold" style={{ color: "#c0392b" }}>2h ago</div>
         </div>
       </div>
@@ -355,7 +357,7 @@ export default function BackupManager() {
         >
           <span style={{ color: "#00d4ff" }}>◈</span>
           <span className="text-xs tracking-widest" style={{ color: "#3a6080" }}>
-            💀 BACKUP HISTORY 💀
+            {t("backup.history")}
           </span>
         </div>
 
@@ -364,13 +366,13 @@ export default function BackupManager() {
           <table className="w-full">
             <thead>
               <tr className="text-xs tracking-widest" style={{ color: "#3a6080", borderBottom: "1px solid #1a3a5c" }}>
-                <th className="text-left p-3">STATUS</th>
-                <th className="text-left p-3">BACKUP NAME</th>
-                <th className="text-left p-3">TYPE</th>
-                <th className="text-left p-3">DATE</th>
-                <th className="text-left p-3">SIZE</th>
-                <th className="text-left p-3">FILES</th>
-                <th className="text-right p-3">ACTIONS</th>
+                <th className="text-left p-3">{t("backup.status")}</th>
+                <th className="text-left p-3">{t("backup.name")}</th>
+                <th className="text-left p-3">{t("backup.type")}</th>
+                <th className="text-left p-3">{t("backup.date")}</th>
+                <th className="text-left p-3">{t("backup.size")}</th>
+                <th className="text-left p-3">{t("backup.files")}</th>
+                <th className="text-right p-3">{t("backup.actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -389,7 +391,7 @@ export default function BackupManager() {
                         {getStatusIcon(backup.status)}
                       </span>
                       <span className="text-xs" style={{ color: getStatusColor(backup.status) }}>
-                        {backup.status === "in-progress" ? "CREATING..." : backup.status.toUpperCase()}
+                        {backup.status === "in-progress" ? t("backup.creating") : backup.status.toUpperCase()}
                       </span>
                     </div>
                   </td>
@@ -453,15 +455,15 @@ export default function BackupManager() {
           <div className="flex items-center gap-3">
             <div className="text-2xl">⏰</div>
             <div>
-              <div className="text-sm font-bold" style={{ color: "#00d4ff" }}>AUTOMATED BACKUP SCHEDULE</div>
+              <div className="text-sm font-bold" style={{ color: "#00d4ff" }}>{t("backup.autoBackupSchedule")}</div>
               <div className="text-xs" style={{ color: "#3a6080" }}>
-                Daily at 00:00 UTC • Incremental backups preserve bandwidth
+                {t("backup.incrementalNote")}
               </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00d4ff", boxShadow: "0 0 6px #00d4ff" }} />
-            <span className="text-xs" style={{ color: "#00d4ff" }}>ACTIVE</span>
+            <span className="text-xs" style={{ color: "#00d4ff" }}>{t("backup.active")}</span>
           </div>
         </div>
       </div>
