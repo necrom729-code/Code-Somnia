@@ -123,12 +123,12 @@ const WAVEFORM_HEIGHTS = Array.from({ length: 40 }, (_, i) =>
 );
 
 const INITIAL_FILES: NecromFile[] = [
-  { id: "1", name: "necrom_system_log.txt", type: "document", size: "48 KB", created: "2026-02-10", modified: "2026-02-27", demoContent: DEMO_CONTENT["necrom_system_log.txt"] },
+  { id: "1", name: "necrom_system_log.txt", type: "document", size: "48 KB", created: "2026-02-10", modified: "2026-02-27" },
   { id: "2", name: "watchdogs_intro.mp4", type: "video", size: "1.2 GB", created: "2026-01-15", modified: "2026-01-15" },
   { id: "3", name: "skull_theme.mp3", type: "audio", size: "8.4 MB", created: "2026-02-01", modified: "2026-02-01" },
   { id: "4", name: "ctOS_blueprint.png", type: "image", size: "3.7 MB", created: "2026-02-20", modified: "2026-02-22" },
   { id: "5", name: "necrom_core.zip", type: "archive", size: "245 MB", created: "2026-02-25", modified: "2026-02-25" },
-  { id: "6", name: "hack_protocol.ts", type: "code", size: "14 KB", created: "2026-02-27", modified: "2026-02-27", demoContent: DEMO_CONTENT["hack_protocol.ts"] },
+  { id: "6", name: "hack_protocol.ts", type: "code", size: "14 KB", created: "2026-02-27", modified: "2026-02-27" },
 ];
 
 function genId(): string {
