@@ -186,6 +186,12 @@ const translations: Translations = {
     "auth.accessSystem": "ACCESS SYSTEM",
     "auth.encryptionNote": "ALL CONNECTIONS ENCRYPTED // AES-256",
     "auth.register": "REGISTER",
+    "auth.newOperatorRegistration": "NEW OPERATOR REGISTRATION",
+    "auth.operatorHandle": "OPERATOR HANDLE",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "Min. 6 characters",
+    "auth.repeatPassword": "Repeat password",
+    "auth.confirmPassword": "CONFIRM PASSWORD",
     
     // Notifications
     "notifications.title": "NOTIFICATIONS",
@@ -440,6 +446,12 @@ const translations: Translations = {
     "auth.accessSystem": "ACCEDER AL SISTEMA",
     "auth.encryptionNote": "TODAS LAS CONEXIONES ENCRIPTADAS // AES-256",
     "auth.register": "REGISTRARSE",
+    "auth.newOperatorRegistration": "NUEVA REGISTRACIÓN DE OPERADOR",
+    "auth.operatorHandle": "IDENTIFICADOR DE OPERADOR",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "Mín. 6 caracteres",
+    "auth.repeatPassword": "Repetir contraseña",
+    "auth.confirmPassword": "CONFIRMAR CONTRASEÑA",
     
     // Notifications
     "notifications.title": "NOTIFICACIONES",
@@ -694,6 +706,12 @@ const translations: Translations = {
     "auth.accessSystem": "ACCÉDER AU SYSTÈME",
     "auth.encryptionNote": "TOUTES LES CONNEXIONS CHIFFRÉES // AES-256",
     "auth.register": "S'INSCRIRE",
+    "auth.newOperatorRegistration": "NOUVELLE INSCRIPTION OPÉRATEUR",
+    "auth.operatorHandle": "IDENTIFIANT OPÉRATEUR",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "Min. 6 caractères",
+    "auth.repeatPassword": "Répéter le mot de passe",
+    "auth.confirmPassword": "CONFIRMER LE MOT DE PASSE",
     
     // Notifications
     "notifications.title": "NOTIFICATIONS",
@@ -948,6 +966,12 @@ const translations: Translations = {
     "auth.accessSystem": "SYSTEM ZUGREIFEN",
     "auth.encryptionNote": "ALLE VERBINDUNGEN VERSCHLÜSSELT // AES-256",
     "auth.register": "REGISTRIEREN",
+    "auth.newOperatorRegistration": "NEUE BETREIBER-REGISTRIERUNG",
+    "auth.operatorHandle": "BETREIBER-HANDLE",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "Min. 6 Zeichen",
+    "auth.repeatPassword": "Passwort wiederholen",
+    "auth.confirmPassword": "PASSWORT BESTÄTIGEN",
     
     // Notifications
     "notifications.title": "BENACHRICHTIGUNGEN",
@@ -1202,6 +1226,12 @@ const translations: Translations = {
     "auth.accessSystem": "访问系统",
     "auth.encryptionNote": "所有连接已加密 // AES-256",
     "auth.register": "注册",
+    "auth.newOperatorRegistration": "新操作员注册",
+    "auth.operatorHandle": "操作员账号",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "最少6个字符",
+    "auth.repeatPassword": "重复密码",
+    "auth.confirmPassword": "确认密码",
     
     // Notifications
     "notifications.title": "通知",
@@ -1456,6 +1486,12 @@ const translations: Translations = {
     "auth.accessSystem": "システムにアクセス",
     "auth.encryptionNote": "すべての接続が暗号化されています // AES-256",
     "auth.register": "登録",
+    "auth.newOperatorRegistration": "新規オペレーター登録",
+    "auth.operatorHandle": "オペレーター_handle",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "最低6文字",
+    "auth.repeatPassword": "パスワード確認",
+    "auth.confirmPassword": "パスワード確認",
     
     // Notifications
     "notifications.title": "通知",
@@ -1710,6 +1746,12 @@ const translations: Translations = {
     "auth.accessSystem": "AKSES SISTEM",
     "auth.encryptionNote": "SEMUA SAMBUNGAN DISULITKAN // AES-256",
     "auth.register": "DAFTAR",
+    "auth.newOperatorRegistration": "PENDAFTARAN OPERATOR BARU",
+    "auth.operatorHandle": "HANDLE OPERATOR",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "Min. 6 aksara",
+    "auth.repeatPassword": "Ulang kata laluan",
+    "auth.confirmPassword": "SAHKAN KATA LALUAN",
     
     // Notifications
     "notifications.title": "PEMBERITAHUAN",
@@ -1964,6 +2006,12 @@ const translations: Translations = {
     "auth.accessSystem": "AKSES SISTEM",
     "auth.encryptionNote": "SEMUA KONEKSI TERENKRIPSI // AES-256",
     "auth.register": "DAFTAR",
+    "auth.newOperatorRegistration": "PENDAFTARAN OPERATOR BARU",
+    "auth.operatorHandle": "HANDLE OPERATOR",
+    "auth.operatorHandlePlaceholder": "AIDEN_P",
+    "auth.minChars": "Min. 6 karakter",
+    "auth.repeatPassword": "Ulangi kata sandi",
+    "auth.confirmPassword": "KONFIRMASI KATA SANDI",
     
     // Notifications
     "notifications.title": "NOTIFIKASI",

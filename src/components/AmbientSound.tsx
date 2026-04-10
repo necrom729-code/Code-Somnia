@@ -10,11 +10,10 @@ export default function AmbientSound({ enabled = true }: AmbientSoundProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const playerRef = useRef<any>(null);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const [isClient, setIsClient] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return true;
+  });
 
   useEffect(() => {
     if (!isClient || !enabled) return;
@@ -117,12 +116,12 @@ export default function AmbientSound({ enabled = true }: AmbientSoundProps) {
 
           {isPlaying && (
             <div className="flex items-center gap-1 ml-2">
-              {[...Array(5)].map((_, i) => (
+              {[8, 12, 10, 14, 8].map((height, i) => (
                 <div
                   key={i}
                   className="w-1 animate-pulse"
                   style={{
-                    height: `${8 + Math.random() * 8}px`,
+                    height: `${height}px`,
                     background: "#00d4ff",
                     animationDelay: `${i * 0.1}s`
                   }}

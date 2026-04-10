@@ -243,7 +243,7 @@ function NavBar() {
                 color: user.avatarColor || "#c0392b",
                 background: user.customAvatar ? "transparent" : `${user.avatarColor || "#c0392b"}15`,
               }}
-              title="Sign out"
+              title={t("nav.signOut")}
               onClick={handleSignOut}
             >
               {user.customAvatar ? (
@@ -288,7 +288,7 @@ function StatusDot({ label, active }: { label: string; active?: boolean }) {
 }
 
 function LanguageSelector() {
-  const { language, setLanguage, languages } = useI18n();
+  const { language, setLanguage, languages, t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -311,7 +311,7 @@ function LanguageSelector() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-2 py-1 border transition-colors hover:bg-white/5"
         style={{ borderColor: "var(--necrom-border)", color: "#3a6080" }}
-        title="Select Language"
+        title={t("settings.language")}
       >
         <span>{currentLang?.flag}</span>
         <span className="text-xs font-bold hidden sm:inline">{currentLang?.code.toUpperCase()}</span>

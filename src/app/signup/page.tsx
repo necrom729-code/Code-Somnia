@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SkullIcon from "@/components/SkullIcon";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 
 export default function SignUpPage() {
   const { signUp } = useAuth();
+  const { t } = useI18n();
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -61,7 +63,7 @@ export default function SignUpPage() {
             NECROM
           </div>
           <div className="text-xs tracking-[0.4em]" style={{ color: "#3a6080" }}>
-            NEW OPERATOR REGISTRATION
+            {t("auth.newOperatorRegistration")}
           </div>
         </div>
 
@@ -71,7 +73,7 @@ export default function SignUpPage() {
             className="text-xs tracking-[0.3em] mb-6 pb-3 border-b"
             style={{ color: "#00d4ff", borderColor: "var(--necrom-border)" }}
           >
-            {"// CREATE OPERATOR PROFILE"}
+            {"// " + t("auth.createOperatorProfile")}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -80,12 +82,12 @@ export default function SignUpPage() {
                 className="block text-xs tracking-widest mb-2"
                 style={{ color: "#3a6080" }}
               >
-                OPERATOR HANDLE
+                {t("auth.operatorHandle")}
               </label>
               <input
                 type="text"
                 className="necrom-input"
-                placeholder="AIDEN_P"
+                placeholder={t("auth.operatorHandlePlaceholder")}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
@@ -98,12 +100,12 @@ export default function SignUpPage() {
                 className="block text-xs tracking-widest mb-2"
                 style={{ color: "#3a6080" }}
               >
-                EMAIL ADDRESS
+                {t("auth.emailLabel")}
               </label>
               <input
                 type="email"
                 className="necrom-input"
-                placeholder="operator@necrom.sys"
+                placeholder={t("auth.emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
@@ -116,12 +118,12 @@ export default function SignUpPage() {
                 className="block text-xs tracking-widest mb-2"
                 style={{ color: "#3a6080" }}
               >
-                PASSWORD
+                {t("auth.passwordLabel")}
               </label>
               <input
                 type="password"
                 className="necrom-input"
-                placeholder="Min. 6 characters"
+                placeholder={t("auth.minChars")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
@@ -134,12 +136,12 @@ export default function SignUpPage() {
                 className="block text-xs tracking-widest mb-2"
                 style={{ color: "#3a6080" }}
               >
-                CONFIRM PASSWORD
+                {t("auth.confirmPassword")}
               </label>
               <input
                 type="password"
                 className="necrom-input"
-                placeholder="Repeat password"
+                placeholder={t("auth.repeatPassword")}
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 autoComplete="new-password"
