@@ -31,7 +31,7 @@ const EXTENSION_MAP: Record<string, FileType> = {
   txt: "document", doc: "document", docx: "document", pdf: "document", md: "document",
   mp4: "video", mkv: "video", avi: "video", mov: "video", webm: "video",
   mp3: "audio", wav: "audio", flac: "audio", ogg: "audio", aac: "audio",
-  jpg: "image", jpeg: "image", png: "image", gif: "image", webp: "image", svg: "image",
+  jpg: "image", jpeg: "image", png: "image", gif: "image", webp: "image", svg: "image", jfif: "image", bmp: "image", tiff: "image",tif: "image",
   zip: "archive", rar: "archive", tar: "archive", gz: "archive", "7z": "archive",
   js: "code", ts: "code", tsx: "code", jsx: "code", py: "code", html: "code", css: "code",
 };
