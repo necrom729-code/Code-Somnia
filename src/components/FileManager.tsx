@@ -155,7 +155,7 @@ function FilePreviewModal({ file, onClose, onDownload }: { file: NecromFile; onC
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  const isVideo = file.type === "video" && file.objectUrl;
+  const isVideo = file.type === "video";
 
   return (
     <div
@@ -678,7 +678,7 @@ All changes are encrypted and monitored.`;
         <div className="text-6xl">🎬</div>
         <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
         <div className="text-xs text-center max-w-xs" style={{ color: "#3a6080" }}>
-          This is a demo file entry. Upload a real video file to play it here.
+          This is a demo video. Upload a real video file to enable playback and fullscreen.
         </div>
         <div
           className="text-xs px-3 py-1 border"
@@ -728,7 +728,7 @@ All changes are encrypted and monitored.`;
         <div className="text-6xl">🖼️</div>
         <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
         <div className="text-xs text-center max-w-xs" style={{ color: "#3a6080" }}>
-          This is a demo file entry. Upload a real image to view it here.
+          Upload a real image to view it in fullscreen.
         </div>
       </div>
     );
