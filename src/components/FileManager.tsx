@@ -160,12 +160,12 @@ function FilePreviewModal({ file, onClose, onDownload }: { file: NecromFile; onC
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: isVideo ? "rgba(0,0,0,0.95)" : "rgba(0,0,0,0.85)" }}
+      style={{ background: "rgba(0,0,0,0.7)" }}
       onClick={onClose}
     >
       <div
         className={`necrom-panel w-full flex flex-col overflow-hidden ${isVideo ? "max-w-5xl max-h-[95vh]" : "max-w-3xl max-h-[90vh]"}`}
-        style={{ borderColor: cfg.color }}
+        style={{ borderColor: cfg.color, boxShadow: "0 0 40px rgba(0,212,255,0.2)" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal header */}
@@ -213,6 +213,7 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
   const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [brightness, setBrightness] = useState(100);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Format time display (MM:SS or HH:MM:SS)
@@ -433,6 +434,7 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
         ref={videoRef}
         src={src}
         className="w-full h-full object-contain cursor-pointer"
+        style={{ filter: `brightness(${brightness}%)` }}
         onClick={togglePlay}
         onDoubleClick={toggleFullscreen}
       />
@@ -547,6 +549,29 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
                     setIsMuted(v === 0);
                   }}
                   className="w-16 h-1 rounded-lg cursor-pointer"
+                  style={{ accentColor: "#00d4ff" }}
+                />
+              </div>
+            </div>
+
+            {/* Brightness */}
+            <div className="flex items-center gap-2 group/brightness">
+              <button
+                className="w-8 h-8 rounded flex items-center justify-center transition-all hover:bg-white/10 text-xs"
+                style={{ color: "#a0c8e0" }}
+                title="Brightness"
+              >
+                ☀
+              </button>
+              <div className="w-0 overflow-hidden group-hover/brightness:w-24 transition-all duration-300">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value={brightness}
+                  onChange={(e) => setBrightness(parseInt(e.target.value))}
+                  className="w-20 h-1 rounded-lg cursor-pointer"
                   style={{ accentColor: "#00d4ff" }}
                 />
               </div>
