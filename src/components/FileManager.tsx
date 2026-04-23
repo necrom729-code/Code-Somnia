@@ -305,44 +305,40 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
     resetControlsTimeout();
   }, [volume, resetControlsTimeout]);
 
-  const toggleFullscreen = useCallback(async () => {
-    const video = videoRef.current;
-    const container = containerRef.current;
-    if (!video || !container) return;
+   const toggleFullscreen = useCallback(async () => {
+     const container = containerRef.current;
+     if (!container) return;
 
-    try {
-      if (!document.fullscreenElement) {
-        // Try to fullscreen the video element directly for better browser support
-        if (video.requestFullscreen) {
-          await video.requestFullscreen();
-        } else if ((video as HTMLVideoElement & { webkitRequestFullscreen?: () => Promise<void> }).webkitRequestFullscreen) {
-          await (video as HTMLVideoElement & { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen();
-        } else if ((video as HTMLVideoElement & { mozRequestFullScreen?: () => Promise<void> }).mozRequestFullScreen) {
-          await (video as HTMLVideoElement & { mozRequestFullScreen: () => Promise<void> }).mozRequestFullScreen();
-        } else if ((video as HTMLVideoElement & { msRequestFullscreen?: () => Promise<void> }).msRequestFullscreen) {
-          await (video as HTMLVideoElement & { msRequestFullscreen: () => Promise<void> }).msRequestFullscreen();
-        } else {
-          // Fallback to container
-          await container.requestFullscreen();
-        }
-        setIsFullscreen(true);
-      } else {
-        if (document.exitFullscreen) {
-          await document.exitFullscreen();
-        } else if ((document as Document & { webkitExitFullscreen?: () => Promise<void> }).webkitExitFullscreen) {
-          await (document as Document & { webkitExitFullscreen: () => Promise<void> }).webkitExitFullscreen();
-        } else if ((document as Document & { mozCancelFullScreen?: () => Promise<void> }).mozCancelFullScreen) {
-          await (document as Document & { mozCancelFullScreen: () => Promise<void> }).mozCancelFullScreen();
-        } else if ((document as Document & { msExitFullscreen?: () => Promise<void> }).msExitFullscreen) {
-          await (document as Document & { msExitFullscreen: () => Promise<void> }).msExitFullscreen();
-        }
-        setIsFullscreen(false);
-      }
-    } catch (err) {
-      console.error("Fullscreen error:", err);
-    }
-    resetControlsTimeout();
-  }, [resetControlsTimeout]);
+     try {
+       if (!document.fullscreenElement) {
+         // Try to fullscreen the container (holds video and controls)
+         if (container.requestFullscreen) {
+           await container.requestFullscreen();
+         } else if ((container as HTMLDivElement & { webkitRequestFullscreen?: () => Promise<void> }).webkitRequestFullscreen) {
+           await (container as HTMLDivElement & { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen();
+         } else if ((container as HTMLDivElement & { mozRequestFullScreen?: () => Promise<void> }).mozRequestFullScreen) {
+           await (container as HTMLDivElement & { mozRequestFullScreen: () => Promise<void> }).mozRequestFullScreen();
+         } else if ((container as HTMLDivElement & { msRequestFullscreen?: () => Promise<void> }).msRequestFullscreen) {
+           await (container as HTMLDivElement & { msRequestFullscreen: () => Promise<void> }).msRequestFullscreen();
+         }
+         setIsFullscreen(true);
+       } else {
+         if (document.exitFullscreen) {
+           await document.exitFullscreen();
+         } else if ((document as Document & { webkitExitFullscreen?: () => Promise<void> }).webkitExitFullscreen) {
+           await (document as Document & { webkitExitFullscreen: () => Promise<void> }).webkitExitFullscreen();
+         } else if ((document as Document & { mozCancelFullScreen?: () => Promise<void> }).mozCancelFullScreen) {
+           await (document as Document & { mozCancelFullScreen: () => Promise<void> }).mozCancelFullScreen();
+         } else if ((document as Document & { msExitFullscreen?: () => Promise<void> }).msExitFullscreen) {
+           await (document as Document & { msExitFullscreen: () => Promise<void> }).msExitFullscreen();
+         }
+         setIsFullscreen(false);
+       }
+     } catch (err) {
+       console.error("Fullscreen error:", err);
+     }
+     resetControlsTimeout();
+   }, [resetControlsTimeout]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -430,14 +426,17 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
       onMouseMove={resetControlsTimeout}
       onMouseLeave={() => isPlaying && setShowControls(false)}
     >
-      <video
-        ref={videoRef}
-        src={src}
-        className="w-full h-full object-contain cursor-pointer"
-        style={{ filter: `brightness(${brightness}%)` }}
-        onClick={togglePlay}
-        onDoubleClick={toggleFullscreen}
-      />
+       <video
+         ref={videoRef}
+         src={src}
+         className="w-full h-full cursor-pointer"
+         style={{ 
+           objectFit: isFullscreen ? 'cover' : 'contain',
+           filter: `brightness(${brightness}%)`
+         }}
+         onClick={togglePlay}
+         onDoubleClick={toggleFullscreen}
+       />
 
       {/* Center play/pause button (shows when paused or hovering) */}
       <button
