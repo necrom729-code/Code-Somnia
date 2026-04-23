@@ -228,25 +228,44 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  // Update time display
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+   // Update time display and handle play/pause events
+   useEffect(() => {
+     const video = videoRef.current;
+     if (!video) return;
 
-    const updateTime = () => setCurrentTime(video.currentTime);
-    const updateDuration = () => setDuration(video.duration);
-    const handleEnded = () => setIsPlaying(false);
+     const updateTime = () => setCurrentTime(video.currentTime);
+     const updateDuration = () => setDuration(video.duration);
+     const handlePlay = () => setIsPlaying(true);
+     const handlePause = () => setIsPlaying(false);
+     const handleEnded = () => setIsPlaying(false);
 
-    video.addEventListener("timeupdate", updateTime);
-    video.addEventListener("loadedmetadata", updateDuration);
-    video.addEventListener("ended", handleEnded);
+     video.addEventListener("timeupdate", updateTime);
+     video.addEventListener("loadedmetadata", updateDuration);
+     video.addEventListener("play", handlePlay);
+     video.addEventListener("pause", handlePause);
+     video.addEventListener("ended", handleEnded);
 
-    return () => {
-      video.removeEventListener("timeupdate", updateTime);
-      video.removeEventListener("loadedmetadata", updateDuration);
-      video.removeEventListener("ended", handleEnded);
-    };
-  }, []);
+     // Try to play when the video is ready (for autoplay)
+     const tryPlay = () => {
+       video.play().catch(err => {
+         console.warn('Autoplay was prevented:', err);
+         // If autoplay fails, we leave it paused (isPlaying remains false) and the user must click to play.
+       });
+     };
+
+     video.addEventListener("canplay", tryPlay);
+     video.addEventListener("loadedmetadata", tryPlay);
+
+     return () => {
+       video.removeEventListener("timeupdate", updateTime);
+       video.removeEventListener("loadedmetadata", updateDuration);
+       video.removeEventListener("play", handlePlay);
+       video.removeEventListener("pause", handlePause);
+       video.removeEventListener("ended", handleEnded);
+       video.removeEventListener("canplay", tryPlay);
+       video.removeEventListener("loadedmetadata", tryPlay);
+     };
+   }, []);
 
   // Auto-hide controls
   const resetControlsTimeout = useCallback(() => {
@@ -261,18 +280,16 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
     }
   }, [isPlaying]);
 
-  const togglePlay = useCallback(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play();
-      setIsPlaying(true);
-    } else {
-      video.pause();
-      setIsPlaying(false);
-    }
-    resetControlsTimeout();
-  }, [resetControlsTimeout]);
+   const togglePlay = useCallback(() => {
+     const video = videoRef.current;
+     if (!video) return;
+     if (video.paused) {
+       video.play();
+     } else {
+       video.pause();
+     }
+     resetControlsTimeout();
+   }, [resetControlsTimeout]);
 
   const skip = useCallback((seconds: number) => {
     const video = videoRef.current;
