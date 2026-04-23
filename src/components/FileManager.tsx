@@ -157,17 +157,17 @@ function FilePreviewModal({ file, onClose, onDownload }: { file: NecromFile; onC
 
   const isVideo = file.type === "video";
 
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.7)" }}
-      onClick={onClose}
-    >
-      <div
-        className={`necrom-panel w-full flex flex-col overflow-hidden ${isVideo ? "max-w-5xl max-h-[95vh]" : "max-w-3xl max-h-[90vh]"}`}
-        style={{ borderColor: cfg.color, boxShadow: "0 0 40px rgba(0,212,255,0.2)" }}
-        onClick={(e) => e.stopPropagation()}
-      >
+   return (
+     <div
+       className="fixed inset-0 z-50 flex items-center justify-center p-4"
+       style={{ background: "transparent" }}
+       onClick={onClose}
+     >
+       <div
+         className={`necrom-panel w-full flex flex-col overflow-hidden ${isVideo ? "max-w-5xl max-h-[95vh]" : "max-w-3xl max-h-[90vh]"}`}
+         style={{ borderColor: cfg.color, boxShadow: "0 0 30px rgba(0,212,255,0.1)" }}
+         onClick={(e) => e.stopPropagation()}
+       >
         {/* Modal header */}
         <div
           className="flex items-center justify-between px-4 py-3 border-b flex-shrink-0"
@@ -457,22 +457,22 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
           onDoubleClick={toggleFullscreen}
         />
 
-      {/* Center play/pause button (shows when paused or hovering) */}
-      <button
-        onClick={togglePlay}
-        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-          isPlaying && showControls ? "opacity-0 hover:opacity-100" : isPlaying ? "opacity-0" : "opacity-100"
-        }`}
-        style={{ background: "rgba(0,0,0,0.3)" }}
-      >
-        <div
-          className="w-20 h-20 rounded-full flex items-center justify-center border-2 transition-transform hover:scale-110"
-          style={{
-            background: "rgba(0,0,0,0.6)",
-            borderColor: "#00d4ff",
-            boxShadow: "0 0 20px rgba(0,212,255,0.3)",
-          }}
-        >
+       {/* Center play/pause button (shows when paused or hovering) */}
+       <button
+         onClick={togglePlay}
+         className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+           isPlaying && showControls ? "opacity-0 hover:opacity-100" : isPlaying ? "opacity-0" : "opacity-100"
+         }`}
+         style={{ background: "rgba(0,0,0,0.2)" }}
+       >
+         <div
+           className="w-20 h-20 rounded-full flex items-center justify-center border-2 transition-transform hover:scale-110"
+           style={{
+             background: "rgba(0,0,0,0.3)",
+             borderColor: "#00d4ff",
+             boxShadow: "0 0 15px rgba(0,212,255,0.2)",
+           }}
+         >
           {isPlaying ? (
             <span className="text-3xl" style={{ color: "#00d4ff" }}>⏸</span>
           ) : (
@@ -482,12 +482,12 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
       </button>
 
       {/* Controls overlay */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 px-4 pb-4 pt-12 transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)" }}
-      >
+       <div
+         className={`absolute bottom-0 left-0 right-0 px-4 pb-4 pt-12 transition-opacity duration-300 ${
+           showControls ? "opacity-100" : "opacity-0"
+         }`}
+         style={{ background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)" }}
+       >
         {/* Progress bar */}
         <div
           ref={progressRef}
@@ -512,16 +512,16 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
 
         {/* Controls row */}
         <div className="flex items-center justify-between">
-          {/* Left controls */}
-          <div className="flex items-center gap-3">
-            {/* Play/Pause */}
-            <button
-              onClick={togglePlay}
-              className="w-10 h-10 rounded-full flex items-center justify-center border transition-all hover:scale-105"
-              style={{ borderColor: "rgba(0,212,255,0.5)", background: "rgba(0,0,0,0.5)" }}
-            >
-              <span style={{ color: "#00d4ff" }}>{isPlaying ? "⏸" : "▶"}</span>
-            </button>
+           {/* Left controls */}
+           <div className="flex items-center gap-3">
+             {/* Play/Pause */}
+             <button
+               onClick={togglePlay}
+               className="w-10 h-10 rounded-full flex items-center justify-center border transition-all hover:scale-105"
+               style={{ borderColor: "rgba(0,212,255,0.5)", background: "rgba(0,0,0,0.2)" }}
+             >
+               <span style={{ color: "#00d4ff" }}>{isPlaying ? "⏸" : "▶"}</span>
+             </button>
 
             {/* Rewind 10s */}
             <button
@@ -727,15 +727,15 @@ NECROM Secure Document Vault
 All changes are encrypted and monitored.`;
     return (
       <div className="flex flex-col gap-3">
-        <pre
-          className="text-xs leading-relaxed overflow-auto p-4 rounded font-mono whitespace-pre-wrap"
-          style={{
-            background: "rgba(0,0,0,0.4)",
-            color: file.type === "code" ? "#00d4ff" : "#a0c8e0",
-            border: `1px solid ${cfg.borderColor}`,
-            maxHeight: "60vh",
-          }}
-        >
+         <pre
+           className="text-xs leading-relaxed overflow-auto p-4 rounded font-mono whitespace-pre-wrap"
+           style={{
+             background: "rgba(0,0,0,0.1)",
+             color: file.type === "code" ? "#00d4ff" : "#a0c8e0",
+             border: `1px solid ${cfg.borderColor}`,
+             maxHeight: "60vh",
+           }}
+         >
           {content}
         </pre>
         <div className="flex gap-2 justify-end">
@@ -779,12 +779,12 @@ All changes are encrypted and monitored.`;
     );
   }
 
-  if (file.type === "audio") {
-    return (
-      <div
-        className="flex flex-col items-center justify-center gap-4 py-16 rounded"
-        style={{ background: "rgba(0,0,0,0.4)", border: `1px solid ${cfg.borderColor}` }}
-      >
+   if (file.type === "audio") {
+     return (
+       <div
+         className="flex flex-col items-center justify-center gap-4 py-16 rounded"
+         style={{ background: "rgba(0,0,0,0.1)", border: `1px solid ${cfg.borderColor}` }}
+       >
         <div className="text-6xl">🎵</div>
         <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
         {/* Fake waveform */}
@@ -808,12 +808,12 @@ All changes are encrypted and monitored.`;
     );
   }
 
-  if (file.type === "image") {
-    return (
-      <div
-        className="flex flex-col items-center justify-center gap-4 py-16 rounded"
-        style={{ background: "rgba(0,0,0,0.4)", border: `1px solid ${cfg.borderColor}` }}
-      >
+   if (file.type === "image") {
+     return (
+       <div
+         className="flex flex-col items-center justify-center gap-4 py-16 rounded"
+         style={{ background: "rgba(0,0,0,0.1)", border: `1px solid ${cfg.borderColor}` }}
+       >
         <div className="text-6xl">🖼️</div>
         <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
         <div className="text-xs text-center max-w-xs" style={{ color: "#3a6080" }}>
@@ -834,13 +834,12 @@ All changes are encrypted and monitored.`;
         className="rounded overflow-hidden"
         style={{ border: `1px solid ${cfg.borderColor}` }}
       >
-        <div
-          className="px-4 py-2 text-xs uppercase tracking-widest border-b"
-          style={{ color: cfg.color, borderColor: cfg.borderColor, background: "rgba(0,0,0,0.4)" }}
-        >
-          Archive Contents — {file.name}
-        </div>
-        <div className="p-4" style={{ background: "rgba(0,0,0,0.3)" }}>
+         <div
+           className="px-4 py-2 text-xs uppercase tracking-widest border-b"
+           style={{ color: cfg.color, borderColor: cfg.borderColor, background: "rgba(0,0,0,0.2)" }}
+         >
+       </div>
+       <div className="p-4" style={{ background: "rgba(0,0,0,0.1)" }}>
           {fakeContents.map((entry) => (
             <div key={entry} className="flex items-center gap-2 py-1 border-b" style={{ borderColor: "rgba(255,255,255,0.03)" }}>
               <span>{entry.endsWith("/") ? "📁" : "📄"}</span>
@@ -858,11 +857,11 @@ All changes are encrypted and monitored.`;
   }
 
   // Fallback
-  return (
-    <div
-      className="flex flex-col items-center justify-center gap-4 py-16 rounded"
-      style={{ background: "rgba(0,0,0,0.4)", border: `1px solid ${cfg.borderColor}` }}
-    >
+     return (
+       <div
+         className="flex flex-col items-center justify-center gap-4 py-16 rounded"
+         style={{ background: "rgba(0,0,0,0.1)", border: `1px solid ${cfg.borderColor}` }}
+       >
       <div className="text-6xl">{cfg.icon}</div>
       <div className="text-sm font-mono" style={{ color: cfg.color }}>{file.name}</div>
       <div className="text-xs" style={{ color: "#3a6080" }}>No preview available for this file type.</div>
