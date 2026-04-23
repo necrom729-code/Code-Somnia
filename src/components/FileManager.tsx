@@ -212,9 +212,11 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showControls, setShowControls] = useState(true);
-  const [brightness, setBrightness] = useState(100);
-  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+   const [showControls, setShowControls] = useState(true);
+   const [brightness, setBrightness] = useState(100);
+   const [contrast, setContrast] = useState(100);
+   const [saturation, setSaturation] = useState(100);
+   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Format time display (MM:SS or HH:MM:SS)
   const formatTime = (seconds: number): string => {
@@ -443,17 +445,17 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
       onMouseMove={resetControlsTimeout}
       onMouseLeave={() => isPlaying && setShowControls(false)}
     >
-       <video
-         ref={videoRef}
-         src={src}
-         className="w-full h-full cursor-pointer"
-         style={{ 
-           objectFit: isFullscreen ? 'cover' : 'contain',
-           filter: `brightness(${brightness}%)`
-         }}
-         onClick={togglePlay}
-         onDoubleClick={toggleFullscreen}
-       />
+        <video
+          ref={videoRef}
+          src={src}
+          className="w-full h-full cursor-pointer"
+          style={{ 
+            objectFit: isFullscreen ? 'cover' : 'contain',
+            filter: `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`
+          }}
+          onClick={togglePlay}
+          onDoubleClick={toggleFullscreen}
+        />
 
       {/* Center play/pause button (shows when paused or hovering) */}
       <button
@@ -593,7 +595,53 @@ function VideoPlayer({ src, fileName }: { src: string; fileName: string }) {
               </div>
             </div>
 
-            {/* Time display */}
+             {/* Contrast */}
+             <div className="flex items-center gap-2 group/contrast">
+               <button
+                 className="w-8 h-8 rounded flex items-center justify-center transition-all hover:bg-white/10 text-xs"
+                 style={{ color: "#a0c8e0" }}
+                 title="Contrast"
+               >
+                 ◼◻
+               </button>
+               <div className="w-0 overflow-hidden group-hover/contrast:w-24 transition-all duration-300">
+                 <input
+                   type="range"
+                   min="0"
+                   max="200"
+                   step="5"
+                   value={contrast}
+                   onChange={(e) => setContrast(parseInt(e.target.value))}
+                   className="w-20 h-1 rounded-lg cursor-pointer"
+                   style={{ accentColor: "#00d4ff" }}
+                 />
+               </div>
+             </div>
+
+             {/* Saturation */}
+             <div className="flex items-center gap-2 group/saturation">
+               <button
+                 className="w-8 h-8 rounded flex items-center justify-center transition-all hover:bg-white/10 text-xs"
+                 style={{ color: "#a0c8e0" }}
+                 title="Saturation"
+               >
+                 🌈
+               </button>
+               <div className="w-0 overflow-hidden group-hover/saturation:w-24 transition-all duration-300">
+                 <input
+                   type="range"
+                   min="0"
+                   max="200"
+                   step="5"
+                   value={saturation}
+                   onChange={(e) => setSaturation(parseInt(e.target.value))}
+                   className="w-20 h-1 rounded-lg cursor-pointer"
+                   style={{ accentColor: "#00d4ff" }}
+                 />
+               </div>
+             </div>
+
+             {/* Time display */}
             <div className="text-xs font-mono ml-2" style={{ color: "#a0c8e0" }}>
               <span style={{ color: "#00d4ff" }}>{formatTime(currentTime)}</span>
               <span className="mx-1">/</span>
