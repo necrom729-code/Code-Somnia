@@ -73,9 +73,9 @@ const defaultSettings: UserSettings = {
   },
   security: {
     twoFactor: false,
-    autoLock: true,
+    autoLock: false,
     autoLockMinutes: 15,
-    sessionTimeout: true,
+    sessionTimeout: false,
     sessionTimeoutMinutes: 30,
   },
   storage: {
