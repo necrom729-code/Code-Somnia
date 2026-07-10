@@ -162,7 +162,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
+    <div className="min-h-screen">
       <DataStream position="left" />
       <DataStream position="right" />
       {/* Nav */}

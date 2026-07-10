@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--necrom-bg)" }}>
+    <div className="min-h-screen">
       <DataStream position="left" />
       <DataStream position="right" />
       <NavBar />

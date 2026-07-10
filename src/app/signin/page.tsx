@@ -44,7 +44,6 @@ export default function SignInPage(): React.ReactElement {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4"
-      style={{ background: "var(--necrom-bg)" }}
     >
       {/* Background grid */}
       <div
