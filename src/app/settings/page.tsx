@@ -56,7 +56,7 @@ const THEMES: { id: Theme; label: string; description: string; accent: string; b
 function Toggle({ enabled, onChange }: { enabled: boolean; onChange: (v: boolean) => void }) {
   return (
     <button
-      onClick={() => onChange(!enabled)}
+      type="button" onClick={() => onChange(!enabled)}
       className="relative w-10 h-5 rounded-full transition-colors"
       style={{
         background: enabled ? "rgba(0, 212, 255, 0.4)" : "rgba(255,255,255,0.1)",
@@ -294,7 +294,7 @@ export default function SettingsPage() {
               </div>
 
               <div className="flex items-center gap-3">
-                <button onClick={handleSaveProfile} className="necrom-btn text-xs">
+                <button type="button" onClick={handleSaveProfile} className="necrom-btn text-xs">
                   {t("settings.updateProfile")}
                 </button>
                 {showSaved && (
@@ -640,7 +640,7 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <button onClick={handleSignOut} className="necrom-btn necrom-btn-danger text-xs">
+            <button type="button" onClick={handleSignOut} className="necrom-btn necrom-btn-danger text-xs">
               {t("settings.signOut")}
             </button>
           </section>

@@ -153,6 +153,7 @@ export default function VPNPanel() {
     <div ref={panelRef} className="relative">
       {/* VPN Status Button */}
       <button
+        type="button"
         onClick={() => setShowServers(!showServers)}
         className="flex items-center gap-2 px-3 py-2 border transition-all"
         style={{ 
@@ -197,7 +198,7 @@ export default function VPNPanel() {
               </span>
               {isConnected && (
                 <button
-                  onClick={disconnect}
+                  type="button" onClick={disconnect} type="button"
                   className="text-xs px-2 py-1 border hover:bg-red-900/30 transition-colors"
                   style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
                 >

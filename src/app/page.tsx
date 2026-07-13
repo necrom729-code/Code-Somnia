@@ -308,6 +308,7 @@ function LanguageSelector() {
   return (
     <div ref={panelRef} className="relative">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-2 py-1 border transition-colors hover:bg-white/5"
         style={{ borderColor: "var(--necrom-border)", color: "#3a6080" }}
@@ -527,7 +528,7 @@ function SecurityFeatures({
           <div className="flex items-center gap-3">
             {!securityEnabled && (
               <button
-                onClick={onEnableAll}
+                type="button" onClick={onEnableAll} type="button"
                 className="text-xs px-3 py-1 border hover:bg-cyan-900/30 transition-colors"
                 style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
               >
@@ -535,7 +536,7 @@ function SecurityFeatures({
               </button>
             )}
             <button
-              onClick={onViewDetails}
+              type="button" onClick={onViewDetails} type="button"
               className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
               style={{ color: "#c0392b", borderColor: "#c0392b" }}
             >
@@ -827,7 +828,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
             </span>
           </div>
           <button
-            onClick={onClose}
+            type="button" onClick={onClose} type="button"
             className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
             style={{ color: "#c0392b", borderColor: "#c0392b" }}
           >
@@ -851,7 +852,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
           <div className="flex items-center gap-2">
             {!isAllEnabled ? (
               <button
-                onClick={enableAll}
+                type="button" onClick={enableAll} type="button"
                 className="text-xs px-3 py-1 border hover:bg-green-900/30 transition-colors"
                 style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
               >
@@ -859,7 +860,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
               </button>
             ) : (
               <button
-                onClick={disableAll}
+                type="button" onClick={disableAll} type="button"
                 className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
                 style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
               >
@@ -913,7 +914,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                       </div>
                     </div>
                     <button
-                      onClick={() => toggleProtection(protection.id)}
+                      type="button" onClick={() => toggleProtection(protection.id)}
                       className="w-10 h-5 border relative transition-colors"
                       style={{ borderColor: protection.enabled ? "#00d4ff" : "#1a3a5c" }}
                     >
@@ -931,7 +932,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                     <span>STATUS: <span style={{ color: protection.enabled ? "#00d4ff" : "#ff3a3a" }}>{protection.enabled ? "ACTIVE" : "OFFLINE"}</span></span>
                     {protection.enabled && (
                       <button
-                        onClick={() => runScan(protection.id)}
+                        type="button" onClick={() => runScan(protection.id)}
                         className="text-[10px] px-2 py-0.5 border hover:bg-cyan-900/30 transition-colors"
                         style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
                       >
@@ -1014,14 +1015,14 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
               {/* Create Backup */}
               <div className="flex gap-2 mb-4">
                 <button
-                  onClick={() => createBackup(`Full Backup ${new Date().toLocaleDateString()}`, "full")}
+                  type="button" onClick={() => createBackup(`Full Backup ${new Date().toLocaleDateString()}`, "full")}
                   className="flex-1 py-2 border text-xs hover:bg-green-900/30 transition-colors"
                   style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
                 >
                   CREATE FULL BACKUP
                 </button>
                 <button
-                  onClick={() => createBackup(`Incremental ${new Date().toLocaleTimeString()}`, "incremental")}
+                  type="button" onClick={() => createBackup(`Incremental ${new Date().toLocaleTimeString()}`, "incremental")}
                   className="flex-1 py-2 border text-xs hover:bg-cyan-900/30 transition-colors"
                   style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
                 >
@@ -1061,7 +1062,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                     </div>
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => restoreBackup(backup.id)}
+                        type="button" onClick={() => restoreBackup(backup.id)}
                         disabled={backup.status !== "complete"}
                         className="text-[10px] px-2 py-1 border hover:bg-cyan-900/30 transition-colors disabled:opacity-50"
                         style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
@@ -1069,7 +1070,7 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
                         RESTORE
                       </button>
                       <button
-                        onClick={() => deleteBackup(backup.id)}
+                        type="button" onClick={() => deleteBackup(backup.id)}
                         className="text-[10px] px-2 py-1 border hover:bg-red-900/30 transition-colors"
                         style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
                       >
