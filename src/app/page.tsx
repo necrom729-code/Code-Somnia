@@ -335,6 +335,8 @@ function LanguageSelector() {
             borderColor: "var(--necrom-border)",
             backdropFilter: "blur(8px)",
           }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
         >
           {languages.map((lang) => (
             <button

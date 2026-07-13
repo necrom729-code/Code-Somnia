@@ -836,7 +836,9 @@ export default function FileManager() {
   const [notification, setNotification] = useState<string | null>(null);
   const [previewFile, setPreviewFile] = useState<NecromFile | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   // Revoke object URLs on unmount to avoid memory leaks
   useEffect(() => {
@@ -1115,17 +1117,49 @@ function downloadFile(file: NecromFile, showNotif: (msg: string) => void) {
 
         <div className="flex-1" />
 
-        {/* Upload */}
-        <label className="necrom-btn cursor-pointer">
+        {/* Upload from PC / File Explorer */}
+        <button
+          type="button"
+          className="necrom-btn"
+          onClick={() => fileInputRef.current?.click()}
+        >
           ↑ UPLOAD
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            className="hidden"
-            onChange={handleUpload}
-          />
-        </label>
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          accept="*/*"
+          style={{ position: "absolute", width: 0, height: 0, opacity: 0, pointerEvents: "none" }}
+          onChange={(e) => {
+            const files = Array.from(e.target.files ?? []);
+            if (files.length > 0) {
+              setPendingFiles(files);
+            }
+          }}
+        />
+
+        {/* Upload from Smartphone / Camera */}
+        <button
+          type="button"
+          className="necrom-btn"
+          onClick={() => cameraInputRef.current?.click()}
+        >
+          📷 CAMERA
+        </button>
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*,video/*"
+          capture="environment"
+          style={{ position: "absolute", width: 0, height: 0, opacity: 0, pointerEvents: "none" }}
+          onChange={(e) => {
+            const files = Array.from(e.target.files ?? []);
+            if (files.length > 0) {
+              setPendingFiles(files);
+            }
+          }}
+        />
 
         {/* Create */}
         <button className="necrom-btn" onClick={() => setShowCreate(!showCreate)}>
@@ -1139,6 +1173,47 @@ function downloadFile(file: NecromFile, showNotif: (msg: string) => void) {
           </button>
         )}
       </div>
+
+      {/* Pending upload preview */}
+      {pendingFiles.length > 0 && (
+        <div className="necrom-panel p-4" style={{ borderColor: "#00d4ff" }}>
+          <div className="text-xs uppercase tracking-widest mb-3" style={{ color: "#00d4ff" }}>
+            {pendingFiles.length} FILE(S) READY TO UPLOAD
+          </div>
+          <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto mb-3">
+            {pendingFiles.map((f, i) => (
+              <div
+                key={i}
+                className="text-xs p-2 border flex items-center gap-2"
+                style={{ borderColor: "#1a3a5c", color: "#a0c8e0" }}
+              >
+                <span>{FILE_TYPE_CONFIG[getFileType(f.name)].icon}</span>
+                <span className="truncate max-w-[200px]">{f.name}</span>
+                <span style={{ color: "#3a6080" }}>({formatBytes(f.size)})</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="necrom-btn"
+              onClick={() => {
+                handleUploadFiles(pendingFiles);
+                setPendingFiles([]);
+              }}
+            >
+              CONFIRM UPLOAD
+            </button>
+            <button
+              type="button"
+              className="necrom-btn necrom-btn-danger"
+              onClick={() => setPendingFiles([])}
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Create file panel */}
       {showCreate && (

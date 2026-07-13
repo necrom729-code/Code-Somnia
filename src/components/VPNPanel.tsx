@@ -38,47 +38,35 @@ export default function VPNPanel() {
   const [currentIP, setCurrentIP] = useState<string | null>(null);
   const [showServers, setShowServers] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
-  
-  // Connection time
+
   const [connectionTime, setConnectionTime] = useState<number>(0);
   const connectionTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Simulated real IP detection
   const [realIP, setRealIP] = useState<string | null>(null);
   const [isIPLeak, setIsIPLeak] = useState(false);
   const [connectionSpeed, setConnectionSpeed] = useState<number>(0);
   const [dataUsage, setDataUsage] = useState<number>(0);
 
-  // Detect real IP on mount
   useEffect(() => {
-    // Simulate detecting real IP
     const detectIP = async () => {
-      // In a real app, this would call an IP detection API
-      // For simulation, we'll use a mock IP
       setRealIP("203.0.113.45");
-      
-      // Simulate IP leak detection
-      const randomLeak = Math.random() > 0.8; // 20% chance of leak
+      const randomLeak = Math.random() > 0.8;
       setIsIPLeak(randomLeak);
-      
-      // Simulate connection speed
-      setConnectionSpeed(Math.floor(Math.random() * 100) + 50); // 50-150 Mbps
+      setConnectionSpeed(Math.floor(Math.random() * 100) + 50);
     };
     detectIP();
   }, []);
 
-  // Connection timer and data usage
   useEffect(() => {
     if (isConnected && selectedServer) {
       connectionTimerRef.current = setInterval(() => {
         setConnectionTime(prev => prev + 1);
-        setDataUsage(prev => prev + Math.floor(Math.random() * 1024 * 10)); // Simulate data usage
+        setDataUsage(prev => prev + Math.floor(Math.random() * 1024 * 10));
       }, 1000);
     } else {
       if (connectionTimerRef.current) {
         clearInterval(connectionTimerRef.current);
       }
-      // Use setTimeout to avoid cascading renders warning
       setTimeout(() => {
         setConnectionTime(0);
         setDataUsage(0);
@@ -91,7 +79,6 @@ export default function VPNPanel() {
     };
   }, [isConnected, selectedServer]);
 
-  // Close panel when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
@@ -106,8 +93,6 @@ export default function VPNPanel() {
     setSelectedServer(server);
     setIsConnecting(true);
     setShowServers(false);
-    
-    // Simulate connection delay
     setTimeout(() => {
       setIsConnecting(false);
       setIsConnected(true);
@@ -140,7 +125,6 @@ export default function VPNPanel() {
     return `${bytes} B`;
   }
 
-  // Group servers by country
   const serversByCountry = AVAILABLE_SERVERS.reduce((acc, server) => {
     if (!acc[server.country]) {
       acc[server.country] = [];
@@ -151,20 +135,19 @@ export default function VPNPanel() {
 
   return (
     <div ref={panelRef} className="relative">
-      {/* VPN Status Button */}
       <button
         type="button"
         onClick={() => setShowServers(!showServers)}
         className="flex items-center gap-2 px-3 py-2 border transition-all"
-        style={{ 
-          borderColor: isConnected ? "#55efc4" : "#1a3a5c", 
-          background: isConnected ? "rgba(85, 239, 196, 0.1)" : "rgba(0,0,0,0.3)" 
+        style={{
+          borderColor: isConnected ? "#55efc4" : "#1a3a5c",
+          background: isConnected ? "rgba(85, 239, 196, 0.1)" : "rgba(0,0,0,0.3)"
         }}
       >
         <div className="flex items-center gap-2">
-          <div 
+          <div
             className={`w-2.5 h-2.5 rounded-full ${isConnected ? "animate-pulse" : ""}`}
-            style={{ 
+            style={{
               background: isConnected ? "#55efc4" : isConnecting ? "#f39c12" : "#ff3a3a",
               boxShadow: isConnected ? "0 0 6px #55efc4" : "0 0 6px #ff3a3a"
             }}
@@ -180,7 +163,6 @@ export default function VPNPanel() {
         )}
       </button>
 
-      {/* Server Selection Panel */}
       {showServers && (
         <div
           className="absolute right-0 top-full mt-2 w-80 z-50 border overflow-hidden"
@@ -189,8 +171,9 @@ export default function VPNPanel() {
             borderColor: "#1a3a5c",
             backdropFilter: "blur(8px)",
           }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
         >
-          {/* Panel Header */}
           <div className="p-3 border-b" style={{ borderColor: "#1a3a5c" }}>
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-bold tracking-widest" style={{ color: "#00d4ff" }}>
@@ -207,8 +190,7 @@ export default function VPNPanel() {
                 </button>
               )}
             </div>
-            
-            {/* Current Status */}
+
             <div className="flex items-center gap-4 text-xs">
               <div>
                 <span style={{ color: "#3a6080" }}>{t("vpn.realIP")}: </span>
@@ -224,8 +206,7 @@ export default function VPNPanel() {
                 </div>
               )}
             </div>
-            
-            {/* Connection Details */}
+
             <div className="flex items-center gap-4 text-xs mt-2">
               <div>
                 <span style={{ color: "#3a6080" }}>{t("vpn.speed")}: </span>
@@ -236,7 +217,7 @@ export default function VPNPanel() {
                 <span style={{ color: "#55efc4" }}>{formatUsage(dataUsage)}</span>
               </div>
             </div>
-            
+
             {isConnected && (
               <div className="mt-2 text-xs" style={{ color: "#55efc4" }}>
                 {t("vpn.connected")}: {formatTime(connectionTime)}
@@ -244,7 +225,6 @@ export default function VPNPanel() {
             )}
           </div>
 
-          {/* Server List */}
           <div className="max-h-64 overflow-y-auto">
             {isConnecting && (
               <div className="p-4 text-center">
@@ -254,10 +234,10 @@ export default function VPNPanel() {
                 </div>
               </div>
             )}
-            
+
             {!isConnecting && Object.entries(serversByCountry).map(([country, servers]) => (
               <div key={country}>
-                <div 
+                <div
                   className="px-3 py-1.5 text-xs uppercase tracking-wider flex items-center gap-2"
                   style={{ color: "#3a6080", background: "rgba(0,0,0,0.3)" }}
                 >
@@ -283,9 +263,9 @@ export default function VPNPanel() {
                         {server.ip}
                       </div>
                     </div>
-                    <div 
+                    <div
                       className="w-2 h-2 rounded-full"
-                      style={{ 
+                      style={{
                         background: selectedServer?.id === server.id ? "#55efc4" : "transparent",
                         border: "1px solid #3a6080"
                       }}
@@ -295,8 +275,7 @@ export default function VPNPanel() {
               </div>
             ))}
           </div>
-          
-          {/* Footer */}
+
           <div className="p-2 border-t text-xs text-center" style={{ color: "#3a6080", borderColor: "#1a3a5c" }}>
             {t("vpn.servers")}: {AVAILABLE_SERVERS.length} {t("vpn.countries")}: {Object.keys(serversByCountry).length}
           </div>
