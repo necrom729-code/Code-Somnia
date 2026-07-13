@@ -198,7 +198,8 @@ export default function VPNPanel() {
               </span>
               {isConnected && (
                 <button
-                  type="button" onClick={disconnect} type="button"
+                  type="button"
+                  onClick={disconnect}
                   className="text-xs px-2 py-1 border hover:bg-red-900/30 transition-colors"
                   style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
                 >
@@ -265,6 +266,7 @@ export default function VPNPanel() {
                 </div>
                 {servers.map((server) => (
                   <button
+                    type="button"
                     key={server.id}
                     onClick={() => connectToServer(server)}
                     className="w-full flex items-center justify-between px-3 py-2 text-left transition-colors hover:bg-white/5"

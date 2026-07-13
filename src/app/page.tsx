@@ -338,6 +338,7 @@ function LanguageSelector() {
         >
           {languages.map((lang) => (
             <button
+              type="button"
               key={lang.code}
               onClick={() => {
                 setLanguage(lang.code);
@@ -528,7 +529,8 @@ function SecurityFeatures({
           <div className="flex items-center gap-3">
             {!securityEnabled && (
               <button
-                type="button" onClick={onEnableAll} type="button"
+                type="button"
+                onClick={onEnableAll}
                 className="text-xs px-3 py-1 border hover:bg-cyan-900/30 transition-colors"
                 style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
               >
@@ -536,7 +538,8 @@ function SecurityFeatures({
               </button>
             )}
             <button
-              type="button" onClick={onViewDetails} type="button"
+              type="button"
+              onClick={onViewDetails}
               className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
               style={{ color: "#c0392b", borderColor: "#c0392b" }}
             >
@@ -828,7 +831,8 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
             </span>
           </div>
           <button
-            type="button" onClick={onClose} type="button"
+            type="button"
+            onClick={onClose}
             className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
             style={{ color: "#c0392b", borderColor: "#c0392b" }}
           >
@@ -852,7 +856,8 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
           <div className="flex items-center gap-2">
             {!isAllEnabled ? (
               <button
-                type="button" onClick={enableAll} type="button"
+                type="button"
+                onClick={enableAll}
                 className="text-xs px-3 py-1 border hover:bg-green-900/30 transition-colors"
                 style={{ color: "#00d4ff", borderColor: "#00d4ff" }}
               >
@@ -860,7 +865,8 @@ function SecurityPanel({ onClose }: { onClose: () => void }) {
               </button>
             ) : (
               <button
-                type="button" onClick={disableAll} type="button"
+                type="button"
+                onClick={disableAll}
                 className="text-xs px-3 py-1 border hover:bg-red-900/30 transition-colors"
                 style={{ color: "#ff3a3a", borderColor: "#ff3a3a" }}
               >
